@@ -13,15 +13,14 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('users', function (Blueprint $table) {
-            $table->id();
-            $table->string('name');
-            $table->string('email')->unique();
-            $table->timestamp('email_verified_at')->nullable();
-            $table->string('password');
-            $table->boolean('is_authorized');
-            $table->rememberToken();
+        Schema::create('permission_details', function (Blueprint $table) {
+            $table->id('pd_uuid');
+            $table->unsignedBigInteger('permission_id');
+            $table->string('pd_label');
+            $table->string('pd_description');
             $table->timestamps();
+
+            $table->foreign('permission_id')->references('permission_id')->on('permissions')->onDelete('cascade')->onUpdate('cascade');
         });
     }
 
@@ -32,6 +31,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('users');
+        Schema::dropIfExists('permission_details');
     }
 };
