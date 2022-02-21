@@ -23,7 +23,7 @@ Route::group([
     'prefix' => 'auth'
 ],function(){
     Route::post('login',[AuthController::class,'login'])->name('login');
-    Route::post('signUp',[AuthController::class,'signUp']);
+    Route::post('signup',[AuthController::class,'signUp']);
 
     // Route::middleware(['signed'])->(function(){
 
