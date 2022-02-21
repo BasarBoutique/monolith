@@ -15,5 +15,7 @@ class Courses_Logs extends Model
         'registered_at'
     ];
 
+    protected $primaryKey = "clog_uuid";
+    
     protected $table = "courses_logs";
 }

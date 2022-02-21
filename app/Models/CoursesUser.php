@@ -11,4 +11,5 @@ class CoursesUser extends Model
 
     protected $table = "courses_users";
     
+    protected $primaryKey = "cu_id";
 }

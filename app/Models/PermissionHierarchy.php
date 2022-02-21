@@ -15,4 +15,6 @@ class PermissionHierarchy extends Model
 
     protected $table = "permission_hierarchies";
 
+    protected $primaryKey = "permission_level";
+
 }

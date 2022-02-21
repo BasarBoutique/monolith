@@ -13,7 +13,8 @@ class PermissionDetail extends Model
         'pd_label',
         'pd_description'
     ];
-
+    
     protected $table = "permission_details";
+    protected $primaryKey = "pd_id";
     
 }

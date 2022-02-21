@@ -14,5 +14,6 @@ class Permission_Log extends Model
         'plog_author'
     ];
 
+    protected $primaryKey = "plog_id";
     protected $table = "permission_logs";
 }

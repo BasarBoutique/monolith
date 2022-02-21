@@ -3,6 +3,7 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Support\Str;
 
 class CreateOauthPersonalAccessClientsTable extends Migration
 {
@@ -32,7 +33,7 @@ class CreateOauthPersonalAccessClientsTable extends Migration
     {
         $this->schema->create('oauth_personal_access_clients', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->uuid('client_id');
+            $table->uuid('client_id')->default(Str::uuid());
             $table->timestamps();
         });
     }

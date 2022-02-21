@@ -15,6 +15,8 @@ class Courses extends Model
         'course_is_enabled'
     ];
 
+    protected $primaryKey = "course_id";
+
     public function courses_details(){
         return $this->hasMany(CoursesDetail::class,'course_id');
     }
