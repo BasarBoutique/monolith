@@ -25,6 +25,9 @@ class User extends Authenticatable
         'email',
         'password',
     ];
+
+    
+    protected $primaryKey = "user_id";
     /**
      * The attributes that should be hidden for serialization.
      *
@@ -45,6 +48,14 @@ class User extends Authenticatable
 
     public function user_detail(){
         return $this->hasOne(UserDetail::class,'user_id');
+    }
+
+    public function permissions(){
+        return $this->belongsTo(PermissionUser::class,'user_id');
+    }
+
+    public function courses(){
+        return $this->belongsTo(CoursesUser::class,'user_id');
     }
 
     public function sendEmailVerificationNotification()

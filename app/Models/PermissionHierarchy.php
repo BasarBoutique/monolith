@@ -5,16 +5,16 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class UserDetail extends Model
+class PermissionHierarchy extends Model
 {
     use HasFactory;
 
     protected $fillable = [
-        'udetail_fullname',
-        'udetail_photo',
-        'udetail_direction',
-        'udetail_movil'
+        'ph_label'
     ];
 
-    protected $table = "user_details";
+    protected $table = "permission_hierarchies";
+
+    protected $primaryKey = "permission_level";
+
 }
