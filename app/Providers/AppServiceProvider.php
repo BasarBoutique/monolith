@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use Illuminate\Routing\UrlGenerator;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -13,6 +14,10 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
+        if(config('app.redirect_https')) {
+            $this->app['request']->server->set('HTTPS', true);
+        }
+
         $this->app->register(\Laravel\Telescope\TelescopeServiceProvider::class);
         $this->app->register(TelescopeServiceProvider::class);
     }
@@ -22,8 +27,11 @@ class AppServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    public function boot()
+    public function boot(UrlGenerator $url)
     {
-        //
+        if(config('app.redirect_https')) {
+            $url->formatScheme('https://');
+        }
+
     }
 }

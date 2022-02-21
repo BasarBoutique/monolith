@@ -125,6 +125,9 @@ return [
 
     'cipher' => 'AES-256-CBC',
 
+    'redirect_https' => env('REDIRECT_HTTPS', false),
+
+
     /*
     |--------------------------------------------------------------------------
     | Autoloaded Service Providers
