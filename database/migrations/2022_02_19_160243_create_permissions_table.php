@@ -14,10 +14,11 @@ return new class extends Migration
     public function up()
     {
         Schema::create('permissions', function (Blueprint $table) {
-            $table->id('permission_id');
-            $table->integer('permission_level');
-            $table->boolean('is_active');
-            $table->timestamps();
+            $table->unsignedBigInteger('permission_level');
+            $table->integer('pd_id');
+            $table->timestamp('registered_at');
+
+            $table->foreign('permission_level')->references('permission_level')->on('permission_hierarchies')->onDelete('cascade')->onUpdate('cascade');
         });
     }
 
