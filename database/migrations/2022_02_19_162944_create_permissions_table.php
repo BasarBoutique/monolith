@@ -1,5 +1,6 @@
 <?php
 
+use Carbon\Carbon;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -13,13 +14,13 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('permission_users', function (Blueprint $table) {
-            $table->id('puser_id');
+        Schema::create('permissions', function (Blueprint $table) {
             $table->unsignedBigInteger('permission_level');
-            $table->unsignedBigInteger('user_id');
-            $table->timestamps();            
-            $table->foreign('user_id')->references('id')->on('Users')->onDelete('cascade')->onUpdate('cascade');
+            $table->unsignedBigInteger('pd_id');
+            $table->timestamp('registered_at')->default(Carbon::now());
+
             $table->foreign('permission_level')->references('permission_level')->on('permission_hierarchies')->onDelete('cascade')->onUpdate('cascade');
+            $table->foreign('pd_id')->references('pd_id')->on('permission_details')->onDelete('cascade')->onUpdate('cascade');
         });
     }
 
@@ -30,6 +31,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('permission_users');
+        Schema::dropIfExists('permissions');
     }
 };

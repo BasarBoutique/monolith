@@ -14,15 +14,15 @@ return new class extends Migration
     public function up()
     {
         Schema::create('user_details', function (Blueprint $table) {
-            $table->id('udetail_uuid');
+            $table->uuid('udetail_uuid');
             $table->unsignedBigInteger('user_id');
             $table->string('udetail_fullname')->nullable();
             $table->string('udetail_photo')->nullable();
             $table->string('udetail_direction')->nullable();
             $table->string('udetail_movil')->nullable();
             $table->timestamps();
-            
-            $table->foreign('user_id')->references('id')->on('Users')->onDelete('cascade')->onUpdate('cascade');
+
+            $table->foreign('user_id')->references('user_id')->on('users')->onDelete('cascade')->onUpdate('cascade');
         });
     }
 

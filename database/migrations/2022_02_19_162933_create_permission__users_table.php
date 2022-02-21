@@ -13,11 +13,12 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('permissions', function (Blueprint $table) {
+        Schema::create('permission_users', function (Blueprint $table) {
+            $table->id('puser_id');
             $table->unsignedBigInteger('permission_level');
-            $table->integer('pd_id');
-            $table->timestamp('registered_at');
-
+            $table->unsignedBigInteger('user_id');
+            $table->timestamps();
+            $table->foreign('user_id')->references('user_id')->on('users')->onDelete('cascade')->onUpdate('cascade');
             $table->foreign('permission_level')->references('permission_level')->on('permission_hierarchies')->onDelete('cascade')->onUpdate('cascade');
         });
     }
@@ -29,6 +30,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('permissions');
+        Schema::dropIfExists('permission_users');
     }
 };
