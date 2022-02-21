@@ -13,10 +13,9 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('permission_details', function (Blueprint $table) {
-            $table->id('pd_id');
-            $table->string('pd_label');
-            $table->string('pd_description');
+        Schema::create('permission_hierarchies', function (Blueprint $table) {
+            $table->id('permission_level');
+            $table->string('ph_label');
             $table->timestamps();
         });
     }
@@ -28,6 +27,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('permission_details');
+        Schema::dropIfExists('permission_hierarchies');
     }
 };

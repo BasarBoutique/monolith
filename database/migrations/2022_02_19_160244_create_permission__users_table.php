@@ -14,11 +14,12 @@ return new class extends Migration
     public function up()
     {
         Schema::create('permission_users', function (Blueprint $table) {
+            $table->id('puser_id');
             $table->unsignedBigInteger('permission_level');
             $table->unsignedBigInteger('user_id');
             $table->timestamps();            
             $table->foreign('user_id')->references('id')->on('Users')->onDelete('cascade')->onUpdate('cascade');
-            $table->foreign('permission_level')->references('permission_id')->on('permissions')->onDelete('cascade')->onUpdate('cascade');
+            $table->foreign('permission_level')->references('permission_level')->on('permission_hierarchies')->onDelete('cascade')->onUpdate('cascade');
         });
     }
 
