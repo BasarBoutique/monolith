@@ -8,5 +8,12 @@ use Illuminate\Database\Eloquent\Model;
 class Courses_Logs extends Model
 {
     use HasFactory;
+
+    protected $fillable = [
+        'clog_context',
+        'clog_author',
+        'registered_at'
+    ];
+
     protected $table = "courses_logs";
 }

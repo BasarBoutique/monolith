@@ -9,5 +9,7 @@ class PermissionUser extends Model
 {
     use HasFactory;
     protected $table = "permission_users";
+ 
+    
     
 }

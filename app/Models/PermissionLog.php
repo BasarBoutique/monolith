@@ -8,5 +8,11 @@ use Illuminate\Database\Eloquent\Model;
 class Permission_Log extends Model
 {
     use HasFactory;
+
+    protected $fillable = [
+        'plog_context',
+        'plog_author'
+    ];
+
     protected $table = "permission_logs";
 }

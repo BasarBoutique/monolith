@@ -8,6 +8,11 @@ use Illuminate\Database\Eloquent\Model;
 class PermissionHierarchy extends Model
 {
     use HasFactory;
+
+    protected $fillable = [
+        'ph_label'
+    ];
+
     protected $table = "permission_hierarchies";
 
 }

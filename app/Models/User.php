@@ -45,6 +45,14 @@ class User extends Authenticatable
         return $this->hasOne(UserDetail::class,'user_id');
     }
 
+    public function permissions(){
+        return $this->belongsTo(PermissionUser::class,'user_id');
+    }
+
+    public function courses(){
+        return $this->belongsTo(CoursesUser::class,'user_id');
+    }
+
     public function sendEmailVerificationNotification()
     {
         $this->notify(new VerifyEmail);
