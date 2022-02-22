@@ -1,10 +1,8 @@
 <?php
 
-use Illuminate\Support\Str;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
-
 
 return new class extends Migration
 {
@@ -16,7 +14,7 @@ return new class extends Migration
     public function up()
     {
         Schema::create('user_details', function (Blueprint $table) {
-            $table->uuid('udetail_uuid')->default(Str::uuid());
+            $table->uuid('udetail_uuid');
             $table->unsignedBigInteger('user_id');
             $table->string('udetail_fullname')->nullable();
             $table->string('udetail_photo')->nullable();
