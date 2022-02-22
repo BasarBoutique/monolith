@@ -11,6 +11,9 @@ class PermissionLog extends Model
 {
     use HasFactory, HasUuid;
 
+    const CREATED_AT = 'registered_at';
+    const UPDATED_AT = null;
+
     protected $primaryKey = "plog_uuid";
     protected $keyType = 'string';
 
@@ -21,5 +24,6 @@ class PermissionLog extends Model
         'plog_author'
     ];
 
+    protected $dates = ['registered_at'];
 
 }
