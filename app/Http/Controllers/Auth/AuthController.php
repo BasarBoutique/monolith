@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Events\UserRegistered;
 use App\Http\Controllers\Controller;
-// use App\Events\Email\UserRegistered;
 use App\Models\User;
+use App\Models\UserDetail;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Exception;
@@ -17,16 +18,26 @@ class AuthController extends Controller
             $request->validate([
                 'name'=>'required|string',
                 'email'=>'required|string|email|unique:users',
-                'password'=>'required|string'
+                'password'=>'required|string',
+                'details' => 'nullable|array'
             ]);
 
             $user = User::create([
                 'name'=>$request->name,
                 'email'=>$request->email,
                 'password'=>bcrypt($request->password)
-            ])->user_detail()->create();
+            ]);
 
-            // event(new UserRegistered($user));
+            $userDetails = optional($request->details);
+
+            $user->user_detail()->create([
+                'udetail_fullname' => $userDetails['fullname'] ?? $user->name,
+                'udetail_photo' => $userDetails['photo'] ?? '',
+                'udetail_direction'=> $userDetails['direction'] ?? '',
+                'udetail_movil'=> $userDetails['movil'] ?? ''
+            ]);
+
+            event(new UserRegistered($user));
 
             return response()->json([
                 'message'=>'Successfully created user!',

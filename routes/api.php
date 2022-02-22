@@ -1,7 +1,6 @@
 <?php
 
-use App\Http\Controllers\Auth\AuthController;
-use Illuminate\Http\Request;
+use App\Http\Controllers\Email\VerificationController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -15,25 +14,25 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-// Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-//     return $request->user();
-// });
 
 Route::group([
     'prefix' => 'auth'
-],function(){
-    Route::post('login',[AuthController::class,'login'])->name('login');
-    Route::post('signup',[AuthController::class,'signUp']);
+], function () {
+    Route::post('login', 'App\Http\Controllers\Auth\AuthController@login')->name('login');
+    Route::post('signup', 'App\Http\Controllers\Auth\AuthController@signUp');
 
-    // Route::middleware(['signed'])->(function(){
-
-    // });
-    Route::middleware(['auth:api'])->group(function(){
-        Route::get('logout',[AuthController::class,'logout']);
+    Route::middleware(['signed'])->group(function () {
+        Route::post('email/verification-notification', [VerificationController::class, 'sendVerificationEmail']);
+        Route::get('verify-email/{id}/{hash}', [VerificationController::class, 'verify'])->name('verification.verify');
     });
 
-    Route::middleware(['auth:api'])->group(function(){
-        Route::get('user',[AuthController::class,'user']);
+    Route::middleware(['auth:api'])->group(function () {
+        Route::get('logout', 'App\Http\Controllers\Auth\AuthController@logout');
+
     });
-}
-);
+
+    Route::middleware(['auth:api','verified'])->group(function () {
+        Route::get('user', 'App\Http\Controllers\Auth\AuthController@user');
+    });
+
+});
