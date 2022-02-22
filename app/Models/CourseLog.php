@@ -6,20 +6,19 @@ use App\Traits\HasUuid;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-
-class PermissionLog extends Model
+class CourseLog extends Model
 {
     use HasFactory, HasUuid;
 
-    protected $primaryKey = "plog_uuid";
+    protected $primaryKey = "clog_uuid";
     protected $keyType = 'string';
 
-    protected $table = "permission_logs";
+    protected $table = "courses_logs";
 
     protected $fillable = [
-        'plog_context',
-        'plog_author'
+        'clog_context',
+        'clog_author',
     ];
 
-
+    protected $dates = ['registered_at'];
 }

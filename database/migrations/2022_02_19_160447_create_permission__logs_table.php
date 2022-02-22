@@ -15,10 +15,10 @@ return new class extends Migration
     public function up()
     {
         Schema::create('permission_logs', function (Blueprint $table) {
-            $table->id('plog_id');
+            $table->uuid('plog_uuid')->primary();
             $table->string('plog_context');
             $table->string('plog_author');
-            $table->timestamp('plog_date')->default(Carbon::now());
+            $table->timestamp('registered_at')->default(Carbon::now());
         });
     }
 

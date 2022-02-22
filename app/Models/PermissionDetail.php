@@ -9,12 +9,13 @@ class PermissionDetail extends Model
 {
     use HasFactory;
 
+    protected $table = "permission_details";
+    protected $primaryKey = "pd_id";
+
     protected $fillable = [
         'pd_label',
         'pd_description'
     ];
-    
-    protected $table = "permission_details";
-    protected $primaryKey = "pd_id";
-    
+
+
 }

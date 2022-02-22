@@ -15,10 +15,10 @@ return new class extends Migration
     public function up()
     {
         Schema::create('courses_logs', function (Blueprint $table) {
-            $table->id('clog_uuid');
+            $table->uuid('clog_uuid')->primary();
             $table->string('clog_context');
             $table->string('clog_author');
-            $table->timestamp('registered_at')->default(Carbon::now());            
+            $table->timestamp('registered_at')->default(Carbon::now());
         });
     }
 
