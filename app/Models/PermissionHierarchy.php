@@ -9,12 +9,13 @@ class PermissionHierarchy extends Model
 {
     use HasFactory;
 
+    protected $table = "permission_hierarchies";
+    protected $primaryKey = "permission_level";
+
     protected $fillable = [
         'ph_label'
     ];
 
-    protected $table = "permission_hierarchies";
 
-    protected $primaryKey = "permission_level";
 
 }
