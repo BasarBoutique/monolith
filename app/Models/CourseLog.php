@@ -10,6 +10,9 @@ class CourseLog extends Model
 {
     use HasFactory, HasUuid;
 
+    const CREATED_AT = 'registered_at';
+    const UPDATED_AT = null;
+
     protected $primaryKey = "clog_uuid";
     protected $keyType = 'string';
 
