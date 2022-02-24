@@ -11,8 +11,9 @@ class Permission extends Model
 
     protected $table = "permissions";
 
-    public function users(){
-        return $this->belongsTo(PermissionUser::class,'permission_level');
+    public function detail()
+    {
+        return $this->hasOne(PermissionDetail::class, 'pd_id');
     }
-    
+
 }
