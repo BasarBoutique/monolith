@@ -63,4 +63,10 @@ return [
         ],
     ],
 
+    'cache' => [
+        'prefix' => 'passport_',
+        'expires_in' => 1800,
+        'tags' => []
+    ],
+
 ];
