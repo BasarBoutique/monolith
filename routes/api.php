@@ -19,11 +19,11 @@ use Illuminate\Support\Facades\Route;
 Route::group([
     'prefix' => 'auth'
 ], function () {
-    Route::post('login', [AuthController::class,'login'])->name('login');
+    Route::post('login', 'App\Http\Controllers\Auth\AuthController@login')->name('login')->middleware('validateAuth');
     Route::post('signup', 'App\Http\Controllers\Auth\AuthController@signUp');
 
     Route::middleware(['signed'])->group(function () {
-        Route::post('email/verification-notification', [VerificationController::class, 'sendVerificationEmail']);
+        Route::post('email/verification-notification', [VerificationController::class, 'sendVerificationEmail'])->name('verification.notice');
         Route::get('verify-email/{id}/{hash}', [VerificationController::class, 'verify'])->name('verification.verify');
     });
 
@@ -32,7 +32,7 @@ Route::group([
 
     });
 
-    Route::middleware(['auth:api','verified'])->group(function () {
+    Route::middleware(['auth:api'])->group(function () {
         Route::get('user', 'App\Http\Controllers\Auth\AuthController@user');
     });
 

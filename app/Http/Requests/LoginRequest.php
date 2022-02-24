@@ -2,6 +2,8 @@
 
 namespace App\Http\Requests;
 
+use App\Http\Response\APIResponse;
+use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Http\Exceptions\HttpResponseException;
@@ -15,7 +17,7 @@ class LoginRequest extends FormRequest
      */
     public function authorize()
     {
-        return true;
+        return $this->user()->is_authorized;
     }
 
     /**
@@ -26,11 +28,16 @@ class LoginRequest extends FormRequest
     public function rules()
     {
         return [
-            'email'=>'required|string',
-            'password'=>'required|string',
+            'email' => 'required|string|email',
+            'password' => 'required|string',
+            'remember_me' => 'boolean'
         ];
     }
 
+    /**
+    * Get the error messages for the defined validation rules.*
+    * @return array
+    */
     protected function failedValidation(Validator $validator)
     {
         throw new HttpResponseException(response()->json([
@@ -38,4 +45,10 @@ class LoginRequest extends FormRequest
         'status' => true
         ], 422));
     }
+
+    protected function failedAuthorization()
+    {
+        throw new HttpResponseException(APIResponse::fail('Unauthorized', null, 403));
+    }
+
 }
