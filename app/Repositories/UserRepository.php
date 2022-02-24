@@ -34,4 +34,22 @@ class UserRepository
             return false;
         }
     }
+
+    public function login(array $attributes){
+        try{
+            
+        }
+        catch (Exception $e){
+            Log::error($e->getMessage(), [
+                'LEVEL' => 'Repository',
+                'TRACE' => $e->getTraceAsString()
+            ]);
+
+            throw $e;
+
+            return false;
+        }
+    }
+
+
 }

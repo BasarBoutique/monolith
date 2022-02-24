@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\Email\VerificationController;
 use Illuminate\Support\Facades\Route;
 
@@ -18,7 +19,7 @@ use Illuminate\Support\Facades\Route;
 Route::group([
     'prefix' => 'auth'
 ], function () {
-    Route::post('login', 'App\Http\Controllers\Auth\AuthController@login')->name('login');
+    Route::post('login', [AuthController::class,'login'])->name('login');
     Route::post('signup', 'App\Http\Controllers\Auth\AuthController@signUp');
 
     Route::middleware(['signed'])->group(function () {
@@ -36,3 +37,4 @@ Route::group([
     });
 
 });
+
