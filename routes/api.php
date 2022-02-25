@@ -27,12 +27,9 @@ Route::group([
     });
 
     Route::middleware(['auth:api'])->group(function () {
+        Route::get('user', 'App\Http\Controllers\Auth\AuthController@user');
         Route::get('logout', 'App\Http\Controllers\Auth\AuthController@logout');
 
-    });
-
-    Route::middleware(['auth:api'])->group(function () {
-        Route::get('user', 'App\Http\Controllers\Auth\AuthController@user');
     });
 
 });
