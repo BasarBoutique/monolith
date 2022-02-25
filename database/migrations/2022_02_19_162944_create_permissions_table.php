@@ -15,8 +15,9 @@ return new class extends Migration
     public function up()
     {
         Schema::create('permissions', function (Blueprint $table) {
-            $table->unsignedBigInteger('permission_level');
-            $table->unsignedBigInteger('pd_id');
+            $table->unsignedBigInteger('permission_level')->nullable(false);
+            $table->unsignedBigInteger('pd_id')->nullable(false);
+            $table->boolean('is_enabled')->default(true);
             $table->timestamp('registered_at')->default(Carbon::now());
 
             $table->foreign('permission_level')->references('permission_level')->on('permission_hierarchies')->onDelete('cascade')->onUpdate('cascade');

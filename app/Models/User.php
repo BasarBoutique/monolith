@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enums\PermissionRoleEnum;
 use Illuminate\Auth\Notifications\VerifyEmail;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -44,15 +45,23 @@ class User extends Authenticatable implements MustVerifyEmail
         'email_verified_at' => 'datetime',
     ];
 
-    public function user_detail(){
+    public function isAdmin()
+    {
+        return $this->permissions()->where('permission_level', PermissionRoleEnum::ADMIN)->exists();
+    }
+
+    public function user_detail()
+    {
         return $this->hasOne(UserDetail::class,'user_id');
     }
 
-    public function permissions(){
+    public function permissions()
+    {
         return $this->belongsTo(PermissionUser::class,'user_id');
     }
 
-    public function courses(){
+    public function courses()
+    {
         return $this->belongsTo(CoursesUser::class,'user_id');
     }
 

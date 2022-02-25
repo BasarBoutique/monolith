@@ -6,9 +6,11 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\LoginRequest;
 use App\Http\Requests\StoreUserRequest;
 use App\Http\Response\APIResponse;
+use App\Models\Permission;
 use App\Services\AuthService;
 use App\Services\UserService;
 use Exception;
+use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\Request;
 
 class AuthController extends Controller
@@ -51,8 +53,8 @@ class AuthController extends Controller
         return APIResponse::success([], 'Successfully logged out', 202);
     }
 
-    public function user(Request $request){
+    public function user(Request $request) {
 
-        return response()->json($request->user());
+        return APIResponse::success($request->user(), 'OK');
     }
 }
