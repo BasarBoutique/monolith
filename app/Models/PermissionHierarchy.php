@@ -13,9 +13,15 @@ class PermissionHierarchy extends Model
     protected $primaryKey = "permission_level";
 
     protected $fillable = [
+        'permission_level',
         'ph_label'
     ];
 
+    public $incrementing = false;
 
+    public function permissions()
+    {
+        return $this->hasMany(Permission::class, 'permission_level');
+    }
 
 }
