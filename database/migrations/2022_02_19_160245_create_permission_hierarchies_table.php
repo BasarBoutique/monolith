@@ -15,7 +15,8 @@ return new class extends Migration
     {
         Schema::create('permission_hierarchies', function (Blueprint $table) {
             $table->unsignedBigInteger('permission_level')->primary();
-            $table->string('ph_label');
+            $table->string('ph_label')->unique('ph_label');
+            $table->boolean('is_enabled')->default(true);
             $table->timestamps();
         });
     }
