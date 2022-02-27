@@ -20,7 +20,7 @@ class StorePermissionRequest extends AuthorizationAdminRequest
         return [
             'rol' => [new Enum(PermissionRoleEnum::class), Rule::exists(PermissionHierarchy::class, 'permission_level')],
             'label' => 'unique:App\Models\PermissionDetail,pd_label',
-            'description' => 'required|string'
+            'description' => ['required', 'string']
         ];
     }
 }
