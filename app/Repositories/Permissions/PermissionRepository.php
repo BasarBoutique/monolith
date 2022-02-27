@@ -1,16 +1,15 @@
 <?php
 
-namespace App\Repositories;
+namespace App\Repositories\Permissions;
 
 use App\Enums\PermissionRoleEnum;
 use App\Models\Permission;
 use App\Models\PermissionDetail;
-use App\Models\PermissionUser;
-use App\Models\User;
+
 
 class PermissionRepository  {
 
-    public function create(PermissionRoleEnum $role, array $attributes)
+    public function createPermission(PermissionRoleEnum $role, array $attributes)
     {
         $permissionDetail = PermissionDetail::create([
             'pd_label' => $attributes['label'],
@@ -26,13 +25,14 @@ class PermissionRepository  {
         return $permission;
     }
 
-    public function attachRolToUser(PermissionRoleEnum $role, User $user)
+    public function editPermission(PermissionRoleEnum $role, array $search)
     {
-        $permissionUser = PermissionUser::create([
-            'permission_level' => $role,
-            'user_id' => $user->user_id
-        ]);
-
-        return $permissionUser;
+        return true;
     }
+
+    public function disablePermission(PermissionRoleEnum $role, array $search)
+    {
+        return true;
+    }
+
 }
