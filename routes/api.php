@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Email\VerificationController;
+use App\Http\Controllers\Permission\RolController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -32,4 +33,12 @@ Route::group([
 
     });
 
+});
+
+
+Route::group(['prefix' => 'permissions'], function() {
+    Route::middleware(['auth:api', 'can:isAdmin'])->group(function () {
+        Route::post('create-rol', [RolController::class, 'createRol']);
+        Route::post('assign-rol-user', [RolUserController::class, 'assignRolToUser']);
+    });
 });

@@ -18,7 +18,7 @@ class RolRepository {
     public function createRol(PermissionRoleEnum $role, array $attributes)
     {
         $rol = PermissionHierarchy::create([
-            'permission_level' => $role,
+            'permission_level' => $role->value,
             'ph_label' => $attributes['label']
         ]);
 
@@ -27,14 +27,14 @@ class RolRepository {
 
     public function editRolLabel(PermissionRoleEnum $role, string $label)
     {
-        $rol = PermissionHierarchy::findOrFail($role)->update(['ph_label' => $label]);
+        $rol = PermissionHierarchy::findOrFail($role->value)->update(['ph_label' => $label]);
 
         return $rol;
     }
 
     public function disableRol(PermissionRoleEnum $role)
     {
-        $rol = PermissionHierarchy::findOrFail($role)->update(['is_enabled' => false]);
+        $rol = PermissionHierarchy::findOrFail($role->value)->update(['is_enabled' => false]);
 
         return $rol;
     }
