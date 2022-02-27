@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Scopes\IsEnabledScope;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -18,6 +19,11 @@ class PermissionHierarchy extends Model
     ];
 
     public $incrementing = false;
+
+    protected static function booted()
+    {
+        static::addGlobalScope(new IsEnabledScope);
+    }
 
     public function permissions()
     {
