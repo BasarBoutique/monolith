@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\LoginRequest;
 use App\Http\Requests\StoreUserRequest;
+use App\Http\Resources\Auth\UserResource;
 use App\Http\Response\APIResponse;
 use App\Models\Permission;
 use App\Services\AuthService;
@@ -55,6 +56,8 @@ class AuthController extends Controller
 
     public function user(Request $request) {
 
-        return APIResponse::success($request->user(), 'OK');
+        $resource = new UserResource($request->user());
+
+        return APIResponse::make(true, $resource);
     }
 }
