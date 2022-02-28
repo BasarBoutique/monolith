@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\Email\VerificationController;
+use App\Http\Controllers\Permission\RolController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -28,13 +29,19 @@ Route::group([
     });
 
     Route::middleware(['auth:api'])->group(function () {
+        Route::get('user', 'App\Http\Controllers\Auth\AuthController@user');
         Route::get('logout', 'App\Http\Controllers\Auth\AuthController@logout');
 
     });
 
-    Route::middleware(['auth:api'])->group(function () {
-        Route::get('user', 'App\Http\Controllers\Auth\AuthController@user');
-    });
+});
 
+
+Route::group(['prefix' => 'permissions'], function() {
+    Route::middleware(['auth:api', 'can:isAdmin'])->group(function () {
+        Route::post('create-rol', [RolController::class, 'createRol']);
+        Route::get('roles', [RolController::class, 'showRoles']);
+        Route::post('assign-rol-user', [RolUserController::class, 'assignRolToUser']);
+    });
 });
 

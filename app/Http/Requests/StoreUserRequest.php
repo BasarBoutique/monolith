@@ -2,11 +2,9 @@
 
 namespace App\Http\Requests;
 
-use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Contracts\Validation\Validator;
-use Illuminate\Http\Exceptions\HttpResponseException;
+use App\Http\Requests\Core\JsonRequest;
 
-class StoreUserRequest extends FormRequest
+class StoreUserRequest extends JsonRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -28,20 +26,7 @@ class StoreUserRequest extends FormRequest
         return [
             'name'=>'required|string',
             'email'=>'required|string|email|unique:users',
-            'password'=>'required|string',
-            'details' => 'nullable|array'
+            'password'=>'required|string'
         ];
-    }
-
-    /**
-    * Get the error messages for the defined validation rules.*
-    * @return array
-    */
-    protected function failedValidation(Validator $validator)
-    {
-        throw new HttpResponseException(response()->json([
-        'errors' => $validator->errors(),
-        'status' => true
-        ], 422));
     }
 }

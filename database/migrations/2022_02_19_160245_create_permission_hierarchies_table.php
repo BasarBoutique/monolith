@@ -14,8 +14,9 @@ return new class extends Migration
     public function up()
     {
         Schema::create('permission_hierarchies', function (Blueprint $table) {
-            $table->id('permission_level');
-            $table->string('ph_label');
+            $table->unsignedBigInteger('permission_level')->primary()->unique('permission_level');
+            $table->string('ph_label')->unique('ph_label');
+            $table->boolean('is_enabled')->default(true);
             $table->timestamps();
         });
     }

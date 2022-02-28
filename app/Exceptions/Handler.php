@@ -2,11 +2,22 @@
 
 namespace App\Exceptions;
 
+use App\Http\Response\APIResponse;
+use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Throwable;
 
 class Handler extends ExceptionHandler
 {
+
+    public function render($request, $e)
+    {
+        if ($e instanceof AuthorizationException)
+        {
+            return APIResponse::fail($e->getMessage(), [], 403);
+        }
+    }
+
     /**
      * A list of the exception types that are not reported.
      *
