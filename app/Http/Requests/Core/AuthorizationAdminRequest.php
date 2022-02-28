@@ -17,6 +17,11 @@ class AuthorizationAdminRequest extends JsonRequest
         return $this->user()->isAdmin();
     }
 
+    public function rules()
+    {
+        return [];
+    }
+
     protected function failedAuthorization()
     {
         throw new HttpResponseException(APIResponse::fail('Unauthorized', null, 403));
