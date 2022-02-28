@@ -39,6 +39,7 @@ Route::group([
 Route::group(['prefix' => 'permissions'], function() {
     Route::middleware(['auth:api', 'can:isAdmin'])->group(function () {
         Route::post('create-rol', [RolController::class, 'createRol']);
+        Route::get('roles', [RolController::class, 'showRoles']);
         Route::post('assign-rol-user', [RolUserController::class, 'assignRolToUser']);
     });
 });
