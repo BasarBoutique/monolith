@@ -2,7 +2,9 @@
 
 namespace App\Models;
 
+use App\DTO\UserDTO;
 use App\Enums\PermissionRoleEnum;
+use GuzzleHttp\Promise\Create;
 use Illuminate\Auth\Notifications\VerifyEmail;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -23,6 +25,7 @@ class User extends Authenticatable implements MustVerifyEmail
      * @var array<int, string>
      */
     protected $fillable = [
+        'user_id',
         'name',
         'email',
         'password',
@@ -68,5 +71,13 @@ class User extends Authenticatable implements MustVerifyEmail
     public function sendEmailVerificationNotification()
     {
         $this->notify(new VerifyEmail);
+    }
+
+    public function permissions_user($rol){
+        $this->permissions()->create([
+            "permission_level"=>$rol,
+            "user_id"=>$this->user_id  
+        ]);
+        $this->user_detail()->create();
     }
 }
