@@ -15,4 +15,5 @@ class UserDTO implements DTOInterface {
             'details' => UserDetailDTO::make($attributes['details'] ?? [], $attributes)
         ];
     }
+    
 }

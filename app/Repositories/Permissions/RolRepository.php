@@ -3,7 +3,9 @@
 namespace App\Repositories\Permissions;
 
 use App\Enums\PermissionRoleEnum;
+use App\Http\Response\APIResponse;
 use App\Models\PermissionHierarchy;
+use Exception;
 
 class RolRepository {
 
@@ -21,8 +23,8 @@ class RolRepository {
             'permission_level' => $role->value,
             'ph_label' => $attributes['label']
         ]);
-
-        return $rol;
+        return $rol;           
+        
     }
 
     public function editRolLabel(PermissionRoleEnum $role, string $label)

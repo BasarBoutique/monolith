@@ -22,4 +22,15 @@ class UserService {
 
         return $user;
     }
+
+    public function validateAuth(array $attributes)
+    {
+
+    }
+
+    public function token(array $attributes)
+    {
+        
+    }
+
 }

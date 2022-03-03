@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\Email\VerificationController;
 use App\Http\Controllers\Permission\RolController;
 use Illuminate\Support\Facades\Route;
@@ -43,3 +44,4 @@ Route::group(['prefix' => 'permissions'], function() {
         Route::post('assign-rol-user', [RolUserController::class, 'assignRolToUser']);
     });
 });
+

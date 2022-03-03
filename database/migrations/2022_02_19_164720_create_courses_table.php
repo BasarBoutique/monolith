@@ -17,7 +17,7 @@ return new class extends Migration
             $table->id('course_id');
             $table->string('course_title');
             $table->string('course_photo');
-            $table->boolean('course_is_enabled');
+            $table->boolean('course_is_enabled')->default(true);
             $table->timestamps();
         });
     }
