@@ -10,9 +10,9 @@ class APIResponse
     static function make(bool $success = true, $data = null, string $message = null, int $http_code = 200): JsonResponse
     {
         return response()->json([
-            'success' => $success,
             'data' => $data,
-            'message' => $message
+            'message' => $message,
+            'success' => $success
         ], $http_code);
     }
 

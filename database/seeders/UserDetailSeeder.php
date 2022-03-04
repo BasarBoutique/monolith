@@ -15,7 +15,7 @@ class UserDetailSeeder extends Seeder
      */
     public function run()
     {
-        $campo= ['Cliente','Employee','Author','Admin'];
+        $campo= ['CLIENT','EMPLOYEE','AUTHOR','ADMIN'];
         for ($i=1; $i < count($campo)+1; $i++) { 
             $usuario = User::create([
                 "name"=>$campo[$i-1],
