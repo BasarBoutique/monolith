@@ -21,4 +21,12 @@ class LoginRequest extends JsonRequest
         ];
     }
 
+    public function messages()
+    {
+        return [
+            'email.required' => "You have not entered an email.",
+
+            'password.required' => 'Enter your password.'
+        ];
+    }
 }

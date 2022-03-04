@@ -23,4 +23,16 @@ class StorePermissionRequest extends AuthorizationAdminRequest
             'description' => ['required', 'string']
         ];
     }
+
+    public function messages()
+    {
+        return [
+            'rol.required' => 'Please designate a role.',
+
+            'label.required' => 'Assign your name to this permission.',
+            'label.unique' => 'This name has already been assigned to another permission.',
+            
+            'description.required' => 'Give us the details of this permission.',
+        ];
+    }
 }
