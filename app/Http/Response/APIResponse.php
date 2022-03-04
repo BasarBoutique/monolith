@@ -22,13 +22,11 @@ class APIResponse
         return self::make(true, $data, $message, $http_code);
     }
 
-    static function fail(string $message = null, array|null $data = null, int $http_code = 404): JsonResponse
+    static function fail(string $message = null, int $http_code = 404): JsonResponse
     {
-        return self::make(false, $data, $message, $http_code);
-    }
-
-    static function crashed(string $message = null, array | int $htpp_code = 500) : JsonResponse
-    {
-        return self::make(false, null, $message, $htpp_code);
+        return response()->json([
+            'errors' => [$message],
+            'success' => false
+        ], $http_code);
     }
 }

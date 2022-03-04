@@ -9,11 +9,11 @@ use Illuminate\Http\Request;
 
 class VerificationController extends Controller
 {
-    public function sendVerificationEmail(Request $request)
+    public function sendVerificationEmail(Request $request): array
     {
         if($request->user()->hasVerifiedEmail()) {
             return [
-                'message' => 'Already verified'
+                'status' => 'already-verified'
             ];
         }
 
@@ -30,7 +30,7 @@ class VerificationController extends Controller
 
         if($request->user()->hasVerifiedEmail()) {
             return [
-                'message' => 'Already verified'
+                'status' => 'already-verified'
             ];
         }
 
@@ -39,7 +39,7 @@ class VerificationController extends Controller
         }
 
         return [
-            'message' => 'Email has been verified'
+            'status' => 'email-has-been-verified'
         ];
     }
 }

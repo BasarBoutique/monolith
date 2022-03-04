@@ -14,9 +14,13 @@ class RolController extends Controller
 {
     public function showRoles(AuthorizationAdminRequest $request)
     {
-        $repository = new RolRepository;
+        try {
+            $repository = new RolRepository;
 
-        return $repository->showRoles();
+            return APIResponse::success($repository->showRoles(), 'Retrieve list of roles');
+        } catch (Exception $e) {
+            return APIResponse::fail($e->getMessage(), 500);
+        }
     }
 
     public function createRol(StoreRolRequest $request)
@@ -25,15 +29,15 @@ class RolController extends Controller
             $validatedRequest = $request->validated();
             $permission_level = $validatedRequest['permission_level'];
             $role = PermissionRoleEnum::tryFrom($permission_level);
-    
+
             $repository = new RolRepository;
-    
+
             $repository->createRol($role, $validatedRequest);
 
             return APIResponse::success([], 'Successfully created role!');
         }
         catch(Exception $e){
-            return APIResponse::fail($e->getMessage(), [], 500);
+            return APIResponse::fail($e->getMessage(), 500);
         }
     }
 }
