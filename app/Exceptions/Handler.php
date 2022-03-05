@@ -5,6 +5,7 @@ namespace App\Exceptions;
 use App\Http\Response\APIResponse;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Illuminate\Http\JsonResponse;
 use Throwable;
 
 class Handler extends ExceptionHandler
@@ -14,7 +15,7 @@ class Handler extends ExceptionHandler
     {
         if ($e instanceof AuthorizationException)
         {
-            return APIResponse::fail($e->getMessage(), [], 403);
+            return APIResponse::fail($e->getMessage(), 403);
         }
     }
 
