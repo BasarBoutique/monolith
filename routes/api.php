@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Auth\AuthController;
+use App\Http\Controllers\Category\CategoryController;
 use App\Http\Controllers\Email\VerificationController;
 use App\Http\Controllers\Permission\RolController;
 use Illuminate\Support\Facades\Route;
@@ -42,6 +43,14 @@ Route::group(['prefix' => 'permissions'], function() {
         Route::post('create-rol', [RolController::class, 'createRol']);
         Route::get('roles', [RolController::class, 'showRoles']);
         Route::post('assign-rol-user', [RolUserController::class, 'assignRolToUser']);
+    });
+});
+
+
+Route::group(['prefix' => 'category'], function() {
+    Route::middleware(['auth:api', 'can:isAdmin'])->group(function () {
+        Route::post('create-category', [CategoryController::class,'createCategory']);       
+        Route::get('category', [CategoryController::class, 'showCategory']);
     });
 });
 

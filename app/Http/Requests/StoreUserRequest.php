@@ -36,7 +36,7 @@ class StoreUserRequest extends JsonRequest
             'name.required' => "What's your name?",
             
             'email.required' => 'Enter an email address.',
-            'email.required' => 'This email address has already been taken.',
+            'email.unique' => 'This email address has already been taken.',
             
             'password.required' => 'Enter a password.',
         ];

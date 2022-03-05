@@ -1,0 +1,27 @@
+<?php
+    
+namespace DummyNamespace;
+        
+class DummyClass{
+    
+    public function showDummy()
+    {
+        //set model name in here, this is necessary!
+    }
+
+    public function createDummy()
+    {
+        //set model name in here, this is necessary!
+    }
+
+    public function editDummy()
+    {
+        //set model name in here, this is necessary!
+    }
+        
+    public function disableDummy()
+    {
+        //set model name in here, this is necessary!
+    }
+
+}

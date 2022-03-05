@@ -7,11 +7,9 @@ use App\Http\Requests\LoginRequest;
 use App\Http\Requests\StoreUserRequest;
 use App\Http\Resources\Auth\UserResource;
 use App\Http\Response\APIResponse;
-use App\Models\Permission;
 use App\Services\AuthService;
 use App\Services\UserService;
 use Exception;
-use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\Request;
 
 class AuthController extends Controller
