@@ -3,11 +3,10 @@
 namespace App\Http\Requests\Category;
 
 use App\Http\Requests\Core\AuthorizationAdminRequest;
-use App\Http\Requests\Core\JsonRequest;
 use App\Models\Category;
 use Illuminate\Validation\Rule;
 
-class StoreCategoryRequest extends JsonRequest
+class StoreCategoryRequest extends AuthorizationAdminRequest
 {
     
     public function rules()

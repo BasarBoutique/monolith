@@ -4,22 +4,22 @@ namespace DummyNamespace;
         
 class DummyClass{
     
-    public function showDummy()
+    public function show()
     {
         //set model name in here, this is necessary!
     }
 
-    public function createDummy()
+    public function create()
     {
         //set model name in here, this is necessary!
     }
 
-    public function editDummy()
+    public function edit()
     {
         //set model name in here, this is necessary!
     }
         
-    public function disableDummy()
+    public function disable()
     {
         //set model name in here, this is necessary!
     }

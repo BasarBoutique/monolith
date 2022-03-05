@@ -49,8 +49,11 @@ Route::group(['prefix' => 'permissions'], function() {
 
 Route::group(['prefix' => 'category'], function() {
     Route::middleware(['auth:api', 'can:isAdmin'])->group(function () {
-        Route::post('create-category', [CategoryController::class,'createCategory']);       
-        Route::get('category', [CategoryController::class, 'showCategory']);
+        Route::get('category', [CategoryController::class, 'Category']);
+        Route::post('create-category', [CategoryController::class,'createCategory']);  
+        Route::put('update-category{category}', [CategoryController::class,'updateCategory']);   
+        Route::delete('delete-category{category}', [CategoryController::class,'updateCategory']);      
+        Route::get('show-category{category}', [CategoryController::class, 'showCategory']);
     });
 });
 
