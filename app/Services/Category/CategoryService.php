@@ -3,7 +3,7 @@
 namespace App\Services\Category;
 
 use App\DTO\CategoryDTO;
-use App\DTO\UserDTO;
+use App\Models\Category;
 use App\Repositories\Category\CategoryRepository;
 
 class CategoryService{
@@ -24,13 +24,19 @@ class CategoryService{
         return $category;
     }
 
-    public function update(array $attributes)
+    public function update(array $attributes,int $cate)
     {
-        /** */
+        $categoryDTO = new CategoryDTO;
+
+        $category = $this->categoryRepository->editCategory($categoryDTO,$cate,$attributes);
+
+        return $category;
     }
 
-    public function remove()
+    public function remove(int $cate)
     {
-        /** */
+        $category = $this->categoryRepository->disableCategory($cate);
+        
+        return $category;
     }
 }

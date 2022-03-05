@@ -10,9 +10,15 @@ use Illuminate\Support\Facades\Log;
 
 class CategoryRepository{
     
-    public function showCategory()
+    public function Category()
     {
         $category = Category::all()->where('is_enabled',true);
+        return compact('category');
+    }
+
+    public function showCategory(int $cate)
+    {
+        $category = Category::findOrFail($cate);
         return compact('category');
     }
 
@@ -38,14 +44,40 @@ class CategoryRepository{
         }
     }
 
-    public function editCategory(int $cate,array $attributes)
+    public function editCategory(DTOInterface $dto,int $cate,array $attributes)
     {
+        try{
+            $cartegoryDTO = $dto::make($attributes);
+            $category = Category::findOrFail($cate)->update($cartegoryDTO);
+            return $category;
+        }catch(Exception $e){
+            Log::error($e->getMessage(),[
+                'LEVEL' => 'Repository',
+                'TRACE' => $e->getTraceAsString()
+            ]);
+
+            throw $e;
+            
+            return false;
+        }
         
     }
         
     public function disableCategory(int $cate)
     {
-       
+       try {
+           $category = Category::findOrFail($cate)->update(['is_enabled' => false]);
+           return $category;
+       } catch (Exception $e) {
+            Log::error($e->getMessage(),[
+                'LEVEL' => 'Repository',
+                'TRACE' => $e->getTraceAsString()
+            ]);
+
+            throw $e;
+            
+            return false;
+       }
     }
 
 }
