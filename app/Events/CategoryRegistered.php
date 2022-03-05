@@ -6,14 +6,14 @@ use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
-class UserRegistered
+class CategoryRegistered
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
-    public $user;
-    
-    public function __construct($user)
+    public $category;
+
+    public function __construct($category)
     {
-        $this->user = $user;
+        $this->category = $category;
     }
 }

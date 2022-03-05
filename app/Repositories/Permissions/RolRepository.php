@@ -12,7 +12,7 @@ class RolRepository {
     {
         $roles = PermissionHierarchy::all();
 
-        return $roles;
+        return compact('roles');
     }
 
     public function createRol(PermissionRoleEnum $role, array $attributes)

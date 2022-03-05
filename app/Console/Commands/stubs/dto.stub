@@ -1,0 +1,16 @@
+<?php
+
+namespace DummyNamespace;
+
+use App\DTO\Interfaces\DTOInterface;
+
+class DummyClass implements DTOInterface{
+
+    static function make(array $attributes) : array
+    {
+        return [
+            
+        ];
+    }
+    
+}

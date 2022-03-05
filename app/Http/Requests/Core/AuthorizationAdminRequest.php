@@ -24,6 +24,6 @@ class AuthorizationAdminRequest extends JsonRequest
 
     protected function failedAuthorization()
     {
-        throw new HttpResponseException(APIResponse::fail('Unauthorized', null, 403));
+        throw new HttpResponseException(APIResponse::fail('Unauthorized', 'null', 403));
     }
 }
