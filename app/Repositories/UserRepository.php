@@ -17,11 +17,9 @@ class UserRepository
 
             $user = User::create($userDTO);
 
-            $user->user_detail()->create($userDTO['details']);
+            $user->detail()->create($userDTO['details']);
 
-            event(new UserRegistered($user));
-
-            return true;
+            return $user;
         } catch (Exception $e) {
 
             Log::error($e->getMessage(), [
@@ -29,25 +27,7 @@ class UserRepository
                 'TRACE' => $e->getTraceAsString()
             ]);
 
-            throw $e;
-
-            return false;
-        }
-    }
-
-    public function login(array $attributes){
-        try{
-            
-        }
-        catch (Exception $e){
-            Log::error($e->getMessage(), [
-                'LEVEL' => 'Repository',
-                'TRACE' => $e->getTraceAsString()
-            ]);
-
-            throw $e;
-
-            return false;
+           return null;
         }
     }
 
