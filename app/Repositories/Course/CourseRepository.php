@@ -14,11 +14,8 @@ class CourseRepository {
         $course = Courses::create($courseDTO);
 
         $course->detail()->create($courseDTO['detail']);
-    }
 
-    public function attachDetail()
-    {
-
+        return $course;
     }
 
     public function editCourse(DTOInterface $dto, array $attributes)
