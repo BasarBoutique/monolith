@@ -49,6 +49,7 @@ class CategoryController extends Controller
             $service = new CategoryService;
             
             $service->create($attributes);
+            
             return APIResponse::success([],'Successfully created Category!');
         } 
         catch (Exception $e) 

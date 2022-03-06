@@ -12,7 +12,7 @@ class StoreCategoryRequest extends AuthorizationAdminRequest
     public function rules()
     {
         return [
-            'category_title' => 'required|string|category_title|unique:category',
+            'category_title' => ['required', 'string', Rule::unique(Category::class, 'category_title')],
             'category_ico' => 'required|string',
         ];
     }
