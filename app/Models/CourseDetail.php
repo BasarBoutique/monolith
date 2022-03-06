@@ -16,4 +16,14 @@ class CourseDetail extends Model
         'cdetail_description'
     ];
 
+    public function teacher()
+    {
+        return $this->hasOne(User::class, 'user_id', 'cdetail_author');
+    }
+
+    public function course()
+    {
+        return $this->belongsTo(Courses::class, 'course_id', 'course_id');
+    }
+
 }
