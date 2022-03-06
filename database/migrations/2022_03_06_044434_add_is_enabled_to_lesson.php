@@ -1,6 +1,5 @@
 <?php
 
-use Carbon\Carbon;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -14,12 +13,8 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('lesson_detail', function (Blueprint $table) {
-            $table->id('ld_id');
-            $table->string('ld_title');
-            $table->string('ld_url');
-            $table->json('ld_description');
-            $table->timestamp('updated_at')->default(Carbon::now());
+        Schema::table('lesson', function (Blueprint $table) {
+            $table->boolean('is_enabled')->default(true);
         });
     }
 
@@ -30,6 +25,8 @@ return new class extends Migration
      */
     public function down()
     {
-         Schema::dropIfExists('lesson_detail');
+        Schema::table('lesson', function (Blueprint $table) {
+            $table->dropColumn('is_enabled');
+        });
     }
 };
