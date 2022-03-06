@@ -3,11 +3,12 @@
 namespace App\Services;
 
 use App\DTO\UserDTO;
+use App\Events\UserRegistered;
 use App\Repositories\UserRepository;
 
 class UserService {
 
-    private $userRepository;
+    private UserRepository $userRepository;
 
     public function __construct()
     {
@@ -20,17 +21,9 @@ class UserService {
 
         $user = $this->userRepository->create($userDTO, $attributes);
 
+        event(new UserRegistered($user));
+
         return $user;
-    }
-
-    public function validateAuth(array $attributes)
-    {
-
-    }
-
-    public function token(array $attributes)
-    {
-        
     }
 
 }

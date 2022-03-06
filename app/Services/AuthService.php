@@ -31,8 +31,8 @@ class AuthService {
         } catch (Exception $e) {
             return [
                 'message' => 'Unauthorized',
-                'details' => [
-                    'error' => $e->getMessage()
+                'errors' => [
+                    $e->getMessage()
                 ],
                 'http_code' => 401
             ];
