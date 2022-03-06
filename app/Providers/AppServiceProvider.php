@@ -2,9 +2,11 @@
 
 namespace App\Providers;
 
+use App\Models\Category;
 use App\Models\PermissionHierarchy;
 use App\Models\PermissionUser;
 use App\Models\User;
+use App\Observers\Category\CategoryObserver;
 use App\Observers\Permission\RolObserver;
 use App\Observers\Permission\UserRolObserver;
 use App\Observers\UserObserver;
@@ -43,5 +45,6 @@ class AppServiceProvider extends ServiceProvider
         User::observe(UserObserver::class);
         PermissionHierarchy::observe(RolObserver::class);
         PermissionUser::observe(UserRolObserver::class);
+        Category::observe(CategoryObserver::class);
     }
 }
