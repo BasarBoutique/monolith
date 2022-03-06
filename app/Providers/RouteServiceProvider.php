@@ -10,6 +10,10 @@ use Illuminate\Support\Facades\Route;
 
 class RouteServiceProvider extends ServiceProvider
 {
+
+    protected $namespace = 'App\Http\Controllers';
+    protected $apiV2Namespace = 'App\Http\Controllers\V2';
+
     /**
      * The path to the "home" route for your application.
      *
@@ -29,10 +33,41 @@ class RouteServiceProvider extends ServiceProvider
         $this->configureRateLimiting();
 
         $this->routes(function () {
-            Route::prefix('api')
+
+            /**
+             * AUTH API V1
+             */
+            Route::prefix('api/v1/auth')
                 ->middleware('api')
                 ->namespace($this->namespace)
-                ->group(base_path('routes/api.php'));
+                ->group(base_path('routes/api/v1/auth.php'));
+
+
+            /**
+             * PERMISSIONS API V1
+             */
+            Route::prefix('api/v1/permissions')
+                ->middleware('api')
+                ->namespace($this->namespace)
+                ->group(base_path('routes/api/v1/permissions.php'));
+
+
+            /**
+             * CATEGORIES API V1
+             */
+            Route::prefix('api/v1/categories')
+                ->middleware('api')
+                ->namespace($this->namespace)
+                ->group(base_path('routes/api/v1/categories.php'));
+
+            /**
+             * COURSES API V1
+             */
+            Route::prefix('api/v1/courses')
+                ->middleware('api')
+                ->namespace($this->namespace)
+                ->group(base_path('routes/api/v1/courses.php'));
+
 
             Route::middleware('web')
                 ->namespace($this->namespace)
