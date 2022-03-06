@@ -10,6 +10,7 @@ class Category extends Model
     use HasFactory;
 
     protected $table = "category";
+    protected $primaryKey = "category_id";
 
     protected $fillable = [
         'category_title',
@@ -17,6 +18,14 @@ class Category extends Model
         'is_enabled'
     ];
 
-    protected $primaryKey = "category_id";
+    public function courses()
+    {
+        return $this->belongsToMany(
+            Courses::class,
+            CourseCategory::class,
+            'category_id',
+            'course_id'
+        );
+    }
 
 }
