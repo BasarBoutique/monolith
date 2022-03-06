@@ -17,4 +17,11 @@ class Lesson extends Model
         'course_id',
         'ld_id'
     ];
+
+    public function detail()
+    {
+        return $this->hasOne(LessonDetial::class,'ld_id');
+    }
+
+
 }

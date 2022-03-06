@@ -53,7 +53,7 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->permissions()->where('permission_level', PermissionRoleEnum::ADMIN)->exists();
     }
 
-    public function user_detail()
+    public function detail()
     {
         return $this->hasOne(UserDetail::class,'user_id');
     }
@@ -65,7 +65,7 @@ class User extends Authenticatable implements MustVerifyEmail
 
     public function courses()
     {
-        return $this->belongsTo(CoursesUser::class,'user_id');
+        return $this->belongsTo(CourseUser::class,'user_id');
     }
 
     public function sendEmailVerificationNotification()
@@ -76,7 +76,7 @@ class User extends Authenticatable implements MustVerifyEmail
     public function permissions_user($rol){
         $this->permissions()->create([
             "permission_level"=>$rol,
-            "user_id"=>$this->user_id  
+            "user_id"=>$this->user_id
         ]);
         $this->user_detail()->create();
     }

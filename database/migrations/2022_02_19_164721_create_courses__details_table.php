@@ -15,11 +15,12 @@ return new class extends Migration
     {
         Schema::create('courses_details', function (Blueprint $table) {
             $table->unsignedBigInteger('course_id');
-            $table->string('cdetail_author')->nullable();
+            $table->unsignedBigInteger('cdetail_author');
             $table->json('cdetail_description')->nullable();
             $table->timestamps();
-            
+
             $table->foreign('course_id')->references('course_id')->on('courses')->onDelete('cascade')->onUpdate('cascade');
+            $table->foreign('cdetail_author')->references('user_id')->on('users')->onDelete('cascade')->onUpdate('cascade');
         });
     }
 

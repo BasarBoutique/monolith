@@ -13,9 +13,11 @@ class LessonDetial extends Model
 
     protected $primaryKey = "ld_id";
 
-    protected $fillable =[
+    protected $fillable =[ 
         'ld_title',
         'ld_url',
         'ld_description'
     ];
+
+
 }
