@@ -5,5 +5,6 @@ use Illuminate\Support\Facades\Route;
 
 Route::middleware(['auth:api', 'can:isAdmin'])->group(function () {
     Route::post('create-course', [CoursesController::class, 'createCourse']);
+    Route::put('update-course/{courseId}', [CoursesController::class, 'updateCourse']);
 });
 
