@@ -23,7 +23,7 @@ class RolUserController extends Controller
             $repository = new UserRolRepository;
             $attachRolToUser = $repository->attachRolToUser($role, $request->user());
 
-            return APIResponse::success($attachRolToUser, 'Attached Rol to User successfully');
+            return APIResponse::success($attachRolToUser->toArray(), 'Attached Rol to User successfully');
         } catch (Exception $e) {
             return APIResponse::fail($e->getMessage(), 500);
         }

@@ -7,7 +7,7 @@ use App\Repositories\Course\CourseRepository;
 
 class CourseService{
 
-    public function create(array $attributes)
+    public function createCourse(array $attributes)
     {
         $courseDTO = new CourseDTO;
 
