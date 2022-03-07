@@ -33,12 +33,12 @@ class LessonRepository{
         return $lesson;
     }
 
-    public function editLesson(DTOInterface $dto,int $les,array $attributes)
+    public function editLesson(DTOInterface $dto,array $attributes)
     {
         try {
             $lessonDTO = $dto::make($attributes);
-            
-            $lesson = LessonDetial::findOrFail($les)->update($lessonDTO);
+
+            $lesson = LessonDetial::findOrFail($attributes['ld_id'])->update($lessonDTO);
             
             $lesson->detail()->update($lessonDTO['lesson']);
             

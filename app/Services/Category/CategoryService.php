@@ -24,18 +24,18 @@ class CategoryService{
         return $category;
     }
 
-    public function update(array $attributes,int $cate)
+    public function update(array $attributes)
     {
         $categoryDTO = new CategoryDTO;
 
-        $category = $this->categoryRepository->editCategory($categoryDTO,$cate,$attributes);
+        $category = $this->categoryRepository->editCategory($categoryDTO,$attributes);
 
         return $category;
     }
 
-    public function remove(int $cate)
+    public function remove(array $attributes)
     {
-        $category = $this->categoryRepository->disableCategory($cate);
+        $category = $this->categoryRepository->disableCategory($attributes);
         
         return $category;
     }

@@ -40,11 +40,11 @@ class LessonController extends Controller
 
     public function createLesson(StoreLessonRequest $request){
         try {
-            $attributes = $request->validated();
+            $validatedRequest = $request->validated();
 
             $service = new LessonService;
 
-            $service->create($attributes);
+            $service->create($validatedRequest);
 
             return APIResponse::success([],'Succesfullly created Lesson!');
         } catch (Exception $e) {
@@ -52,13 +52,13 @@ class LessonController extends Controller
         }
     }
 
-    public function updateLesson(UpdateLessonRequest $request, $lesson){
+    public function updateLesson(UpdateLessonRequest $request){
         try {
             $attributes = $request->validated();
 
             $service = new LessonService;
 
-            $service->update($attributes, $lesson);
+            $service->update($attributes);
 
             return APIResponse::success([],'Succesfully updated Lesson!');
         } catch (Exception $e) {            

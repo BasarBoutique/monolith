@@ -14,10 +14,11 @@ class UpdateLessonRequest extends AuthorizationAdminRequest
     public function rules()
     {
         return [
-            'ld_title' => ['string'] ,
-            'ld_url' => ['string'],
-            'ld_description' => ['array'],
-            'lesson' => ['string']
+            'ld_id' => ['required','string'],
+            'ld_title' => ['required','string'] ,
+            'ld_url' => ['required','string'],
+            'ld_description' => ['required','array'],
+            'lesson' => ['required','string']
         ];
     }
 }
