@@ -2,20 +2,13 @@
 
 namespace App\Http\Requests\Course;
 
-use Illuminate\Foundation\Http\FormRequest;
+use App\Http\Requests\Core\AuthorizationAdminRequest;
+use App\Models\Courses;
+use App\Rules\Course\IsTeacher;
+use Illuminate\Validation\Rule;
 
-class StoreCourseRequest extends FormRequest
+class StoreCourseRequest extends AuthorizationAdminRequest
 {
-    /**
-     * Determine if the user is authorized to make this request.
-     *
-     * @return bool
-     */
-    public function authorize()
-    {
-        return false;
-    }
-
     /**
      * Get the validation rules that apply to the request.
      *
@@ -24,7 +17,11 @@ class StoreCourseRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'title' => ['required', 'string', Rule::unique(Courses::class, 'course_title')],
+            'photo-url' => ['required', 'url'],
+            'detail' => ['required', 'array'],
+            'detail.author' => ['required', 'numeric', new IsTeacher()],
+            'detail.description' => ['nullable']
         ];
     }
 }

@@ -32,9 +32,9 @@ class RolController extends Controller
 
             $repository = new RolRepository;
 
-            $repository->createRol($role, $validatedRequest);
+            $rol = $repository->createRol($role, $validatedRequest);
 
-            return APIResponse::success([], 'Successfully created role!');
+            return APIResponse::success($rol->toArray(), 'Successfully created role!');
         }
         catch(Exception $e){
             return APIResponse::fail($e->getMessage(), 500);

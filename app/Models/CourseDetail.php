@@ -16,6 +16,10 @@ class CourseDetail extends Model
         'cdetail_description'
     ];
 
+    protected $casts = [
+        'cdetail_description' => 'array'
+    ];
+
     public function teacher()
     {
         return $this->hasOne(User::class, 'user_id', 'cdetail_author');
