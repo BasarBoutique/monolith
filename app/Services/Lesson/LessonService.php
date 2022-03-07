@@ -27,11 +27,11 @@ class LessonService{
         return $lesson;
     }
 
-    public function update(array $attributes,int $les)
+    public function update(array $attributes)
     {
         $lessonDTO = new LessonDTO;
 
-        $lesson = $this->lessonRepository->editLesson($lessonDTO,$les,$attributes);
+        $lesson = $this->lessonRepository->editLesson($lessonDTO,$attributes);
     
         return $lesson;
     }

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Category;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Category\DisableCategoryRequest;
 use App\Http\Requests\Category\StoreCategoryRequest;
 use App\Http\Requests\Category\UpdateCategoryRequest;
 use App\Http\Response\APIResponse;
@@ -58,13 +59,13 @@ class CategoryController extends Controller
         }
     }
 
-    public function updateCategory(UpdateCategoryRequest $request, $category){
+    public function updateCategory(UpdateCategoryRequest $request){
         try {
-            $attributes = $request->validated();
+            $validatedRequest = $request->validated();
 
             $service = new CategoryService;
 
-            $service->update($attributes,$category);
+            $service->update($validatedRequest);
 
             return APIResponse::success([],'Successfully updated Category!');
         } catch (Exception $e) 
@@ -72,11 +73,13 @@ class CategoryController extends Controller
             return APIResponse::fail($e->getMessage(),500);
         }
     }
-    public function deleteCategory($category){
+    public function deleteCategory(DisableCategoryRequest $request){
         try {
+            $validatedRequest = $request->validated();
+
             $service = new CategoryService;
 
-            $service->remove($category);
+            $service->remove($validatedRequest);
             
             return APIResponse::success([],'Successfully removed Category!');
         } catch (Exception $e) {
