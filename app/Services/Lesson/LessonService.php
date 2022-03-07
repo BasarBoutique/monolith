@@ -3,6 +3,7 @@
 namespace App\Services\Lesson;
 
 use App\DTO\Lesson\LessonDTO;
+use App\Events\Lesson\LessonRegistered;
 use App\Models\LessonDetial;
 use App\Repositories\Lesson\LessonRepository;
 
@@ -20,6 +21,8 @@ class LessonService{
         $lessonDTO = new LessonDTO;
 
         $lesson = $this->lessonRepository->createLesson($lessonDTO,$attributes);
+        
+        event(new LessonRegistered($lesson));
         
         return $lesson;
     }
