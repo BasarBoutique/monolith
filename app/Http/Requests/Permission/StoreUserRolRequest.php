@@ -20,7 +20,7 @@ class StoreUserRolRequest extends AuthorizationAdminRequest
     {
         return [
             'user_id' => ['numeric', Rule::exists(User::class, 'user_id')],
-            'permission_level' => ['numeric', new UniqueUserRol($this->user()->user_id)]
+            'permission_level' => ['numeric', new UniqueUserRol(request()->get('user_id'))]
         ];
     }
 }

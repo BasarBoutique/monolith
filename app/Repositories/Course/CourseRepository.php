@@ -3,6 +3,7 @@
 namespace App\Repositories\Course;
 
 use App\DTO\Interfaces\DTOInterface;
+use App\Models\CourseDetail;
 use App\Models\Courses;
 
 class CourseRepository {
@@ -30,9 +31,15 @@ class CourseRepository {
         return $course;
     }
 
-    public function disableCourse(int $id)
+    public function changeCourseTeacher(int $courseId, int $teacherId)
     {
-        //set model name in here, this is necessary!
+        $courseDetail = CourseDetail::where('course_id', $courseId);
+
+        $courseDetail->update([
+            'cdetail_author' => $teacherId
+        ]);
+
+        return $courseDetail;
     }
 
 }
