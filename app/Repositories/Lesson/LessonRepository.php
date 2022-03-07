@@ -5,6 +5,8 @@ namespace App\Repositories\Lesson;
 use App\DTO\Interfaces\DTOInterface;
 use App\Models\Lesson;
 use App\Models\LessonDetial;
+use Exception;
+use Illuminate\Support\Facades\Log;
 
 class LessonRepository{
 
@@ -24,21 +26,50 @@ class LessonRepository{
     {
         $lessonDTO = $dto::make($attributes);
 
-        $lesson = Lesson::create($lessonDTO);
+        $lesson = LessonDetial::create($lessonDTO);
 
-        $lesson->detail()->create($lessonDTO['details']);
+        $lesson->detail()->create($lessonDTO['lesson']);
 
         return $lesson;
     }
 
-    public function editLesson()
+    public function editLesson(DTOInterface $dto,int $les,array $attributes)
     {
-        //set model name in here, this is necessary!
+        try {
+            $lessonDTO = $dto::make($attributes);
+            
+            $lesson = LessonDetial::findOrFail($les)->update($lessonDTO);
+            
+            $lesson->detail()->update($lessonDTO['lesson']);
+            
+            return $lesson;
+        } catch (Exception $e) {
+            Log::error($e->getMessage(),[
+                'LEVEL' => 'Repository',
+                'TRACE' => $e->getTraceAsString()
+            ]);
+
+            throw $e;
+            
+            return false;
+        }
     }
         
-    public function disableLesson()
+    public function disableLesson(array $attributes)
     {
-        //set model name in here, this is necessary!
+        try {
+            $lesson = Lesson::findOrFail($attributes['lesson_id'])->update(['is_enabled' => false]);
+            return $lesson;
+        } catch (Exception $e) {
+            Log::error($e->getMessage(),[
+                'LEVEL' => 'Repository',
+                'TRACE' => $e->getTraceAsString()
+            ]);
+
+            throw $e;
+            
+            return false;
+        }
     }
 
 }

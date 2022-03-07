@@ -24,13 +24,19 @@ class LessonService{
         return $lesson;
     }
 
-    public function update(array $attributes)
+    public function update(array $attributes,int $les)
     {
-        /** */
+        $lessonDTO = new LessonDTO;
+
+        $lesson = $this->lessonRepository->editLesson($lessonDTO,$les,$attributes);
+    
+        return $lesson;
     }
 
-    public function remove()
+    public function remove(array $attributes)
     {
-        /** */
+        $lesson = $this->lessonRepository->disableLesson($attributes);
+
+        return $lesson;
     }
 }

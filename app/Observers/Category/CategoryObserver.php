@@ -11,7 +11,7 @@ class CategoryObserver
 {
     public function created(Category $category){
         $categoryLog = CategoryLog::create([
-            'catlog_context' => CategoryLogEnum::ROLE_CREATED,
+            'catlog_context' => CategoryLogEnum::CATEGORY_CREATED,
             'catlog_author' => optional(request()->user())->user_id ?? 'SYSTEM'
         ]);
 

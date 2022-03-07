@@ -8,16 +8,28 @@ use Illuminate\Database\Eloquent\Model;
 class LessonDetial extends Model
 {
     use HasFactory;
-    
     protected $table = "lesson_detail";
-
+    
     protected $primaryKey = "ld_id";
-
+    
+    const CREATED_AT = null;
+    const UPDATED_AT = 'updated_at';
+    
     protected $fillable =[ 
+        'ld_id',
         'ld_title',
         'ld_url',
         'ld_description'
     ];
 
+    protected $casts = [
+        'ld_description' => 'array',
+    ];
 
+    protected $dates = ['updated_at'];
+
+    public function detail()
+    {
+        return $this->hasOne(Lesson::class,'ld_id');
+    }
 }

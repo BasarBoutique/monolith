@@ -3,15 +3,15 @@
 namespace App\DTO\Lesson;
 
 use App\DTO\Interfaces\DTOInterface;
+use App\Models\LessonDetial;
+use App\Models\LessonLog;
 
 class LessonDetailDTO implements DTOInterface{
 
     static function make(array $attributes, array $externarlAttributes = []) : array
     {
         return [
-            'ld_title' => $attributes['ld_title'] ?? $externarlAttributes['ld_title'],
-            'ld_url' => $attributes['ld_url'] ?? $externarlAttributes['ld_url'],
-            'ld_description' => $attributes['ld_description'] ?? $externarlAttributes['ld_description']
+            'course_id' => $attributes['course_id'] ?? $externarlAttributes['lesson']
         ];
     }
     

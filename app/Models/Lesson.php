@@ -13,15 +13,14 @@ class Lesson extends Model
 
     protected $primaryKey = "lesson_id";
 
+    const CREATED_AT = 'registered_at';
+    const UPDATED_AT = null;
+    
     protected $fillable = [
         'course_id',
-        'ld_id'
+        'ld_id',
+        'is_enabled'
     ];
 
-    public function detail()
-    {
-        return $this->hasOne(LessonDetial::class,'ld_id');
-    }
-
-
+    protected $dates = ['registered_at'];
 }

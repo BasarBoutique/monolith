@@ -3,8 +3,6 @@
 namespace App\Http\Requests\Lesson;
 
 use App\Http\Requests\Core\AuthorizationAdminRequest;
-use App\Models\Courses;
-use Illuminate\Foundation\Http\FormRequest;
 
 class StoreLessonRequest extends AuthorizationAdminRequest
 {
@@ -19,7 +17,8 @@ class StoreLessonRequest extends AuthorizationAdminRequest
         return [
             'ld_title' => ['required','string'] ,
             'ld_url' => ['required','string'],
-            'ld_description' => ['required','string']
+            'ld_description' => ['required','array'],
+            'lesson' => ['required','string']
         ];
     }
 
@@ -28,7 +27,7 @@ class StoreLessonRequest extends AuthorizationAdminRequest
         return [
             'ld_title.required' => 'This lesson name is required',
             'ld_url.required' => 'This lesson is required',
-            'ld_description.required' => 'How lesson description is the video?'
+            'ld_description.required' => 'How lesson description is the video?',
         ];
     }
 }

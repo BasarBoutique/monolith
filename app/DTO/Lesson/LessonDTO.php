@@ -10,8 +10,10 @@ class LessonDTO implements DTOInterface{
     static function make(array $attributes) : array
     {
         return [
-            'course_id' => $attributes['course_id'],
-            'details' => LessonDetailDTO::make($attributes['details'] ?? [], $attributes)
+            'ld_title' => $attributes['ld_title'],
+            'ld_url' => $attributes['ld_url'],
+            'ld_description' => $attributes['ld_description'],
+            'lesson' => LessonDetailDTO::make([],$attributes)
         ];
     }
     
