@@ -2,18 +2,22 @@
 
 namespace App\Http\Requests\Course;
 
-use Illuminate\Foundation\Http\FormRequest;
+use App\Http\Requests\Core\AuthorizationAdminRequest;
+use App\Models\Courses;
+use App\Rules\Course\CheckCourseTitle;
+use App\Rules\Course\IsTeacher;
+use Illuminate\Validation\Rule;
 
-class UpdateCourseRequest extends FormRequest
+class UpdateCourseRequest extends AuthorizationAdminRequest
 {
-    /**
-     * Determine if the user is authorized to make this request.
-     *
-     * @return bool
-     */
-    public function authorize()
+
+    public function all($keys = null)
     {
-        return false;
+        $data = parent::all($keys);
+
+        $data['courseId'] = $this->route('courseId');
+
+        return $data;
     }
 
     /**
@@ -24,7 +28,17 @@ class UpdateCourseRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'courseId' => ['required', 'numeric', Rule::exists(Courses::class, 'course_id')],
+            'title' =>
+                [
+                    'required',
+                    'string',
+                    Rule::unique(Courses::class, 'course_title')->ignore($this->route('courseId'), 'course_id')
+                ],
+            'photo-url' => ['required', 'url'],
+            'detail' => ['required', 'array'],
+            'detail.author' => ['required', 'numeric', new IsTeacher],
+            'detail.description' => ['nullable']
         ];
     }
 }

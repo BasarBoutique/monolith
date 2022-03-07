@@ -17,9 +17,13 @@ class CourseService{
 
     }
 
-    public function update(array $attributes)
+    public function updateCourse(array $attributes)
     {
-        /** */
+        $courseDTO = new CourseDTO;
+
+        $courseRepository = new CourseRepository;
+
+        return $courseRepository->updateCourse($attributes['courseId'], $courseDTO, $attributes);
     }
 
     public function remove()

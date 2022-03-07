@@ -18,9 +18,16 @@ class CourseRepository {
         return $course;
     }
 
-    public function editCourse(DTOInterface $dto, array $attributes)
+    public function updateCourse(int $courseId, DTOInterface $dto, array $attributes)
     {
-        //set model name in here, this is necessary!
+        $courseDTO = $dto::make($attributes);
+
+        $course = Courses::findOrFail($courseId);
+
+        $course->update($courseDTO);
+        $course->detail()->update($courseDTO['detail']);
+
+        return $course;
     }
 
     public function disableCourse(int $id)
