@@ -3,7 +3,7 @@
 namespace App\Enums;
 
 enum CategoryLogEnum : string {
-    const ROLE_CREATED = 'ROLE_CREATED';
-    const ROLE_UPDATED = 'ROLE_UPDATED';
-    const ROLE_REMOVED = 'ROLE_REMOVED';
+    const CATEGORY_CREATED = 'CATEGORY_CREATED';
+    const CATEGORY_UPDATED = 'CATEGORY_UPDATED';
+    const CATEGORY_REMOVED = 'CATEGORY_REMOVED';
 }

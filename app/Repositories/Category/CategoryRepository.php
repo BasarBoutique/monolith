@@ -48,7 +48,9 @@ class CategoryRepository{
     {
         try{
             $cartegoryDTO = $dto::make($attributes);
+
             $category = Category::findOrFail($cate)->update($cartegoryDTO);
+            
             return $category;
         }catch(Exception $e){
             Log::error($e->getMessage(),[

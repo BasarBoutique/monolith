@@ -33,4 +33,5 @@ class Courses extends Model
         );
     }
 
+
 }

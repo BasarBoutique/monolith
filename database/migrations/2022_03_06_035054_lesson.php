@@ -16,9 +16,12 @@ return new class extends Migration
     {
         Schema::create('lesson', function (Blueprint $table) {
             $table->id('lesson_id');
-            $table->unsignedBigInteger('ld_title');
-            $table->unsignedBigInteger('ld_url');
-            $table->timestap('registered_at')->default(Carbon::now());
+            $table->unsignedBigInteger('course_id');
+            $table->unsignedBigInteger('ld_id');
+            $table->string('is_enabled')->default(true);
+            $table->foreign('course_id')->references('course_id')->on('courses')->onDelete('cascade')->onUpdate('cascade');
+            $table->foreign('ld_id')->references('ld_id')->on('lesson_detail')->onDelete('cascade')->onUpdate('cascade');
+            $table->timestamp('registered_at')->default(Carbon::now());
         });
     }
 
