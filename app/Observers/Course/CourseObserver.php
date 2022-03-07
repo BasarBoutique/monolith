@@ -37,9 +37,19 @@ class CourseObserver
      * @param  \App\Models\Courses  $courses
      * @return void
      */
-    public function updated(Courses $courses)
+    public function updated(Courses $course)
     {
-        //
+        $courseLog = CourseLog::create([
+            'clog_context' => CourseLogEnum::COURSE_UPDATED,
+            'clog_author' => optional(request()->user())->user_id ?? 'SYSTEM'
+        ]);
+
+        Log::info('Course has been updated', [
+            'context' => $courseLog->clog_context,
+            'details' => [
+                'course' => $course->course_title
+            ]
+        ]);
     }
 
     /**
