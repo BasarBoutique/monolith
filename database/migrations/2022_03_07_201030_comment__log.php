@@ -14,12 +14,11 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('lesson_detail', function (Blueprint $table) {
-            $table->id('ld_id');
-            $table->string('ld_title');
-            $table->string('ld_url');
-            $table->json('ld_description');
-            $table->timestamp('updated_at')->default(Carbon::now());
+        Schema::create('comment_log', function(Blueprint $table){
+            $table->uuid('clog_uuid')->primary();
+            $table->string('clog_context');
+            $table->string('clog_author');
+            $table->timestamp('registered_at')->default(Carbon::now());
         });
     }
 
@@ -30,6 +29,6 @@ return new class extends Migration
      */
     public function down()
     {
-         Schema::dropIfExists('lesson_detail');
+        Schema::dropIfExists('comment_log');
     }
 };
