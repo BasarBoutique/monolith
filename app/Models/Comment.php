@@ -18,4 +18,8 @@ class Comment extends Model
         'comment_description',
         'is_enabled'
     ];
+
+    public function curso_user(){
+        return $this->belongsToMany(CU_Comment::class,'comment_id');
+    }
 }

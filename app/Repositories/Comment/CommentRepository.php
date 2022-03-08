@@ -2,6 +2,7 @@
     
 namespace App\Repositories\Comment;
 
+use App\DTO\Interfaces\DTOInterface;
 use App\Models\Comment;
 
 class CommentRepository{
@@ -11,22 +12,28 @@ class CommentRepository{
         return compact('comment');
     }
 
-    public function show()
+    public function showComment()
     {
         //set model name in here, this is necessary!
     }
 
-    public function create()
+    public function createComment(DTOInterface $dto, array $attributes)
     {
-        //set model name in here, this is necessary!
+        $commentDTO = $dto::make($attributes);
+
+        $comment = Comment::create($commentDTO);
+
+        $comment->curso_user()->create($commentDTO['cu_id']);
+
+        return $comment;
     }
 
-    public function edit()
+    public function editComment()
     {
         //set model name in here, this is necessary!
     }
         
-    public function disable()
+    public function disableComment()
     {
         //set model name in here, this is necessary!
     }

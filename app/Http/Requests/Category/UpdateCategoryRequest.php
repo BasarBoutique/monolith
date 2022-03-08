@@ -20,7 +20,7 @@ class UpdateCategoryRequest extends AuthorizationAdminRequest
         return [
             'category_id' => 'required|string',
             'category_title' => ['required','string',Rule::unique(Category::class, 'category_title')],
-            'category_ico' => 'required|string',
+            'category_ico' => ['required','url'],
         ];
     }
 
