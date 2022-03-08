@@ -20,8 +20,8 @@ class StoreCourseRequest extends AuthorizationAdminRequest
             'title' => ['required', 'string', Rule::unique(Courses::class, 'course_title')],
             'photo-url' => ['required', 'url'],
             'detail' => ['required', 'array'],
-            'detail.author' => ['required', 'numeric', new IsTeacher()],
-            'detail.description' => ['nullable']
+            'detail.author' => ['required', 'numeric', new IsTeacher],
+            'detail.description' => ['sometimes', 'required']
         ];
     }
 }

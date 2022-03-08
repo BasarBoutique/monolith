@@ -17,13 +17,19 @@ class CourseService{
 
     }
 
-    public function update(array $attributes)
+    public function updateCourse(array $attributes)
     {
-        /** */
+        $courseDTO = new CourseDTO;
+
+        $courseRepository = new CourseRepository;
+
+        return $courseRepository->updateCourse($attributes['courseId'], $courseDTO, $attributes);
     }
 
-    public function remove()
+    public function changeCourseTeacher(array $attributes)
     {
-        /** */
+        $courseRepository = new CourseRepository;
+
+        return $courseRepository->changeCourseTeacher($attributes['courseId'], $attributes['teacher_id']);
     }
 }
