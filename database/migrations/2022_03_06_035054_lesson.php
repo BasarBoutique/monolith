@@ -18,7 +18,7 @@ return new class extends Migration
             $table->id('lesson_id');
             $table->unsignedBigInteger('ld_title');
             $table->unsignedBigInteger('ld_url');
-            $table->timestap('registered_at')->default(Carbon::now());
+            $table->timestamp('registered_at')->default(Carbon::now());
         });
     }
 

@@ -19,7 +19,7 @@ return new class extends Migration
             $table->string('ld_title');
             $table->string('ld_url');
             $table->json('ld_description');
-            $table->timestap('updated_at')->default(Carbon::now());
+            $table->timestamp('updated_at')->default(Carbon::now());
         });
     }
 
