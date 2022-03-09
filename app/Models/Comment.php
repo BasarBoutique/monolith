@@ -16,6 +16,7 @@ class Comment extends Model
     protected $fillable = [
         'comment_rating',
         'comment_description',
+        'is_enabled'
     ];
 
     public function curso_user(){

@@ -10,12 +10,13 @@ class LessonLog extends Model
 {
     use HasFactory, HasUuid;
     
-    protected $table = "lesson_log";
     const CREATED_AT = 'registered_at';
     const UPDATED_AT = null;
-
+    
     protected $primaryKey = "llog_uuid";
     protected $keyType = "string";
+    
+    protected $table = "lesson_log";
 
     protected $fillable =[
         'llog_context',

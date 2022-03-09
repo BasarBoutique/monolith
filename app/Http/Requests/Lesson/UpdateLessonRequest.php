@@ -3,6 +3,7 @@
 namespace App\Http\Requests\Lesson;
 
 use App\Http\Requests\Core\AuthorizationAdminRequest;
+use App\Models\Courses;
 use App\Models\LessonDetial;
 use Illuminate\Validation\Rule;
 
@@ -24,30 +25,31 @@ class UpdateLessonRequest extends AuthorizationAdminRequest
     public function rules()
     {
         return [
-            'lessonId' => ['required','numeric'],
-            'ld_title' => 
+            'lessonId' => ['required','numeric', Rule::exists(LessonDetial::class, 'ld_id')],
+            'title' => 
                 [
                     'sometimes',
                     'required',
                     'string',
+                    Rule::unique(LessonDetial::class, 'ld_title')->ignore($this->route('lessonId'),'ld_id')
                      ],
-            'ld_url' => ['required','string'],
-            'ld_description' => ['required','array'],
-            'ld_description.description' => ['required','string'],
-            'ld_description.length' => ['required','string'],
-            'course_id' => ['required','numeric']
+            'ld_url' => ['sometimes','required','string'],
+            'description' => ['sometimes','required','array'],
+            'description.context' => ['sometimes','required','string'],
+            'description.length' => ['sometimes','required','string'],
+            'course_id' => ['sometimes','required','numeric',Rule::exists(Courses::class,'course_id')]
         ];
     }
 
     public function messages()
     {
         return [
-            'ld_title.required' => 'This lesson name is required',
+            'title.required' => 'This lesson name is required',
             'ld_url.required' => 'This lesson is required',
-            'ld_description.required' => 'How lesson description is the video?',
-            'ld_description.description' => 'This lesson description is required',
-            'ld_description.length' => 'This lesson length is required',
-            'course_id' => 'This course is required'
+            'description.required' => 'How lesson description is the video?',
+            'description.context.required' => 'This lesson description is required',
+            'description.length.required' => 'This lesson length is required',
+            'course_id.required' => 'This course is required'
         ];
     }
 }

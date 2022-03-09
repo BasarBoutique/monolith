@@ -26,11 +26,11 @@ class LessonController extends Controller
         }
     }
 
-    public function showLesson($les){
+    public function showLessonById($les){
         try {
             $resource = new LessonRepository;
 
-            $lesson = $resource->showLesson($les);
+            $lesson = $resource->showLessonById($les);
             
             return APIResponse::make(true, $lesson);
         } catch (Exception $e) {

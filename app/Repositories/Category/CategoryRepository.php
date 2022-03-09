@@ -28,11 +28,9 @@ class CategoryRepository{
             $cartegoryDTO = $dto::make($attributes);
 
             $category = Category::create($cartegoryDTO);
-            
 
             return $category;
         } catch (Exception $e) {
-
             Log::error($e->getMessage(),[
                 'LEVEL' => 'Repository',
                 'TRACE' => $e->getTraceAsString()
