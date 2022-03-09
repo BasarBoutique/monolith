@@ -20,4 +20,16 @@ class CategoryObserver
             'author' => $categoryLog->catlog_author,
         ]);
     }
+
+    public function updated(Category $category)
+    {
+        $categoryLog = CategoryLog::create([
+            'clog_context' => CategoryLogEnum::CATEGORY_UPDATED,
+            'clog_author' => optional(request()->user())->user_id ?? 'SYSTEM'
+        ]);
+
+        Log::info('Comment has been updated', [
+            'context' => $categoryLog->clog_context,
+        ]);
+    }
 }
