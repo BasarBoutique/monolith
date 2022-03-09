@@ -44,11 +44,13 @@ class CategoryRepository{
         }
     }
 
-    public function editCategory(DTOInterface $dto,int $cate,array $attributes)
+    public function editCategory(DTOInterface $dto,array $attributes)
     {
         try{
             $cartegoryDTO = $dto::make($attributes);
-            $category = Category::findOrFail($cate)->update($cartegoryDTO);
+
+            $category = Category::findOrFail($attributes['category_id'])->update($cartegoryDTO);
+            
             return $category;
         }catch(Exception $e){
             Log::error($e->getMessage(),[
@@ -63,11 +65,12 @@ class CategoryRepository{
         
     }
         
-    public function disableCategory(int $cate)
+    public function disableCategory(array $attributes)
     {
        try {
-           $category = Category::findOrFail($cate)->update(['is_enabled' => false]);
-           return $category;
+           $category = Category::findOrFail($attributes['category_id'])->update(['is_enabled' => false]);
+          
+          return $category;
        } catch (Exception $e) {
             Log::error($e->getMessage(),[
                 'LEVEL' => 'Repository',
