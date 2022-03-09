@@ -16,7 +16,6 @@ class LessonDetial extends Model
     const UPDATED_AT = 'updated_at';
     
     protected $fillable =[ 
-        'ld_id',
         'ld_title',
         'ld_url',
         'ld_description'

@@ -13,13 +13,12 @@ class Comment extends Model
 
     protected $primaryKey = "comment_id";
 
-    protected $filable = [
+    protected $fillable = [
         'comment_rating',
         'comment_description',
-        'is_enabled'
     ];
 
     public function curso_user(){
-        return $this->belongsToMany(CU_Comment::class,'comment_id');
+        return $this->hasMany(CU_Comment::class,'comment_id');
     }
 }

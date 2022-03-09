@@ -9,15 +9,18 @@ class CU_Comment extends Model
 {
     use HasFactory;
 
+    
+    
+    const CREATED_AT = 'registered_at';
+    const UPDATED_AT = null;
+    
+    protected $primaryKey = "cuc_id";
     protected $table = "cu_comment";
 
-    protected $primaryKey = "cuc_id";
-
-    public function comment(){
-        return $this->belongsTo(Comment::class,"comment_id");
-    }
-
-    public function user(){
-        return $this->belongsTo(User::class,"cu_id");
-    }
+    protected $fillable =[
+        'comment_id',
+        'cu_id'
+    ];
+    
+    protected $dates = ['registered_at'];
 }

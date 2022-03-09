@@ -6,6 +6,6 @@ Route::get('lesson',[LessonController::class, 'Lesson']);
 Route::get('show-lesson/{lesson}',[LessonController::class,'showLesson']);
 Route::middleware(['auth:api', 'can:isAdmin'])->group(function () {
     Route::post('create-lesson', [LessonController::class,'createlesson']);
-    Route::put('update-lesson', [LessonController::class,'updateLesson']);
-    Route::delete('delete-lesson', [LessonController::class,'deleteLesson']);
+    Route::put('update-lesson/{lessonId}', [LessonController::class,'updateLesson']);
+    Route::put('remove-lesson/{lessonId}', [LessonController::class,'removeLesson']);
 });

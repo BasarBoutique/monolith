@@ -44,9 +44,9 @@ class LessonController extends Controller
 
             $service = new LessonService;
 
-            $service->create($validatedRequest);
+            $lesson = $service->create($validatedRequest);
 
-            return APIResponse::success([],'Succesfullly created Lesson!');
+            return APIResponse::success($lesson->toArray(),'Succesfullly created Lesson!');
         } catch (Exception $e) {
             return APIResponse::fail($e->getMessage(),500);
         }
@@ -54,25 +54,25 @@ class LessonController extends Controller
 
     public function updateLesson(UpdateLessonRequest $request){
         try {
-            $attributes = $request->validated();
+            $validatedRequest = $request->validated();
 
             $service = new LessonService;
 
-            $service->update($attributes);
-
-            return APIResponse::success([],'Succesfully updated Lesson!');
+            $service->update($validatedRequest);
+            
+            return APIResponse::success([], 'Succesfully updated Lesson!');
         } catch (Exception $e) {            
             return APIResponse::fail($e->getMessage(),500);
         }
     }
 
-    public function deleteLesson(DisableLeassonRequest $request){
+    public function removeLesson(DisableLeassonRequest $request){
         try {
             $attributes = $request->validated();
 
             $service = new LessonService;
 
-            $service->remove($attributes);
+            $lesson = $service->remove($attributes);
 
             return APIResponse::success([],'Successfully removed Lesson!');
         } catch (Exception $e) {

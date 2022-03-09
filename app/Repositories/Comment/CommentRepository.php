@@ -4,6 +4,9 @@ namespace App\Repositories\Comment;
 
 use App\DTO\Interfaces\DTOInterface;
 use App\Models\Comment;
+use Illuminate\Support\Arr;
+use Exception;
+use Illuminate\Support\Facades\Log;
 
 class CommentRepository{
     
@@ -19,13 +22,25 @@ class CommentRepository{
 
     public function createComment(DTOInterface $dto, array $attributes)
     {
-        $commentDTO = $dto::make($attributes);
+        try {
+            $commentDTO = $dto::make($attributes);
 
-        $comment = Comment::create($commentDTO);
+            $comment = Comment::create($commentDTO);
 
-        $comment->curso_user()->create($commentDTO['cu_id']);
+            $comment->curso_user()->create($commentDTO['cu_id']);
 
-        return $comment;
+
+            return $comment;
+        } catch (Exception $e) {
+                Log::error($e->getMessage(),[
+                    'LEVEL' => 'Repository',
+                    'TRACE' => $e->getTraceAsString()
+                ]);
+
+                throw $e;
+                
+                return false;
+        }
     }
 
     public function editComment()
@@ -33,9 +48,21 @@ class CommentRepository{
         //set model name in here, this is necessary!
     }
         
-    public function disableComment()
+    public function disableComment(array $attributes)
     {
-        //set model name in here, this is necessary!
+        try {
+            $lesson = Comment::findOrFail($attributes['commentId'])->update(['is_enabled' => false]);
+            return $lesson;
+        } catch (Exception $e) {
+            Log::error($e->getMessage(),[
+                'LEVEL' => 'Repository',
+                'TRACE' => $e->getTraceAsString()
+            ]);
+
+            throw $e;
+            
+            return false;
+        }
     }
 
 }

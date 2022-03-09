@@ -13,7 +13,7 @@ class LessonDTO implements DTOInterface{
             'ld_title' => $attributes['ld_title'],
             'ld_url' => $attributes['ld_url'],
             'ld_description' => $attributes['ld_description'],
-            'lesson' => LessonDetailDTO::make([],$attributes)
+            'course_id' => LessonDetailDTO::make([],$attributes)
         ];
     }
     

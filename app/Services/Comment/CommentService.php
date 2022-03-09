@@ -28,8 +28,10 @@ class CommentService{
         /** */
     }
 
-    public function remove()
+    public function remove(array $attributes)
     {
-        /** */
+        $comment = $this->commentRespository->disableComment($attributes);
+
+        return $comment;
     }
 }

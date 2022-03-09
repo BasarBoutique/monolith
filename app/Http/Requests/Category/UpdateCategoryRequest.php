@@ -9,6 +9,14 @@ use Illuminate\Validation\Rule;
 
 class UpdateCategoryRequest extends AuthorizationAdminRequest
 {
+    public function all($keys = null)
+    {
+        $data = parent::all($keys);
+
+        $data['categoryId'] = $this->route('categoryId');
+
+        return $data;
+    }
 
     /**
      * Get the validation rules that apply to the request.
@@ -18,9 +26,9 @@ class UpdateCategoryRequest extends AuthorizationAdminRequest
     public function rules()
     {
         return [
-            'category_id' => 'required|string',
-            'category_title' => ['required','string',Rule::unique(Category::class, 'category_title')],
-            'category_ico' => ['required','url'],
+            'categoryId' => ['required','numeric', Rule::exists(Category::class,'category_id')],
+            'category_title' => ['sometimes','required','string',Rule::unique(Category::class, 'category_title')->ignore($this->route('categoryId'),'category_id')],
+            'category_ico' => ['required','string'],
         ];
     }
 
