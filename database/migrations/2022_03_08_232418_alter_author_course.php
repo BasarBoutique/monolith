@@ -35,9 +35,11 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::table('courses_details', function (Blueprint $table) {
-            $table->unsignedBigInteger('cdetail_author');
-            $table->foreign('cdetail_author')->references('user_id')->on('users')->onDelete('cascade')->onUpdate('cascade');
-        });
+        if(!Schema::hasColumn('courses_details', 'cdetail_author')) {
+            Schema::table('courses_details', function (Blueprint $table) {
+                $table->unsignedBigInteger('cdetail_author');
+                $table->foreign('cdetail_author')->references('user_id')->on('users')->onDelete('cascade')->onUpdate('cascade');
+            });
+        }
     }
 };
