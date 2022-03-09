@@ -11,7 +11,7 @@ class LessonDetailDTO implements DTOInterface{
     static function make(array $attributes, array $externarlAttributes = []) : array
     {
         return [
-            'course_id' => $attributes['course_id'] ?? $externarlAttributes['lesson']
+            'course_id' => $attributes['course_id'] ?? $externarlAttributes['course_id']
         ];
     }
     

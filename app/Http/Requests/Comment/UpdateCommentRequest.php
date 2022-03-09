@@ -4,6 +4,7 @@ namespace App\Http\Requests\Comment;
 
 use App\Http\Requests\Core\AuthorizationAdminRequest;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class UpdateCommentRequest extends AuthorizationAdminRequest
 {
@@ -16,7 +17,6 @@ class UpdateCommentRequest extends AuthorizationAdminRequest
     public function rules()
     {
         return [
-            //
         ];
     }
 }

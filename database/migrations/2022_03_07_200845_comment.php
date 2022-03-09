@@ -17,7 +17,7 @@ return new class extends Migration
             $table->id('comment_id');
             $table->integer('comment_rating');
             $table->string('comment_description');
-            $table->boolean('is_enabled');
+            $table->boolean('is_enabled')->default(true);
             $table->timestamps();
         });
     }

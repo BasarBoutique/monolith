@@ -32,7 +32,7 @@ class LessonService{
         $lessonDTO = new LessonDTO;
 
         $lesson = $this->lessonRepository->editLesson($lessonDTO,$attributes);
-    
+
         return $lesson;
     }
 

@@ -28,7 +28,7 @@ class LessonRepository{
 
         $lesson = LessonDetial::create($lessonDTO);
 
-        $lesson->detail()->create($lessonDTO['lesson']);
+        $lesson->detail()->create($lessonDTO['course_id']);
 
         return $lesson;
     }
@@ -38,9 +38,9 @@ class LessonRepository{
         try {
             $lessonDTO = $dto::make($attributes);
 
-            $lesson = LessonDetial::findOrFail($attributes['ld_id'])->update($lessonDTO);
+            $lesson = LessonDetial::findOrFail($attributes['lessonId'])->update($lessonDTO);
             
-            $lesson->detail()->update($lessonDTO['lesson']);
+            // $lesson->detail()->update($lessonDTO['course_id']);
             
             return $lesson;
         } catch (Exception $e) {
@@ -58,7 +58,7 @@ class LessonRepository{
     public function disableLesson(array $attributes)
     {
         try {
-            $lesson = Lesson::findOrFail($attributes['lesson_id'])->update(['is_enabled' => false]);
+            $lesson = Lesson::findOrFail($attributes['lessonId'])->update(['is_enabled' => false]);
             return $lesson;
         } catch (Exception $e) {
             Log::error($e->getMessage(),[

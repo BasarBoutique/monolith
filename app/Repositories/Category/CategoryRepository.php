@@ -49,7 +49,7 @@ class CategoryRepository{
         try{
             $cartegoryDTO = $dto::make($attributes);
 
-            $category = Category::findOrFail($attributes['category_id'])->update($cartegoryDTO);
+            $category = Category::findOrFail($attributes['categoryId'])->update($cartegoryDTO);
             
             return $category;
         }catch(Exception $e){
@@ -68,7 +68,7 @@ class CategoryRepository{
     public function disableCategory(array $attributes)
     {
        try {
-           $category = Category::findOrFail($attributes['category_id'])->update(['is_enabled' => false]);
+           $category = Category::findOrFail($attributes['categoryId'])->update(['is_enabled' => false]);
           
           return $category;
        } catch (Exception $e) {

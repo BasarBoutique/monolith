@@ -3,9 +3,14 @@
 namespace App\Http\Requests\Comment;
 
 use App\Http\Requests\Core\AuthorizationAdminRequest;
+use App\Http\Requests\Core\JsonRequest;
+use App\Models\CourseUser;
+use App\Models\User;
+use App\Rules\Comment\IsSubscribed;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
-class StoreCommentRequest extends AuthorizationAdminRequest
+class StoreCommentRequest extends JsonRequest
 {
 
     /**
@@ -16,7 +21,9 @@ class StoreCommentRequest extends AuthorizationAdminRequest
     public function rules()
     {
         return [
-            //
+            'comment_rating' => ['required','numeric'],
+            'comment_description' => ['required','string'],
+            'cu_id' => ['required','numeric', Rule::exists(CourseUser::class,'cu_id')]
         ];
     }
 }

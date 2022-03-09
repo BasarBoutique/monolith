@@ -45,13 +45,13 @@ class CategoryController extends Controller
 
     public function createCategory(StoreCategoryRequest $request){
         try {
-            $attributes = $request->validated();
+            $validatedRequest = $request->validated();
 
             $service = new CategoryService;
             
-            $service->create($attributes);
+            $category = $service->create($validatedRequest);
             
-            return APIResponse::success([],'Successfully created Category!');
+            return APIResponse::success($category->toArray(),'Successfully created Category!');
         } 
         catch (Exception $e) 
         {
