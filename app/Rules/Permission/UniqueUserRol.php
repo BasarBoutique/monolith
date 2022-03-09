@@ -29,7 +29,9 @@ class UniqueUserRol implements Rule
      */
     public function passes($attribute, $value)
     {
-        return PermissionUser::where('permission_level', $value)->where('user_id', $this->userId)->count() == 0;
+        $permissionUser = PermissionUser::where('permission_level', $value)->where('user_id', $this->userId)->first();
+
+        return is_null($permissionUser);
     }
 
     /**

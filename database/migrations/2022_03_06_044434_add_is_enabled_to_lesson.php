@@ -13,9 +13,11 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::table('lesson', function (Blueprint $table) {
-            $table->boolean('is_enabled')->default(true);
-        });
+        if(!Schema::hasColumn('lesson', 'is_enabled')) {
+            Schema::table('lesson', function (Blueprint $table) {
+                $table->boolean('is_enabled')->default(true);
+            });
+        }
     }
 
     /**
@@ -25,8 +27,5 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::table('lesson', function (Blueprint $table) {
-            $table->dropColumn('is_enabled');
-        });
     }
 };

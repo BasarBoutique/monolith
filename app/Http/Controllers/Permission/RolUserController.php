@@ -21,7 +21,7 @@ class RolUserController extends Controller
             $role = PermissionRoleEnum::tryFrom($permission_level) ?? PermissionRoleEnum::CLIENT;
 
             $repository = new UserRolRepository;
-            $attachRolToUser = $repository->attachRolToUser($role, $request->user());
+            $attachRolToUser = $repository->attachRolToUser($role, $validatedRequest['user']);
 
             return APIResponse::success($attachRolToUser->toArray(), 'Attached Rol to User successfully');
         } catch (Exception $e) {

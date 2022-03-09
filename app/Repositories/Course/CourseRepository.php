@@ -33,11 +33,10 @@ class CourseRepository {
 
     public function changeCourseTeacher(int $courseId, int $teacherId)
     {
-        $courseDetail = CourseDetail::where('course_id', $courseId);
-
-        $courseDetail->update([
-            'cdetail_author' => $teacherId
-        ]);
+        $courseDetail = CourseDetail::findOrFail($courseId);
+        
+        $courseDetail->teacher()->associate($teacherId);
+        $courseDetail->save();
 
         return $courseDetail;
     }
