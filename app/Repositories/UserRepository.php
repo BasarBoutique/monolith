@@ -3,7 +3,6 @@
 namespace App\Repositories;
 
 use App\DTO\Interfaces\DTOInterface;
-use App\Events\UserRegistered;
 use App\Models\User;
 use Exception;
 use Illuminate\Support\Facades\Log;

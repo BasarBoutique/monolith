@@ -2,9 +2,7 @@
 
 namespace App\Models;
 
-use App\DTO\UserDTO;
 use App\Enums\PermissionRoleEnum;
-use GuzzleHttp\Promise\Create;
 use Illuminate\Auth\Notifications\VerifyEmail;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
