@@ -86,6 +86,6 @@ class User extends Authenticatable implements MustVerifyEmail
             "permission_level"=>$rol,
             "user_id"=>$this->user_id
         ]);
-        $this->user_detail()->create();
+        $this->detail()->create();
     }
 }

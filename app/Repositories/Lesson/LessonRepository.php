@@ -15,7 +15,7 @@ class LessonRepository{
         return compact('lesson');
     }
     
-    public function showLesson(int $les)
+    public function showLessonById(int $les)
     {
         $lesson = Lesson::where('is_enabled',true)->findOrFail($les);
 
@@ -40,7 +40,7 @@ class LessonRepository{
 
             $lesson = LessonDetial::findOrFail($attributes['lessonId'])->update($lessonDTO);
             
-            // $lesson->detail()->update($lessonDTO['course_id']);
+            $lesson->detail()->update($lessonDTO['course_id']);
             
             return $lesson;
         } catch (Exception $e) {

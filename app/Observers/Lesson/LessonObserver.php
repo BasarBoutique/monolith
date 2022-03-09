@@ -11,27 +11,27 @@ use Illuminate\Support\Facades\Log;
 
 class LessonObserver
 {
-    public function created(Lesson $lesson){
+    public function created(){
         $LessonLog = LessonLog::create([
             'llog_context' => LessonLogEnum::LESSON_CREATED,
             'llog_author' => optional(request()->user())->user_id ?? 'SYSTEM'
         ]);
 
-        Log::info('New category has been created',[
-            'context' => $LessonLog->catlog_context,
-            'author' => $LessonLog->catlog_author,
+        Log::info('New lesson has been created',[
+            'context' => $LessonLog->llog_context,
+            'author' => $LessonLog->llog_author,
         ]);
     }
 
-    public function updated(Lesson $lesson)
+    public function updated()
     {
         $LessonLog = LessonLog::create([
-            'clog_context' => LessonLogEnum::LESSON_UPDATED,
-            'clog_author' => optional(request()->user())->user_id ?? 'SYSTEM'
+            'llog_context' => LessonLogEnum::LESSON_UPDATED,
+            'llog_author' => optional(request()->user())->user_id ?? 'SYSTEM'
         ]);
 
         Log::info('Comment has been updated', [
-            'context' => $LessonLog->clog_context,
+            'context' => $LessonLog->llog_context,
         ]);
     }
 }
