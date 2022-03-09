@@ -68,9 +68,14 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->belongsTo(PermissionUser::class,'user_id');
     }
 
-    public function courses()
+    public function purcharsedCourses()
     {
         return $this->belongsTo(CourseUser::class,'user_id');
+    }
+
+    public function teachableCourses()
+    {
+        return $this->hasMany(CourseDetail::class, 'cdetail_author', 'user_id');
     }
 
     public function sendEmailVerificationNotification()

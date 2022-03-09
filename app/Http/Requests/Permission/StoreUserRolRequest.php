@@ -11,6 +11,14 @@ use Illuminate\Validation\Rule;
 class StoreUserRolRequest extends AuthorizationAdminRequest
 {
 
+
+    protected function prepareForValidation()
+    {
+        $this->merge([
+            'user' => User::find($this->user_id)
+        ]);
+    }
+
     /**
      * Get the validation rules that apply to the request.
      *
@@ -19,8 +27,8 @@ class StoreUserRolRequest extends AuthorizationAdminRequest
     public function rules()
     {
         return [
-            'user_id' => ['numeric', Rule::exists(User::class, 'user_id')],
-            'permission_level' => ['numeric', new UniqueUserRol(request()->get('user_id'))]
+            'user' => ['required'],
+            'permission_level' => ['numeric', new UniqueUserRol($this->request->get('user_id'))]
         ];
     }
 }

@@ -27,7 +27,7 @@ class IsTeacher implements Rule
      */
     public function passes($attribute, $value)
     {
-        return PermissionUser::where('permission_level', PermissionRoleEnum::TEACHER)->where('user_id', $value);
+        return PermissionUser::where('permission_level', PermissionRoleEnum::TEACHER)->where('user_id', $value)->exists();
     }
 
     /**

@@ -10,6 +10,7 @@ class CourseDetail extends Model
     use HasFactory;
 
     protected $table = "courses_details";
+    protected $primaryKey = "course_id";
 
     protected $fillable = [
         'cdetail_author',
@@ -22,7 +23,7 @@ class CourseDetail extends Model
 
     public function teacher()
     {
-        return $this->hasOne(User::class, 'user_id', 'cdetail_author');
+        return $this->belongsTo(User::class, 'cdetail_author', 'user_id');
     }
 
     public function course()
