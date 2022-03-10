@@ -5,7 +5,10 @@ namespace App\Observers\Course;
 use App\Enums\CourseLogEnum;
 use App\Models\CourseDetail;
 use App\Models\CourseLog;
+use App\Models\User;
+use App\Notifications\Course\CourseAssignedToTeacher;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Notification;
 
 class CourseDetailObserver
 {
@@ -25,6 +28,9 @@ class CourseDetailObserver
 
     private function whenTeacherChanged(CourseDetail $courseDetail)
     {
+        $user = $courseDetail->teacher;
+        $user->notify(new CourseAssignedToTeacher($courseDetail));
+
         $courseLog = CourseLog::create([
             'clog_context' => CourseLogEnum::TEACHER_COURSE_CHANGED,
             'clog_author' => optional(request()->user())->user_id ?? 'SYSTEM'

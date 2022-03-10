@@ -2,12 +2,14 @@
 
 namespace App\Models;
 
+use App\Notifications\Course\CourseAssignedToTeacher;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Notifications\Notifiable;
 
 class CourseDetail extends Model
 {
-    use HasFactory;
+    use HasFactory, Notifiable;
 
     protected $table = "courses_details";
     protected $primaryKey = "course_id";
