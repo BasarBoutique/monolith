@@ -3,15 +3,19 @@
 namespace App\Providers;
 
 use App\Models\Category;
+use App\Models\Comment;
 use App\Models\CourseDetail;
 use App\Models\Courses;
+use App\Models\Lesson;
 use App\Models\LessonDetial;
 use App\Models\PermissionHierarchy;
 use App\Models\PermissionUser;
 use App\Models\User;
 use App\Observers\Category\CategoryObserver;
+use App\Observers\Comment\CommentObserver;
 use App\Observers\Course\CourseDetailObserver;
 use App\Observers\Course\CourseObserver;
+use App\Observers\Lesson\LessonDetailObserver;
 use App\Observers\Lesson\LessonObserver;
 use App\Observers\Permission\RolObserver;
 use App\Observers\Permission\UserRolObserver;
@@ -55,5 +59,7 @@ class AppServiceProvider extends ServiceProvider
         Courses::observe(CourseObserver::class);
         CourseDetail::observe(CourseDetailObserver::class);      
         LessonDetial::observe(LessonObserver::class);
+        Comment::observe(CommentObserver::class);
+        Lesson::observe(LessonDetailObserver::class);
     }
 }
