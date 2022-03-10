@@ -39,4 +39,10 @@ class CategoryService{
         
         return $category;
     }
+
+    public function showCategoryById(array $attributes){
+        $category = $this->categoryRepository->showCategoryById($attributes);
+
+        return $category;
+    }
 }

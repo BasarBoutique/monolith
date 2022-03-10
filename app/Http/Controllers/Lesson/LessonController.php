@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Lesson;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Lesson\ChangeCourseRequest;
 use App\Http\Requests\Lesson\DisableLeassonRequest;
 use App\Http\Requests\Lesson\StoreLessonRequest;
 use App\Http\Requests\Lesson\UpdateLessonRequest;
@@ -68,13 +69,27 @@ class LessonController extends Controller
 
     public function removeLesson(DisableLeassonRequest $request){
         try {
-            $attributes = $request->validated();
+            $validatedRequest = $request->validated();
 
             $service = new LessonService;
 
-            $lesson = $service->remove($attributes);
+            $service->remove($validatedRequest);
 
             return APIResponse::success([],'Successfully removed Lesson!');
+        } catch (Exception $e) {
+            return APIResponse::fail($e->getMessage(),500);
+        }
+    }
+
+    public function changeLessonCourse(ChangeCourseRequest $request){
+        try {
+            $validatedRequest = $request->validated();
+
+            $service = new LessonService;
+
+            $service->changeLessonCourse($validatedRequest);
+
+            return APIResponse::success([], 'Course changed successfully');
         } catch (Exception $e) {
             return APIResponse::fail($e->getMessage(),500);
         }

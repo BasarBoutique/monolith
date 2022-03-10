@@ -16,10 +16,21 @@ class CategoryRepository{
         return compact('category');
     }
 
-    public function showCategory(int $cate)
+    public function showCategoryById(array $attributes)
     {
-        $category = Category::findOrFail($cate);
-        return compact('category');
+        try {
+            $category = Category::findOrFail($attributes['categoryId']);
+            return $category;
+        } catch (Exception $e) {
+            Log::error($e->getMessage(),[
+                'LEVEL' => 'Repository',
+                'TRACE' => $e->getTraceAsString()
+            ]);
+
+            throw $e;
+            
+            return false;
+        }
     }
 
     public function createCategory(DTOInterface $dto, array $attributes)
