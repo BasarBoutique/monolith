@@ -42,4 +42,10 @@ class LessonService{
 
         return $lesson;
     }
+
+    public function changeLessonCourse(array $attributes){
+        $lesson = $this->lessonRepository->changeLessonCourse($attributes);
+
+        return $lesson;
+    }
 }

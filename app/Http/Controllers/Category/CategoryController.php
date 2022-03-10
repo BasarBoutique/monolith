@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Category;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Category\DisableCategoryRequest;
+use App\Http\Requests\Category\FilterCategotyByIdRequest;
 use App\Http\Requests\Category\StoreCategoryRequest;
 use App\Http\Requests\Category\UpdateCategoryRequest;
 use App\Http\Response\APIResponse;
@@ -29,12 +30,14 @@ class CategoryController extends Controller
         }
     }
 
-    public function showCategory($cate)
+    public function showCategoryById(FilterCategotyByIdRequest $request)
     {
         try {
-            $resource = new CategoryRepository;
+            $validatedRequest = $request->validated();
 
-            $category = $resource->showCategory($cate);
+            $resource = new CategoryService;
+
+            $category = $resource->showCategoryById($validatedRequest);
 
             return APIResponse::make(true, $category);
 

@@ -39,9 +39,7 @@ class LessonRepository{
             $lessonDTO = $dto::make($attributes);
 
             $lesson = LessonDetial::findOrFail($attributes['lessonId'])->update($lessonDTO);
-            
-            $lesson->detail()->update($lessonDTO['course_id']);
-            
+                        
             return $lesson;
         } catch (Exception $e) {
             Log::error($e->getMessage(),[
@@ -68,6 +66,22 @@ class LessonRepository{
 
             throw $e;
             
+            return false;
+        }
+    }
+
+    public function changeLessonCourse(array $attributes){
+
+        try {
+            $lessonDetail = Lesson::findOrFail($attributes['lessonId'])->update(['course_id' => $attributes['course_id']]);
+            return $lessonDetail;
+        } catch (Exception $e) {
+            Log::error($e->getMessage(),[
+                'LEVEL' => 'Repository',
+                'TRACE' =>$e->getTraceAsString()
+            ]);
+            throw $e;
+
             return false;
         }
     }
