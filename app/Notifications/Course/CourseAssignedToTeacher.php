@@ -2,12 +2,13 @@
 
 namespace App\Notifications\Course;
 
+use App\Models\CourseDetail;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
-class AssignedToTeacher extends Notification
+class CourseAssignedToTeacher extends Notification implements ShouldQueue
 {
     use Queueable;
 
@@ -16,9 +17,10 @@ class AssignedToTeacher extends Notification
      *
      * @return void
      */
-    public function __construct()
+    public function __construct(CourseDetail $courseDetail)
     {
-        //
+        $this->courseDetail = $courseDetail;
+        $this->afterCommit();
     }
 
     /**
@@ -32,6 +34,11 @@ class AssignedToTeacher extends Notification
         return ['mail'];
     }
 
+    public function shouldSend($notifiable, $channel)
+    {
+        return true;
+    }
+
     /**
      * Get the mail representation of the notification.
      *
@@ -41,7 +48,7 @@ class AssignedToTeacher extends Notification
     public function toMail($notifiable)
     {
         return (new MailMessage)
-                    ->line('The introduction to the notification.')
+                    ->line('Course assigned to teacher')
                     ->action('Notification Action', url('/'))
                     ->line('Thank you for using our application!');
     }
