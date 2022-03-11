@@ -15,4 +15,5 @@ class UserDetailDTO implements DTOInterface {
             'udetail_movil'=> $attributes['movil'] ?? ''
         ];
     }
+    
 }

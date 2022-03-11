@@ -12,4 +12,14 @@ class CourseUser extends Model
     protected $table = "courses_users";
 
     protected $primaryKey = "cu_id";
+
+    public function course()
+    {
+        return $this->belongsTo(Courses::class);
+    }
+
+    public function student()
+    {
+        return $this->belongsTo(User::class);
+    }
 }

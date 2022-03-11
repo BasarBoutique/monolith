@@ -19,7 +19,12 @@ class Permission extends Model
 
     public function detail()
     {
-        return $this->hasOne(PermissionDetail::class, 'pd_id');
+        return $this->belongsTo(PermissionDetail::class, 'pd_id');
+    }
+
+    public function rol()
+    {
+        return $this->belongsTo(PermissionHierarchy::class, 'permission_level');
     }
 
 }

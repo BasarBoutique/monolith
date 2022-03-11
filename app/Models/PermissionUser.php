@@ -14,6 +14,11 @@ class PermissionUser extends Model
 
     protected $primaryKey = "puser_id";
 
+    protected $fillable = [
+        'permission_level',
+        'user_id'
+    ];
+
     protected static function booted()
     {
         static::addGlobalScope(new IsEnabledScope);

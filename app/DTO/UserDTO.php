@@ -12,7 +12,8 @@ class UserDTO implements DTOInterface {
             'name' => $attributes['name'],
             'email' => $attributes['email'],
             'password' => bcrypt($attributes['password']),
-            'details' => UserDetailDTO::make($attributes['details'], $attributes)
+            'details' => UserDetailDTO::make($attributes['details'] ?? [], $attributes)
         ];
     }
+    
 }

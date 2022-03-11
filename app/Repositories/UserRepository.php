@@ -3,7 +3,6 @@
 namespace App\Repositories;
 
 use App\DTO\Interfaces\DTOInterface;
-use App\Events\UserRegistered;
 use App\Models\User;
 use Exception;
 use Illuminate\Support\Facades\Log;
@@ -17,11 +16,9 @@ class UserRepository
 
             $user = User::create($userDTO);
 
-            $user->user_detail()->create($userDTO['details']);
+            $user->detail()->create($userDTO['details']);
 
-            event(new UserRegistered($user));
-
-            return true;
+            return $user;
         } catch (Exception $e) {
 
             Log::error($e->getMessage(), [
@@ -29,9 +26,9 @@ class UserRepository
                 'TRACE' => $e->getTraceAsString()
             ]);
 
-            throw $e;
-
-            return false;
+           return null;
         }
     }
+
+
 }

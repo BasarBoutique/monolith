@@ -29,4 +29,16 @@ class StoreUserRequest extends JsonRequest
             'password'=>'required|string'
         ];
     }
+
+    public function messages()
+    {
+        return [
+            'name.required' => "What's your name?",
+            
+            'email.required' => 'Enter an email address.',
+            'email.unique' => 'This email address has already been taken.',
+            
+            'password.required' => 'Enter a password.',
+        ];
+    }
 }

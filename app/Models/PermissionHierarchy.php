@@ -27,7 +27,11 @@ class PermissionHierarchy extends Model
 
     public function permissions()
     {
-        return $this->hasMany(Permission::class, 'permission_level');
+        return $this->belongsToMany(
+            PermissionDetail::class,
+            Permission::class,
+        'permission_level',
+        'pd_id');
     }
 
 }
