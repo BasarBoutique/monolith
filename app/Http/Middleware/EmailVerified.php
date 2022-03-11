@@ -20,7 +20,7 @@ class EmailVerified
         $user = $request->user();
 
         if(!$user->hasVerifiedEmail()) {
-            return APIResponse::fail('Verify email address please.', [], 403);
+            return APIResponse::fail('Verify email address please.', 403);
         }
 
         return $next($request);
