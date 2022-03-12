@@ -23,14 +23,18 @@ Homestead.json
 .phpunit.result.cache
 
 .rnd
-
-# Default ignored files
-/shelf/
-/workspace.xml
-# Editor-based HTTP Client requests
-/httpRequests/
-# Datasource local storage ignored files
-/dataSources/
-/dataSources.local.xml
-
-/.idea
+.idea/dataSources.local.xml
+.idea/dataSources.xml
+.idea/modules.xml
+.idea/monolith.iml
+.idea/php.xml
+.idea/phpunit.xml
+.idea/vcs.xml
+.idea/workspace.xml
+.idea/dataSources/b889da0a-b7f6-40d3-a55b-9a79c5d42f1b.xml
+.idea/dataSources/b889da0a-b7f6-40d3-a55b-9a79c5d42f1b/storage_v2/_src_/schema/information_schema.FNRwLQ.meta
+.idea/dataSources/b889da0a-b7f6-40d3-a55b-9a79c5d42f1b/storage_v2/_src_/schema/mysql.osA4Bg.meta
+.idea/dataSources/b889da0a-b7f6-40d3-a55b-9a79c5d42f1b/storage_v2/_src_/schema/performance_schema.kIw0nw.meta
+.idea/dataSources/b889da0a-b7f6-40d3-a55b-9a79c5d42f1b/storage_v2/_src_/schema/sys.zb4BAA.meta
+.idea/shelf/Uncommitted_changes_before_Update_at_4_03_2022_23_53__Changes_.xml
+.idea/shelf/Uncommitted_changes_before_Update_at_4_03_2022_23_53_[Changes]/shelved.patch
