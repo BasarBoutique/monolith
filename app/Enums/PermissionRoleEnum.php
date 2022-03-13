@@ -2,7 +2,7 @@
 
 namespace App\Enums;
 
-enum PermissionRoleEnum:int {
+enum PermissionRoleEnum : int {
     case CLIENT = 1;
     case EMPLOYEE = 2;
     case TEACHER = 3;
