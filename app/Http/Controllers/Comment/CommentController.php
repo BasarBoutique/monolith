@@ -13,19 +13,21 @@ use Illuminate\Http\Request;
 
 class CommentController extends Controller
 {
-    public function Comment(){
+    public function showComments(Request $request){
         try {
-            $resource = new CommentRepository;
-    
-            $comment = $resource->Comment();
+
+            $request->validate([
+                'courseId' => 'required|boolean'
+            ]);
+
+            $resource = new CommentService;
+
+            $comment = $resource->showComments($request->get('courseId'));
 
             return APIResponse::make(true,$comment);
         } catch (Exception $e) {
             return APIResponse::fail($e->getMessage(),500);
         }
-    }
-
-    public function showComment(){
     }
 
     public function createComment(StoreCommentRequest $request){
@@ -55,6 +57,6 @@ class CommentController extends Controller
             return APIResponse::fail($e->getMessage(),500);
         }
     }
-    
+
 
 }
