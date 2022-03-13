@@ -1,5 +1,5 @@
 <?php
-    
+
 namespace App\Repositories\Comment;
 
 use App\DTO\Interfaces\DTOInterface;
@@ -9,15 +9,15 @@ use Exception;
 use Illuminate\Support\Facades\Log;
 
 class CommentRepository{
-    
+
     public function Comment(){
         $comment = Comment::all()->where('is_enabled',true);
         return compact('comment');
     }
 
-    public function showComment()
+    public function showAllComments(int $courseId)
     {
-        //set model name in here, this is necessary!
+       return Comment::ofCourse($courseId)->get();
     }
 
     public function createComment(DTOInterface $dto, array $attributes)
@@ -38,7 +38,7 @@ class CommentRepository{
                 ]);
 
                 throw $e;
-                
+
                 return false;
         }
     }
@@ -47,7 +47,7 @@ class CommentRepository{
     {
         //set model name in here, this is necessary!
     }
-        
+
     public function disableComment(array $attributes)
     {
         try {
@@ -60,7 +60,7 @@ class CommentRepository{
             ]);
 
             throw $e;
-            
+
             return false;
         }
     }

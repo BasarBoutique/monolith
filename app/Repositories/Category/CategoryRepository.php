@@ -1,5 +1,5 @@
 <?php
-    
+
 namespace App\Repositories\Category;
 
 use App\DTO\Interfaces\DTOInterface;
@@ -9,11 +9,15 @@ use Exception;
 use Illuminate\Support\Facades\Log;
 
 class CategoryRepository{
-    
-    public function Category()
+
+    public function showAllCategories()
     {
-        $category = Category::all()->where('is_enabled',true);
-        return compact('category');
+        return Category::all();
+    }
+
+    public function showAllWithCategoriesDisabled()
+    {
+        return Category::withDisabledCategories();
     }
 
     public function showCategoryById(array $attributes)
@@ -28,8 +32,6 @@ class CategoryRepository{
             ]);
 
             throw $e;
-            
-            return false;
         }
     }
 
@@ -48,18 +50,18 @@ class CategoryRepository{
             ]);
 
             throw $e;
-            
-            return false;
         }
     }
 
     public function editCategory(DTOInterface $dto,array $attributes)
     {
         try{
-            $cartegoryDTO = $dto::make($attributes);
+            $categoryDTO = $dto::make($attributes);
 
-            $category = Category::findOrFail($attributes['categoryId'])->update($cartegoryDTO);
-            
+            $category = Category::withDisabledCategories()->findOrFail($attributes['categoryId']);
+
+            $category->update($categoryDTO);
+
             return $category;
         }catch(Exception $e){
             Log::error($e->getMessage(),[
@@ -68,18 +70,18 @@ class CategoryRepository{
             ]);
 
             throw $e;
-            
-            return false;
         }
-        
+
     }
-        
+
     public function disableCategory(array $attributes)
     {
        try {
-           $category = Category::findOrFail($attributes['categoryId'])->update(['is_enabled' => false]);
-          
-          return $category;
+            $category = Category::withDisabledCategories()->findOrFail($attributes['categoryId']);
+
+            $category->update(['is_enabled' => !$category->is_enabled]);
+
+            return $category;
        } catch (Exception $e) {
             Log::error($e->getMessage(),[
                 'LEVEL' => 'Repository',
@@ -87,8 +89,6 @@ class CategoryRepository{
             ]);
 
             throw $e;
-            
-            return false;
        }
     }
 

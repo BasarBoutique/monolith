@@ -7,6 +7,7 @@ use App\Http\Requests\Category\DisableCategoryRequest;
 use App\Http\Requests\Category\FilterCategotyByIdRequest;
 use App\Http\Requests\Category\StoreCategoryRequest;
 use App\Http\Requests\Category\UpdateCategoryRequest;
+use App\Http\Resources\Category\CategoryResource;
 use App\Http\Response\APIResponse;
 use App\Repositories\Category\CategoryRepository;
 use App\Services\Category\CategoryService;
@@ -16,14 +17,23 @@ use Illuminate\Http\Request;
 class CategoryController extends Controller
 {
 
-    public function Category()
+    public function showCategories(Request $request)
     {
         try {
-            $resource = new CategoryRepository;
 
-            $category = $resource->Category();
+            $request->validate([
+                'withDisabled' => 'required|boolean'
+            ]);
 
-            return APIResponse::make(true, $category);
+            $withDisabled = $request->get('withDisabled');
+
+            $service = new CategoryService;
+
+            $categories = $service->showCategories($withDisabled);
+
+            $resource = CategoryResource::collection($categories);
+
+            return APIResponse::success($resource, 'Retrieve successfully categories');
 
         } catch (Exception $e) {
             return APIResponse::fail($e->getMessage(),500);
@@ -51,12 +61,12 @@ class CategoryController extends Controller
             $validatedRequest = $request->validated();
 
             $service = new CategoryService;
-            
+
             $category = $service->create($validatedRequest);
-            
+
             return APIResponse::success($category->toArray(),'Successfully created Category!');
-        } 
-        catch (Exception $e) 
+        }
+        catch (Exception $e)
         {
             return APIResponse::fail($e->getMessage(),500);
         }
@@ -68,24 +78,30 @@ class CategoryController extends Controller
 
             $service = new CategoryService;
 
-            $service->update($validatedRequest);
+            $category = $service->update($validatedRequest);
 
-            return APIResponse::success([],'Successfully updated Category!');
-        } catch (Exception $e) 
+            $resource = new CategoryResource($category);
+
+            return APIResponse::success($resource,'Successfully updated Category!');
+        } catch (Exception $e)
         {
             return APIResponse::fail($e->getMessage(),500);
         }
     }
-    public function deleteCategory(DisableCategoryRequest $request){
+    public function disableCategory(DisableCategoryRequest $request){
         try {
             $validatedRequest = $request->validated();
 
             $service = new CategoryService;
 
-            $service->remove($validatedRequest);
-            
-            return APIResponse::success([],'Successfully removed Category!');
+            $category = $service->remove($validatedRequest);
+
+            $resource = new CategoryResource($category);
+
+            return APIResponse::success($resource,'Successfully removed Category!');
+
         } catch (Exception $e) {
+
             return APIResponse::fail($e->getMessage(),500);
         }
     }

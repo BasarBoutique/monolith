@@ -17,7 +17,7 @@ class APIResponse
     }
 
 
-    static function success(array|null $data = null, string $message = null, int $http_code = 200): JsonResponse
+    static function success(mixed $data = null, string $message = null, int $http_code = 200): JsonResponse
     {
         return self::make(true, $data, $message, $http_code);
     }
