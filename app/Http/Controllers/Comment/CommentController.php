@@ -5,26 +5,29 @@ namespace App\Http\Controllers\Comment;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Comment\DisableCommentRequest;
 use App\Http\Requests\Comment\StoreCommentRequest;
+use App\Http\Resources\Comment\CommentResource;
 use App\Http\Response\APIResponse;
-use App\Repositories\Comment\CommentRepository;
 use App\Services\Comment\CommentService;
 use Exception;
 use Illuminate\Http\Request;
 
 class CommentController extends Controller
 {
-    public function showComments(Request $request){
+    public function showCommentsOfCourse(Request $request){
         try {
 
             $request->validate([
                 'courseId' => 'required|boolean'
             ]);
 
-            $resource = new CommentService;
+            $service = new CommentService;
 
-            $comment = $resource->showComments($request->get('courseId'));
+            $comments = $service->showCommentsOfCourse($request->get('courseId'));
 
-            return APIResponse::make(true,$comment);
+            $resource = CommentResource::collection($comments);
+
+            return APIResponse::success($resource);
+
         } catch (Exception $e) {
             return APIResponse::fail($e->getMessage(),500);
         }
@@ -36,9 +39,11 @@ class CommentController extends Controller
 
             $service = new CommentService;
 
-            $service->create($validatedRequest);
+            $comment = $service->create($validatedRequest);
 
-            return APIResponse::success([],'Thank you for your rating, it is greatly appreciated!');
+            $resource = new CommentResource($comment);
+
+            return APIResponse::success($resource,'Thank you for your rating, it is greatly appreciated!');
         } catch (Exception $e) {
             return APIResponse::fail($e->getMessage(),500);
         }

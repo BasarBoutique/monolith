@@ -9,10 +9,9 @@ class CommentDTO implements DTOInterface{
     static function make(array $attributes) : array
     {
         return [
-            'comment_rating' => $attributes['comment_rating'],
-            'comment_description' => $attributes['comment_description'],
-            'cu_id' => CommentUserDTO::make([],$attributes)
+            'comment_rating' => $attributes['rating'],
+            'comment_description' => $attributes['description']
         ];
     }
-    
+
 }

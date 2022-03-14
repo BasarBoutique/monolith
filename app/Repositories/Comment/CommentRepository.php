@@ -10,12 +10,7 @@ use Illuminate\Support\Facades\Log;
 
 class CommentRepository{
 
-    public function Comment(){
-        $comment = Comment::all()->where('is_enabled',true);
-        return compact('comment');
-    }
-
-    public function showAllComments(int $courseId)
+    public function showCommentsOfCourse(int $courseId)
     {
        return Comment::ofCourse($courseId)->get();
     }
@@ -25,9 +20,9 @@ class CommentRepository{
         try {
             $commentDTO = $dto::make($attributes);
 
-            $comment = Comment::create($commentDTO);
+            $comment = Comment::create($commentDTO['comment']);
 
-            $comment->curso_user()->create($commentDTO['cu_id']);
+            $comment->courseComment()->create($commentDTO['cu_id']);
 
 
             return $comment;
@@ -43,15 +38,13 @@ class CommentRepository{
         }
     }
 
-    public function editComment()
-    {
-        //set model name in here, this is necessary!
-    }
-
     public function disableComment(array $attributes)
     {
         try {
-            $lesson = Comment::findOrFail($attributes['commentId'])->update(['is_enabled' => false]);
+            $lesson = Comment::findOrFail($attributes['commentId']);
+
+            $lesson->update(['is_enabled' => !$lesson->is_enabled]);
+
             return $lesson;
         } catch (Exception $e) {
             Log::error($e->getMessage(),[
