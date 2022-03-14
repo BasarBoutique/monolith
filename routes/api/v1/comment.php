@@ -3,7 +3,7 @@
 use App\Http\Controllers\Comment\CommentController;
 use Illuminate\Support\Facades\Route;
 
-Route::get('comment', [CommentController::class, 'Comment']);
+Route::get('course-comments', [CommentController::class, 'showCommentsOfCourse']);
 
 Route::middleware(['auth:api'])->group(function () {
     Route::post('create-comment', [CommentController::class, 'createComment']);
