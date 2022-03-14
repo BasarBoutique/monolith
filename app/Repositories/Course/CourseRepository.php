@@ -8,6 +8,16 @@ use App\Models\Courses;
 
 class CourseRepository {
 
+    public function showAllCourses()
+    {
+        return Courses::all();
+    }
+
+    public function showAllWithCoursesDisabled()
+    {
+        return Courses::withDisabledCategories()->get();;
+    }
+
     public function createCourse(DTOInterface $dto, array $attributes)
     {
         $courseDTO = $dto::make($attributes);

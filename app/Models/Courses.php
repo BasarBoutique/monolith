@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Scopes\IsEnabledScope;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -33,5 +34,14 @@ class Courses extends Model
         );
     }
 
+    protected static function booted()
+    {
+        static::addGlobalScope(new IsEnabledScope);
+    }
+
+    public function scopeWithDisabledCategories($query)
+    {
+        return $query->withoutGlobalScope(IsEnabledScope::class);
+    }
 
 }

@@ -6,6 +6,20 @@ use App\DTO\Course\CourseDTO;
 use App\Repositories\Course\CourseRepository;
 
 class CourseService{
+    private $courseRepository;
+
+    public function __construct()
+    {
+        $this->courseRepository = new CourseRepository;
+    }
+
+    public function showCourse(bool $withDisabled = false){
+        $courses = $withDisabled
+            ? $this->courseRepository->showAllWithCoursesDisabled()
+            : $this->courseRepository->showAllCourses();
+
+        return $courses;
+    }
 
     public function createCourse(array $attributes)
     {
