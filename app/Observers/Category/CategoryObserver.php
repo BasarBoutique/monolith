@@ -17,7 +17,7 @@ class CategoryObserver
 
     public function whenRemoveCategory(Category $category){
         $categoryLog = CategoryLog::create([
-            'catlog_context' => CategoryLogEnum::CATEGORY_CREATED,
+            'catlog_context' => CategoryLogEnum::CATEGORY_REMOVED,
             'catlog_author' => optional(request()->user())->user_id ?? 'SYSTEM'
         ]);
 

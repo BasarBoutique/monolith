@@ -1,5 +1,5 @@
 <?php
-    
+
 namespace App\Repositories\Comment;
 
 use App\DTO\Interfaces\DTOInterface;
@@ -9,15 +9,10 @@ use Exception;
 use Illuminate\Support\Facades\Log;
 
 class CommentRepository{
-    
-    public function Comment(){
-        $comment = Comment::all()->where('is_enabled',true);
-        return compact('comment');
-    }
 
-    public function showComment()
+    public function showCommentsOfCourse(int $courseId)
     {
-        //set model name in here, this is necessary!
+       return Comment::ofCourse($courseId)->get();
     }
 
     public function createComment(DTOInterface $dto, array $attributes)
@@ -25,9 +20,9 @@ class CommentRepository{
         try {
             $commentDTO = $dto::make($attributes);
 
-            $comment = Comment::create($commentDTO);
+            $comment = Comment::create($commentDTO['comment']);
 
-            $comment->curso_user()->create($commentDTO['cu_id']);
+            $comment->courseComment()->create($commentDTO['cu_id']);
 
 
             return $comment;
@@ -38,20 +33,18 @@ class CommentRepository{
                 ]);
 
                 throw $e;
-                
+
                 return false;
         }
     }
 
-    public function editComment()
-    {
-        //set model name in here, this is necessary!
-    }
-        
     public function disableComment(array $attributes)
     {
         try {
-            $lesson = Comment::findOrFail($attributes['commentId'])->update(['is_enabled' => false]);
+            $lesson = Comment::findOrFail($attributes['commentId']);
+
+            $lesson->update(['is_enabled' => !$lesson->is_enabled]);
+
             return $lesson;
         } catch (Exception $e) {
             Log::error($e->getMessage(),[
@@ -60,7 +53,7 @@ class CommentRepository{
             ]);
 
             throw $e;
-            
+
             return false;
         }
     }

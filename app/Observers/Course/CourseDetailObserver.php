@@ -13,6 +13,8 @@ use Illuminate\Support\Facades\Notification;
 class CourseDetailObserver
 {
 
+    public $afterCommit = true;
+
     /**
      * Handle the CourseDetail "updated" event.
      *

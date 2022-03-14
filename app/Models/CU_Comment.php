@@ -9,11 +9,11 @@ class CU_Comment extends Model
 {
     use HasFactory;
 
-    
-    
+
+
     const CREATED_AT = 'registered_at';
     const UPDATED_AT = null;
-    
+
     protected $primaryKey = "cuc_id";
     protected $table = "cu_comment";
 
@@ -21,6 +21,24 @@ class CU_Comment extends Model
         'comment_id',
         'cu_id'
     ];
-    
+
     protected $dates = ['registered_at'];
+
+
+    public function courseUser()
+    {
+        return $this->belongsTo(
+            CourseUser::class,
+            'cu_id',
+            'cu_id'
+        );
+    }
+
+    public function comments()
+    {
+        return $this->belongsTo(
+            Comment::class,
+            'comment_id'
+        );
+    }
 }

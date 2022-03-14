@@ -14,6 +14,14 @@ class CategoryResource extends JsonResource
      */
     public function toArray($request)
     {
-        return parent::toArray($request);
+        /** @var App/Models/Category $category */
+        $category = $this;
+
+        return [
+            'id' => $category->category_id,
+            'category' => $category->category_title,
+            'photo' => $category->category_ico,
+            'enabled' => boolval($category->is_enabled)
+        ];
     }
 }

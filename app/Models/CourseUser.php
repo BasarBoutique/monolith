@@ -22,4 +22,14 @@ class CourseUser extends Model
     {
         return $this->belongsTo(User::class);
     }
+
+    public function courseComments()
+    {
+        return $this->belongsToMany(
+            CU_Comment::class,
+            Comment::class,
+            'cu_id',
+            'comment_id'
+        );
+    }
 }
