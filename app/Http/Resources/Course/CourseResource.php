@@ -14,6 +14,14 @@ class CourseResource extends JsonResource
      */
     public function toArray($request)
     {
-        return parent::toArray($request);
+        $course = $this;
+
+        return [
+            'id' => $course->course_id,
+            'title' => $course->course_title,
+            'photo' => $course->course_photo,
+            'detail' => $course->detail->cdetail_description,
+            'enabled' => boolval($course->is_enabled)
+        ];
     }
 }

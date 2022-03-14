@@ -49,7 +49,9 @@ class CategoryController extends Controller
 
             $category = $resource->showCategoryById($validatedRequest);
 
-            return APIResponse::make(true, $category);
+            $resource = CategoryResource::collection($category);
+
+            return APIResponse::success( $resource, 'Retrieve successfully category');
 
         } catch (Exception $e) {
             return APIResponse::fail($e->getMessage(),500);

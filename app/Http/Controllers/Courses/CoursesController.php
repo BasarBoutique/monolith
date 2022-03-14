@@ -4,15 +4,55 @@ namespace App\Http\Controllers\Courses;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Course\ChangeTeacherRequest;
+use App\Http\Requests\Course\FilterCourseByIdRequest;
 use App\Http\Requests\Course\StoreCourseRequest;
 use App\Http\Requests\Course\UpdateCourseRequest;
+use App\Http\Resources\Course\CourseResource;
 use App\Http\Response\APIResponse;
 use App\Services\Course\CourseService;
 use Exception;
-use Illuminate\Support\Facades\Request;
+use Illuminate\Http\Request;
 
 class CoursesController extends Controller
 {
+    public function showCourse(Request $request){
+        try {
+
+            $request->validate([
+                'withDisabled' => 'required|boolean'
+            ]);
+
+            $withDisabled = $request->get('withDisabled');
+
+            $service = new CourseService;
+
+            $courses = $service->showCourse($withDisabled);
+
+            $resource = CourseResource::collection($courses);
+
+            return APIResponse::success( $resource, 'Retrieve successfully courses');
+
+        } catch (Exception $e) {
+            return APIResponse::fail($e->getMessage(),500);
+        }
+    }
+
+    public function showCourseById(FilterCourseByIdRequest $request)
+    {
+        try {
+            $validatedRequest = $request->validated();
+
+            $service = new CourseService;
+
+            $course = $service->showCourseById($validatedRequest);
+
+            $resource = CourseResource::collection($course);
+            
+            return APIResponse::success($resource,'Retrieve successfully course');
+        } catch (Exception $e) {
+            return APIResponse::fail($e->getMessage(),500);
+        }
+    }
     public function createCourse(StoreCourseRequest $request)
     {
         try {
