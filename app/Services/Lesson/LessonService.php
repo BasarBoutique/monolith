@@ -15,6 +15,20 @@ class LessonService{
     {
         $this->lessonRepository = new LessonRepository;
     }
+    
+    public function showLesson(bool $withDisabled = false){
+        $lesson = $withDisabled
+            ? $this->lessonRepository->showAllWithLessonDisabled()
+            : $this->lessonRepository->showAllLesson();
+
+        return $lesson;
+    }
+
+    public function showLessonById(array $attributes){
+        $lesson = $this->lessonRepository->showLessonById($attributes);
+
+        return $lesson;
+    }
 
     public function create(array $attributes)
     {

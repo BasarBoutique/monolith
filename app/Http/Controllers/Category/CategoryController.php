@@ -33,7 +33,7 @@ class CategoryController extends Controller
 
             $resource = CategoryResource::collection($categories);
 
-            return APIResponse::success($resource, 'Retrieve successfully categories');
+            return APIResponse::success( $resource, 'Retrieve successfully categories');
 
         } catch (Exception $e) {
             return APIResponse::fail($e->getMessage(),500);

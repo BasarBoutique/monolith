@@ -10,7 +10,7 @@ class CommentLog extends Model
 {
     use HasFactory, HasUuid;
 
-    const CREATED_AT = 'regitered_at';
+    const CREATED_AT = 'registered_at';
     const UPDATED_AT = null;
     
     protected $primaryKey = "clog_uuid";
@@ -18,7 +18,7 @@ class CommentLog extends Model
 
     protected $table = 'comment_log';
 
-    protected $filable = [
+    protected $fillable = [
         'clog_context',
         'clog_author'
     ];

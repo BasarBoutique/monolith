@@ -5,8 +5,10 @@ namespace App\Http\Controllers\Lesson;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Lesson\ChangeCourseRequest;
 use App\Http\Requests\Lesson\DisableLeassonRequest;
+use App\Http\Requests\Lesson\FilterLessonByIdRequest;
 use App\Http\Requests\Lesson\StoreLessonRequest;
 use App\Http\Requests\Lesson\UpdateLessonRequest;
+use App\Http\Resources\Lesson\LessonResource;
 use App\Http\Response\APIResponse;
 use App\Repositories\Lesson\LessonRepository;
 use App\Services\Lesson\LessonService;
@@ -15,25 +17,39 @@ use Illuminate\Http\Request;
 
 class LessonController extends Controller
 {
-    public function Lesson(){
+    public function showLesson(Request $request){
         try {
-            $resource = new LessonRepository;
 
-            $lesson = $resource->Lesson();
+            $request->validate([
+                'withDisabled' => 'required|boolean'
+            ]);
 
-            return APIResponse::make(true,$lesson);
+            $withDisabled = $request->get('withDisabled');
+
+            $service = new LessonService;
+
+            $lesson = $service->showLesson($withDisabled);
+
+            $resource = LessonResource::collection($lesson);
+
+            return APIResponse::success($resource,'Retrieve successfully lessons');
         } catch (Exception $e) {
             return APIResponse::fail($e->getMessage(),500);
         }
     }
 
-    public function showLessonById($les){
+    public function showLessonById(FilterLessonByIdRequest $request){
         try {
-            $resource = new LessonRepository;
+            $validatedRequest = $request->validated();
 
-            $lesson = $resource->showLessonById($les);
+            $service = new LessonService;
+
+            $lesson = $service->showLessonById($validatedRequest);
+
             
-            return APIResponse::make(true, $lesson);
+            $resource = LessonResource::collection($lesson);
+            
+            return APIResponse::success($resource,'Retrieve successfully lessons');
         } catch (Exception $e) {
             return APIResponse::fail($e->getMessage(),500);
         }

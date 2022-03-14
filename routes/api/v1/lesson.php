@@ -2,7 +2,7 @@
 use App\Http\Controllers\Lesson\LessonController;
 use Illuminate\Support\Facades\Route;
 
-Route::get('lesson',[LessonController::class, 'Lesson']);
+Route::get('all',[LessonController::class, 'showLesson']);
 Route::get('detail/{lessonId}',[LessonController::class,'showLessonById']);
 Route::middleware(['auth:api', 'can:isAdmin'])->group(function () {
     Route::post('create-lesson', [LessonController::class,'createLesson']);
