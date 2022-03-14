@@ -23,7 +23,7 @@ class CategoryRepository{
     public function showCategoryById(array $attributes)
     {
         try {
-            $category = Category::findOrFail($attributes['categoryId']);
+            $category = Category::where('category_id','=',$attributes['categoryId'])->get();
             return $category;
         } catch (Exception $e) {
             Log::error($e->getMessage(),[

@@ -21,6 +21,12 @@ class CourseService{
         return $courses;
     }
 
+    public function showCourseById(array $attributes){
+        $course = $this->courseRepository->showCourseById($attributes);
+
+        return $course;
+    }
+
     public function createCourse(array $attributes)
     {
         $courseDTO = new CourseDTO;

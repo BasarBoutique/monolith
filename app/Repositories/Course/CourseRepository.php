@@ -5,6 +5,8 @@ namespace App\Repositories\Course;
 use App\DTO\Interfaces\DTOInterface;
 use App\Models\CourseDetail;
 use App\Models\Courses;
+use Exception;
+use Illuminate\Support\Facades\Log;
 
 class CourseRepository {
 
@@ -16,6 +18,21 @@ class CourseRepository {
     public function showAllWithCoursesDisabled()
     {
         return Courses::withDisabledCategories()->get();;
+    }
+
+    public function showCourseById(array $attributes){
+        try{
+            $course = Courses::has("detail")->where('course_id','=',$attributes['courseId'])->get();
+            return $course;
+        }
+        catch(Exception $e){
+            Log::error($e->getMessage(),[
+                'LEVEL' => 'Repository',
+                'TRACE' => $e->getTraceAsString()
+            ]);
+
+            throw $e;
+        }
     }
 
     public function createCourse(DTOInterface $dto, array $attributes)

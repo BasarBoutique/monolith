@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Courses;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Course\ChangeTeacherRequest;
+use App\Http\Requests\Course\FilterCourseByIdRequest;
 use App\Http\Requests\Course\StoreCourseRequest;
 use App\Http\Requests\Course\UpdateCourseRequest;
 use App\Http\Resources\Course\CourseResource;
@@ -29,13 +30,29 @@ class CoursesController extends Controller
 
             $resource = CourseResource::collection($courses);
 
-            return APIResponse::success( $resource, 'Retrieve successfully categories');
+            return APIResponse::success( $resource, 'Retrieve successfully courses');
 
         } catch (Exception $e) {
             return APIResponse::fail($e->getMessage(),500);
         }
     }
 
+    public function showCourseById(FilterCourseByIdRequest $request)
+    {
+        try {
+            $validatedRequest = $request->validated();
+
+            $service = new CourseService;
+
+            $course = $service->showCourseById($validatedRequest);
+
+            $resource = CourseResource::collection($course);
+            
+            return APIResponse::success($resource,'Retrieve successfully course');
+        } catch (Exception $e) {
+            return APIResponse::fail($e->getMessage(),500);
+        }
+    }
     public function createCourse(StoreCourseRequest $request)
     {
         try {
