@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Scopes\IsEnabledScope;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -22,5 +23,20 @@ class Lesson extends Model
         'is_enabled'
     ];
 
+    protected static function booted()
+    {
+        static::addGlobalScope(new IsEnabledScope);
+    }
+
     protected $dates = ['registered_at'];
+
+    public function scopeWithDisabledLesson($query)
+    {
+        return $query->withoutGlobalScope(IsEnabledScope::class);
+    }
+
+    public function detail(){
+        return $this->belongsTo(LessonDetial::class,'ld_id');
+    }
+
 }

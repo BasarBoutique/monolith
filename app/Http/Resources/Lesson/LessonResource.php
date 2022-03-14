@@ -14,6 +14,19 @@ class LessonResource extends JsonResource
      */
     public function toArray($request)
     {
-        return parent::toArray($request);
+        /** @var App/Models/Lesson $lesson */
+        $lesson = $this;
+
+        return [
+            'id' => $lesson->lesson_id,
+            'curso' => $lesson->course_id,
+            'lesson' => $lesson->ld_id,
+            'detail' => [
+                'title' => $lesson->detail->ld_title,
+                'photo-url' => $lesson->detail->ld_url,
+                'description' => $lesson->detail->ld_description,
+            ],
+            'enabled' => boolval($lesson->is_enabled)
+        ];
     }
 }

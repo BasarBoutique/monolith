@@ -37,7 +37,6 @@ class UpdateLessonRequest extends AuthorizationAdminRequest
             'description' => ['sometimes','required','array'],
             'description.context' => ['sometimes','required','string'],
             'description.length' => ['sometimes','required','string'],
-            'course_id' => ['sometimes','required','numeric',Rule::exists(Courses::class,'course_id')]
         ];
     }
 
@@ -49,7 +48,6 @@ class UpdateLessonRequest extends AuthorizationAdminRequest
             'description.required' => 'How lesson description is the video?',
             'description.context.required' => 'This lesson description is required',
             'description.length.required' => 'This lesson length is required',
-            'course_id.required' => 'This course is required'
         ];
     }
 }

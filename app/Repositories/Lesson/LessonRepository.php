@@ -10,16 +10,31 @@ use Illuminate\Support\Facades\Log;
 
 class LessonRepository{
 
-    public function Lesson(){
-        $lesson = Lesson::all()->where('is_enabled',true);
-        return compact('lesson');
-    }
-    
-    public function showLessonById(int $les)
+    public function showAllWithLessonDisabled()
     {
-        $lesson = Lesson::where('is_enabled',true)->findOrFail($les);
+        return Lesson::withDisabledLesson()->get();
+    }
 
-        return compact('lesson');
+    public function showAllLesson()
+    {
+        return Lesson::has("detail")->get();
+    }
+
+    public function showLessonById(array $attributes)
+    {
+        try{
+            $lesson = Lesson::has("detail")->where('lesson.ld_id', '=', $attributes['lessonId'])->get();
+            return $lesson;
+        }
+        catch(Exception $e){
+            Log::error($e->getMessage(),[
+                'LEVEL' => 'Repository',
+                'TRACE' => $e->getTraceAsString()
+            ]);
+
+            throw $e;
+        }
+
     }
 
     public function createLesson(DTOInterface $dto,array $attributes)
