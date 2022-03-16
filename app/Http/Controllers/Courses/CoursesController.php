@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Courses;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Course\ChangeTeacherRequest;
+use App\Http\Requests\Course\DisableCourseRequest;
 use App\Http\Requests\Course\FilterCourseByIdRequest;
 use App\Http\Requests\Course\StoreCourseRequest;
 use App\Http\Requests\Course\UpdateCourseRequest;
@@ -101,6 +102,23 @@ class CoursesController extends Controller
         } catch (Exception $e) {
 
             return APIResponse::fail($e->getMessage());
+        }
+    }
+
+    public  function disableCourse(DisableCourseRequest $request){
+        try {
+            $validatedRequest = $request->validated();
+
+            $service = new CourseService;
+
+            $course = $service->disableCourse($validatedRequest);
+
+            $resource = new CourseResource($course);
+
+            return APIResponse::success($resource,'Successfully removed Course!');
+        } catch (Exception $e) {
+
+            return APIResponse::fail($e->getMessage(),500);
         }
     }
 }

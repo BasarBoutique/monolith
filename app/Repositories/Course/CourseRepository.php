@@ -17,7 +17,7 @@ class CourseRepository {
 
     public function showAllWithCoursesDisabled()
     {
-        return Courses::withDisabledCategories()->get();;
+        return Courses::WithDisabledCourses()->get();;
     }
 
     public function showCourseById(array $attributes){
@@ -66,6 +66,23 @@ class CourseRepository {
         $courseDetail->save();
 
         return $courseDetail;
+    }
+
+    public function disableCourse(array $attributes){
+        try{
+            $course = Courses::WithDisabledCourses()->findOrFail($attributes['courseId']);
+
+            $course->update(['is_enabled' => !$course->is_enabled]);
+
+            return $course;
+        } catch(Exception $e){
+            Log::error($e->getMessage(),[
+                'LEVEL' => 'Repository',
+                'TRACE' => $e->getTraceAsString()
+            ]);
+
+            throw $e;
+        }
     }
 
 }

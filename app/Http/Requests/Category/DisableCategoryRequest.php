@@ -3,6 +3,7 @@
 namespace App\Http\Requests\Category;
 
 use App\Http\Requests\Core\AuthorizationAdminRequest;
+use App\Models\Category;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
@@ -24,7 +25,7 @@ class DisableCategoryRequest extends AuthorizationAdminRequest
     public function rules()
     {
         return [
-            'categoryId' => ['required','numeric']
+            'categoryId' => ['required','numeric', Rule::exists(Category::class,'category_id')]
         ];
     }
 }

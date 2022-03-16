@@ -96,7 +96,7 @@ class CategoryController extends Controller
 
             $service = new CategoryService;
 
-            $category = $service->remove($validatedRequest);
+            $category = $service->disableCategory($validatedRequest);
 
             $resource = new CategoryResource($category);
 
