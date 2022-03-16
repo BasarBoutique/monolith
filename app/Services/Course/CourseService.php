@@ -52,4 +52,10 @@ class CourseService{
 
         return $courseRepository->changeCourseTeacher($attributes['courseId'], $attributes['teacher_id']);
     }
+
+    public function disableCourse(array $attributes){
+        $course = $this->courseRepository->disableCourse($attributes);
+
+        return $course;
+    }
 }

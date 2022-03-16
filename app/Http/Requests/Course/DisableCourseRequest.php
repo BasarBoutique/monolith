@@ -2,20 +2,21 @@
 
 namespace App\Http\Requests\Course;
 
+use App\Http\Requests\Core\AuthorizationAdminRequest;
+use App\Models\Courses;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
-class DisableCourseRequest extends FormRequest
-{
-    /**
-     * Determine if the user is authorized to make this request.
-     *
-     * @return bool
-     */
-    public function authorize()
+class DisableCourseRequest extends AuthorizationAdminRequest
+{   
+    public function all($keys = null)
     {
-        return false;
-    }
+        $data = parent::all($keys);
 
+        $data['courseId'] = $this->route('courseId');
+
+        return $data;
+    }
     /**
      * Get the validation rules that apply to the request.
      *
@@ -24,7 +25,7 @@ class DisableCourseRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'courseId' =>['required','numeric', Rule::exists(Courses::class,'course_id')]
         ];
     }
 }

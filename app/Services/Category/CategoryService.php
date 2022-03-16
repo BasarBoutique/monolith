@@ -50,7 +50,7 @@ class CategoryService{
         return $category;
     }
 
-    public function remove(array $attributes)
+    public function disableCategory(array $attributes)
     {
         $category = $this->categoryRepository->disableCategory($attributes);
 

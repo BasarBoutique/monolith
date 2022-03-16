@@ -39,7 +39,7 @@ class Courses extends Model
         static::addGlobalScope(new IsEnabledScope);
     }
 
-    public function scopeWithDisabledCategories($query)
+    public function scopeWithDisabledCourses($query)
     {
         return $query->withoutGlobalScope(IsEnabledScope::class);
     }
