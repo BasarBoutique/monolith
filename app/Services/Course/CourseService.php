@@ -4,6 +4,7 @@ namespace App\Services\Course;
 
 use App\DTO\Course\CourseDTO;
 use App\Repositories\Course\CourseRepository;
+use App\Repositories\Course\CourseSearchRepository;
 
 class CourseService{
     private $courseRepository;
@@ -13,7 +14,19 @@ class CourseService{
         $this->courseRepository = new CourseRepository;
     }
 
-    public function showCourse(bool $withDisabled = false){
+    public function searchCourses(array $queryParams)
+    {
+        if(empty($queryParams))
+            return $this->courseRepository->showAllCourses();
+
+        $searchRepository = new CourseSearchRepository;
+
+        $searchRepository->makeQuery($queryParams);
+
+        return $searchRepository->paginateSearch($queryParams['paginate']);
+    }
+
+    public function showAllCourses(bool $withDisabled = false){
         $courses = $withDisabled
             ? $this->courseRepository->showAllWithCoursesDisabled()
             : $this->courseRepository->showAllCourses();
