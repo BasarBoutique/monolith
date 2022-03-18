@@ -181,6 +181,7 @@ return [
         App\Providers\RouteServiceProvider::class,
         App\Providers\TelescopeServiceProvider::class,
         Laravel\Passport\PassportServiceProvider::class,
+        LaravelFrontendPresets\ArgonPreset\ArgonPresetServiceProvider::class 
 
     ],
 
