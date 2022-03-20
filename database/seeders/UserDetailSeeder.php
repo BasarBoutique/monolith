@@ -20,6 +20,7 @@ class UserDetailSeeder extends Seeder
             $usuario = User::create([
                 "name"=>$campo[$i-1],
                 "email"=>$campo[$i-1]."@gmail.com",
+                'email_verified_at' => now(),
                 "password"=>bcrypt('contraseña')
             ])->permissions_user($i);
         }

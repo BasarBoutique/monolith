@@ -13,6 +13,7 @@
         "laravel/sanctum": "^2.14",
         "laravel/telescope": "^4.7",
         "laravel/tinker": "^2.7",
+        "laravel/ui": "^3.4",
         "overtrue/laravel-passport-cache-token": "^3.0",
         "predis/predis": "^1.1"
     },
@@ -28,12 +29,14 @@
         "psr-4": {
             "App\\": "app/",
             "Database\\Factories\\": "database/factories/",
-            "Database\\Seeders\\": "database/seeders/"
+            "Database\\Seeders\\": "database/seeders/",
+            "LaravelFrontendPresets\\ArgonPreset\\": "presets/argon/src"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "Tests\\": "tests/"
+            "Tests\\": "tests/",
+            "LaravelFrontendPresets\\ArgonPreset\\": "presets/argon/src"
         }
     },
     "scripts": {

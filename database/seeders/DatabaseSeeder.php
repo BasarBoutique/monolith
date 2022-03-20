@@ -1,9 +1,7 @@
 <?php
-
 namespace Database\Seeders;
 
-use App\Models\PermissionHierarchy;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -15,7 +13,6 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        // \App\Models\User::factory(10)->create();
         $this->call([PermissionHierarchySeeder::class]);
         $this->call([UserDetailSeeder::class]);
     }
