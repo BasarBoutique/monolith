@@ -17,7 +17,7 @@ use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
 
 Route::get('/', function () {
     return view('welcome');
-});
+})->name('welcome');
 
 Route::get('/home', function () {
     return view('dashboard');
@@ -39,13 +39,7 @@ Route::get('user', function(){
     return view('users.index');
 })->name('user.index');
 
-Route::get('icons', function(){
-    return view('pages.icons');
-})->name('icons');
 
-Route::get('map', function(){
-    return view('pages.maps');
-})->name('map');
 
 Route::get('login', function(){
     return view('auth.login');
@@ -65,11 +59,6 @@ Route::get('map', function () {return view('pages.maps');})->name('map');
 Route::get('icons', function () {return view('pages.icons');})->name('icons'); 
 Route::get('table-list', function () {return view('pages.tables');})->name('table');
 
-// Route::resource('user', 'App\Http\Controllers\UserController', ['except' => ['show']]);
-
-// Route::get('profile', ['as' => 'profile.edit', 'uses' => 'App\Http\Controllers\ProfileController@edit']);
-// Route::put('profile', ['as' => 'profile.update', 'uses' => 'App\Http\Controllers\ProfileController@update']);
-// Route::put('profile/password', ['as' => 'profile.password', 'uses' => 'App\Http\Controllers\ProfileController@password']);
 
 
 
