@@ -22,7 +22,7 @@ class CategoryController extends Controller
         try {
 
             $request->validate([
-                'withDisabled' => 'required|boolean'
+                'withDisabled' => 'required|string'
             ]);
 
             $withDisabled = $request->get('withDisabled');

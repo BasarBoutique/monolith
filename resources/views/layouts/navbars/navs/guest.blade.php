@@ -43,14 +43,13 @@
                         <span class="nav-link-inner--text">{{ __('Login') }}</span>
                     </a>
                 </li>
-                @auth()
+                
                 <li class="nav-item">
                     <a class="nav-link nav-link-icon" href="{{ route('profile.edit') }}">
                         <i class="ni ni-single-02"></i>
                         <span class="nav-link-inner--text">{{ __('Profile') }}</span>
                     </a>
                 </li>
-                @endauth
             </ul>
         </div>
     </div>
