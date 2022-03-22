@@ -15,6 +15,11 @@ class CategoryService{
         $this->categoryRepository = new CategoryRepository;
     }
 
+    public function slideCategories(){
+        $category = $this->categoryRepository->showAllCategories();
+        return $category;
+    }
+
     public function showCategoryById(array $attributes)
     {
 

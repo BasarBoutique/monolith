@@ -8,6 +8,7 @@ use App\Http\Requests\Category\FilterCategotyByIdRequest;
 use App\Http\Requests\Category\StoreCategoryRequest;
 use App\Http\Requests\Category\UpdateCategoryRequest;
 use App\Http\Resources\Category\CategoryResource;
+use App\Http\Resources\Category\CategorySlideResource;
 use App\Http\Response\APIResponse;
 use App\Repositories\Category\CategoryRepository;
 use App\Services\Category\CategoryService;
@@ -16,6 +17,19 @@ use Illuminate\Http\Request;
 
 class CategoryController extends Controller
 {
+    public function slideCategories(){
+        try {
+            $service = new CategoryService;
+
+            $categories = $service->slideCategories();
+
+            $resource = CategorySlideResource::collection($categories);
+
+            return APIResponse::success( $resource, 'Retrieve successfully categories');
+        } catch (Exception $e) {
+            return APIResponse::fail($e->getMessage(),500);
+        }
+    }
 
     public function showCategories(Request $request)
     {
@@ -25,7 +39,7 @@ class CategoryController extends Controller
                 'withDisabled' => 'required|string'
             ]);
 
-            $withDisabled = $request->get('withDisabled');
+            $withDisabled =  filter_var($request->get('withDisabled'), FILTER_VALIDATE_BOOLEAN);
 
             $service = new CategoryService;
 
