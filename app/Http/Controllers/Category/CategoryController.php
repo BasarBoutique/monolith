@@ -40,6 +40,7 @@ class CategoryController extends Controller
             ]);
 
             $withDisabled =  filter_var($request->get('withDisabled'), FILTER_VALIDATE_BOOLEAN);
+            // $withDisabled =  $request->get('withDisabled');
 
             $service = new CategoryService;
 

@@ -27,7 +27,7 @@ class CoursesController extends Controller
 
             $service = new CourseService;
 
-            $courses = $service->showCourse($withDisabled);
+            $courses = $service->searchCourses($withDisabled);
 
             $resource = CourseResource::collection($courses);
 

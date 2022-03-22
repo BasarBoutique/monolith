@@ -1,7 +1,12 @@
 @auth()
-    @include('layouts.navbars.navs.auth')
+    <div id="app">
+        <layout-navbars-navs-auth></layout-navbars-navs-auth>
+    </div>
 @endauth
 
 @guest()
-    @include('layouts.navbars.navs.guest')
+    <div id="app">
+        <layout-navbars-navs-guest></layout-navbars-navs-guest>
+        <welcome></welcome>
+    </div>
 @endguest

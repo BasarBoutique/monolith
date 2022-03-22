@@ -58,7 +58,7 @@
     </div>
 </template>
 <script>
-const withDisabled=false;
+let withDisabled=false;
     export default {
        data() {
           return {
@@ -66,9 +66,9 @@ const withDisabled=false;
           }
         },          
         created(){
+          
           axios.get('/api/v1/categories/all?withDisabled='+withDisabled).then(res=>{
             this.categories = res.data.data;
-            console.log(res.data.data);
           })
         }, 
     }
