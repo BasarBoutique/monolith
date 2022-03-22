@@ -377,7 +377,7 @@
       <category-header></category-header>
       <div class="container-fluid mt--6">
         <category-table></category-table>
-        <layout-footer></layout-footer>
+        <layout-footer-auth></layout-footer-auth>
       </div>
     </div>
 
@@ -386,12 +386,6 @@
   </div>
   <!-- Argon Scripts -->
   <!-- Core -->
-  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
-  <script type="text/javascript">
-    $(window).load(function() {
-        $('#closemodal').modal('hide');
-    });
-  </script>
   <script src="{{ mix('/js/app.js') }}"></script>
   
   <script src="../assets/vendor/jquery/dist/jquery.min.js"></script>

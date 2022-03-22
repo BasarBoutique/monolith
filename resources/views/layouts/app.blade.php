@@ -25,25 +25,30 @@
             <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                 @csrf
             </form>
-            @include('layouts.navbars.sidebar')
+            <div id="app">
+                <layout-navbars-sidebar></layout-navbars-sidebar>
+            </div>
         @endauth
-        
-        <div class="main-content">
-            @include('layouts.navbars.navbar')
-            @yield('content')
-        </div>
 
-        @guest()
-            @include('layouts.footers.guest')
-        @endguest
+        <div class="main-content">
+            <div id="app">
+                <layout-navbars-navs-guest></layout-navbars-navs-guest>
+                @yield('content')
+                <layout-footer-guest></layout-footer-guest>
+            </div>
+        </div>
 
         <script src="{{ asset('argon') }}/vendor/jquery/dist/jquery.min.js"></script>
         <script src="{{ asset('argon') }}/vendor/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
         
+        
+
         @stack('js')
         
         <!-- Argon JS -->
         <script src="{{ asset('argon') }}/js/argon.js?v=1.0.0"></script>
+        
+        <script src="{{ mix('/js/app.js') }}"></script>
         <script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.11"></script>
         <script src="{{asset('js/typed.js')}}"></script>
     </body>

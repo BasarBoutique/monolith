@@ -1,10 +1,10 @@
 <template>
-<div class="modal fade" id="exampleModal" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog">
+<div class="modal fade" id="exampleModal" ref="modal" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="exampleModalLabel">Category</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close" id="closemodal">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close" @click="closeModal">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
@@ -36,9 +36,25 @@
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal" id="closemodal">Close</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal" @click="closeModal">Close</button>
             </div>
         </div>
     </div>
 </div>
 </template>
+
+<script>
+export default {
+    methods:{
+        closeModal(){
+            $('#exampleModal').modal('hide')
+        },
+        // registerCategory(){
+        //     axios.post('/api/v1/categories/create-category',).then(res=>{
+        //     this.categories = res.data.data;
+        //   })
+        // }
+    }
+}
+</script>
+

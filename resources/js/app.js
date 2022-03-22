@@ -18,13 +18,17 @@ window.Vue = require('vue').default;
 
 // const files = require.context('./', true, /\.vue$/i)
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default))
+Vue.component('welcome', require('./components/Welcome.vue').default)
 
 
 /*LAyouts*/
-Vue.component('layout-footer', require('./components/Layouts/Footer/nav.vue').default);
+Vue.component('layout-navbars-navs-auth', require('./components/Layouts/navbars/navs/auth.vue').default);
+Vue.component('layout-navbars-navs-guest', require('./components/Layouts/navbars/navs/guest.vue').default);
+Vue.component('layout-navbars-siderbar', require('./components/Layouts/navbars/siderbar.vue').default);
 
+Vue.component('layout-footer-auth', require('./components/Layouts/Footer/nav.vue').default);
+Vue.component('layout-footer-guest', require('./components/Layouts/nav.vue').default);
 
-Vue.component('example-component', require('./components/ExampleComponent.vue').default);
 
 
 
