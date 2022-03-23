@@ -51,13 +51,16 @@ class AppServiceProvider extends ServiceProvider
             $url->formatScheme('https://');
         }
 
+        // Prevent lazy loading models
+        // Courses::preventLazyLoading(true);
+
         // Observers for models events
         User::observe(UserObserver::class);
         PermissionHierarchy::observe(RolObserver::class);
         PermissionUser::observe(UserRolObserver::class);
         Category::observe(CategoryObserver::class);
         Courses::observe(CourseObserver::class);
-        CourseDetail::observe(CourseDetailObserver::class);      
+        CourseDetail::observe(CourseDetailObserver::class);
         LessonDetial::observe(LessonObserver::class);
         Comment::observe(CommentObserver::class);
         Lesson::observe(LessonDetailObserver::class);
