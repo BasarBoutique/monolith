@@ -14,6 +14,16 @@ class CourseSearchResource extends JsonResource
      */
     public function toArray($request)
     {
-        return parent::toArray($request);
+        return [
+            'courses' => CourseResource::collection($this->getCollection()),
+            'filters' => $request->filters,
+            'pagination' => [
+                'total' => $this->total(),
+                'count' => $this->count(),
+                'per_page' => $this->perPage(),
+                'current_page' => $this->currentPage(),
+                'total_pages' => $this->lastPage()
+            ]
+        ];
     }
 }

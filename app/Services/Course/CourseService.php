@@ -16,12 +16,10 @@ class CourseService{
 
     public function searchCourses(array $queryParams)
     {
-        if(empty($queryParams))
-            return $this->courseRepository->showAllCourses();
-
         $searchRepository = new CourseSearchRepository;
 
-        $searchRepository->makeQuery($queryParams);
+        $searchRepository->makeQuery($queryParams['filters']);
+        $searchRepository->orderBy($queryParams['order']);
 
         return $searchRepository->paginateSearch($queryParams['paginate']);
     }
