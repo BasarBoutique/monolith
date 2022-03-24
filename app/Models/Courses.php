@@ -24,6 +24,16 @@ class Courses extends Model
         return $this->hasOne(CourseDetail::class,'course_id');
     }
 
+    public function author()
+    {
+        return $this->belongsToMany(
+            User::class,
+            CourseDetail::class,
+            'course_id',
+            'cdetail_author'
+        );
+    }
+
     public function category()
     {
         return $this->belongsTo(CourseCategory::class, 'course_id', 'course_id');
