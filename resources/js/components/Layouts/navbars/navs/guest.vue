@@ -1,10 +1,9 @@
 <template>
-
         <nav class="navbar navbar-top navbar-horizontal navbar-expand-md navbar-dark">
         <div class="container px-4">
-            <a class="navbar-brand" href="/">
+            <router-link class="navbar-brand" exact :to="{ name: 'boutique.index' }">
                 <img v-bind:src="'../assets/img/brand/white.png'"/>
-            </a>
+            </router-link>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-collapse-main" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
@@ -13,9 +12,9 @@
                 <div class="navbar-collapse-header d-md-none">
                     <div class="row">
                         <div class="col-6 collapse-brand">
-                            <a href="/home">
-                                <img sr="@/public/img/brand/blue.png">
-                            </a>
+                            <router-link active-class="active-menu" exact :to="{ name: 'boutique.index' }">
+                                <img v-bind:src="'../assets/img/brand/blue.png'" >
+                            </router-link>
                         </div>
                         <div class="col-6 collapse-close">
                             <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbar-collapse-main" aria-controls="sidenav-main" aria-expanded="false" aria-label="Toggle sidenav">
@@ -27,26 +26,19 @@
                 </div>
                 <ul class="navbar-nav ml-auto">
                     <li class="nav-item">
-                        <a class="nav-link nav-link-icon" href="/home">
+                        <router-link class="nav-link nav-link-icon" exact :to="{ name: 'boutique.index' }">
                             <i class="ni ni-planet"></i>
                             <span class="nav-link-inner--text">Dashboard</span>
-                        </a>
+                        </router-link>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link nav-link-icon" href="/register">
-                            <i class="ni ni-circle-08"></i>
-                            <span class="nav-link-inner--text">Register</span>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link nav-link-icon" href="/login">
+                        <router-link class="nav-link nav-link-icon" exact :to="{ name: 'boutique.login' }">
                             <i class="ni ni-key-25"></i>
                             <span class="nav-link-inner--text">Login</span>
-                        </a>
-                    </li>
-                    
+                        </router-link>
+                    </li>                    
                     <li class="nav-item">
-                        <a class="nav-link nav-link-icon" href="/profile.edit">
+                        <a class="nav-link nav-link-icon" href="/profile">
                             <i class="ni ni-single-02"></i>
                             <span class="nav-link-inner--text">Profile</span>
                         </a>

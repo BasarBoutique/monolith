@@ -1,0 +1,36 @@
+.lbl{
+    margin-top:-20px;
+    width: 65px;
+    height: 33px;
+    background: #ff5395;
+    border-radius: 100px;
+    cursor: pointer;
+    position: relative;
+    transition: .2s;
+    float: right;
+  }
+   
+  .lbl::after{
+    content: '';
+    display: block;
+    width: 25px;
+    height: 25px;
+    background: #eee;
+    border-radius: 100px;
+    position: absolute;
+    top: 4px;
+    left: 4px;
+    transition: .2s;
+  }
+   
+  #switch:checked + .lbl::after{
+    left: 36px;
+  }
+   
+  #switch:checked + .lbl{
+    background: #00C8B1;
+  }
+   
+  #switch{
+    display: none;
+  }

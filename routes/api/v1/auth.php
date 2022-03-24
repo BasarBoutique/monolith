@@ -14,5 +14,4 @@ Route::middleware(['signed'])->group(function () {
 Route::middleware(['auth:api'])->group(function () {
     Route::get('user', 'Auth\AuthController@user');
     Route::get('logout', 'Auth\AuthController@logout');
-
 });
