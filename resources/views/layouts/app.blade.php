@@ -20,7 +20,7 @@
         <!-- Argon CSS -->
         <link type="text/css" href="{{ asset('argon') }}/css/argon.css?v=1.0.0" rel="stylesheet">
     </head>
-    <body class="{{ $class ?? '' }}">
+    <body class="bg-default">
         @auth()
             <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                 @csrf
@@ -33,7 +33,7 @@
         <div class="main-content">
             <div id="app">
                 <layout-navbars-navs-guest></layout-navbars-navs-guest>
-                @yield('content')
+                    <layout-headers-guest></layout-headers-guest>
                 <layout-footer-guest></layout-footer-guest>
             </div>
         </div>

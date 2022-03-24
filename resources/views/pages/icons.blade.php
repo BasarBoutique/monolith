@@ -1221,7 +1221,7 @@
       </div>
       <!-- Footer -->
       <div id="app">
-        <layout-footer></layout-footer>
+        <layout-footer-auth></layout-footer-auth>
       </div>
     </div>
   </div>

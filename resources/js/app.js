@@ -1,48 +1,102 @@
-/**
- * First we will load all of this project's JavaScript dependencies which
- * includes Vue and other libraries. It is a great starting point when
- * building robust, powerful web applications using Vue and Laravel.
- */
-
 require('./bootstrap');
 
 window.Vue = require('vue').default;
 
-/**
- * The following block of code may be used to automatically register your
- * Vue components. It will recursively scan this directory for the Vue
- * components and automatically register them with their "basename".
- *
- * Eg. ./components/ExampleComponent.vue -> <example-component></example-component>
- */
+import VueRouter from 'vue-router'
+Vue.use(VueRouter);
 
-// const files = require.context('./', true, /\.vue$/i)
-// files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default))
-Vue.component('welcome', require('./components/Welcome.vue').default)
+import VueSweetalert2 from "vue-sweetalert2"
+Vue.use(VueSweetalert2)
+import "sweetalert2/dist/sweetalert2.min.css"
 
+import Auth from './auth.js'
+Vue.use(Auth);
 
-/*LAyouts*/
-Vue.component('layout-navbars-navs-auth', require('./components/Layouts/navbars/navs/auth.vue').default);
-Vue.component('layout-navbars-navs-guest', require('./components/Layouts/navbars/navs/guest.vue').default);
-Vue.component('layout-navbars-siderbar', require('./components/Layouts/navbars/siderbar.vue').default);
-
-Vue.component('layout-footer-auth', require('./components/Layouts/Footer/nav.vue').default);
-Vue.component('layout-footer-guest', require('./components/Layouts/nav.vue').default);
+import App from './components/App.vue'
+import BoutiqueIndex from './components/Home.vue'
+import BoutiqueLogin from './components/auth/login.vue'
+import Dashboard from './components/Dashboard.vue'
+import BoutiqueDashboardindex from './components/pages/charts.vue'
+import BoutiqueDashboardicons from './components/pages/icons.vue'
+import BoutiqueDashboardcategories from './components/pages/Category/CategoryTableList.vue'
+import Vue from 'vue';
 
 
 
 
+const router = new VueRouter({
+    linkExactActiveClass: 'active',
+    mode:'history',
+    routes :[
+        {
+            path:'/',
+            component: BoutiqueIndex,
+            name: 'boutique.index',
+            children:[
+                {
+                    path:'/boutique/login',
+                    component: BoutiqueLogin,
+                    name: 'boutique.login'
+                }
+            ]
+        },
+        {
+            path:'/Dashboard',
+            component: Dashboard,
+            name: 'boutique.dashboard',
+            children:[
+                {
+                    path:'/boutique/dashboard/index',
+                    component: BoutiqueDashboardindex,
+                    name: 'boutique.dashboard.index',
+                    meta: {
+                        requiresAuth: true
+                    }
+                },
+                {
+                    path:'/boutique/dashboard/icons',
+                    component: BoutiqueDashboardicons,
+                    name: 'boutique.dashboard.icons',
+                    meta: {
+                        requiresAuth: true
+                    }
+                },
+                {
+                    path:'/boutique/dashboard/categories',
+                    component: BoutiqueDashboardcategories,
+                    name: 'boutique.dashboard.categories',
+                    meta: {
+                        requiresAuth: true
+                    }
+                }
+            ],
+            meta: {
+                requiresAuth: true
+            }
+        },
+    ]
+});
 
-/*Category Components*/
-Vue.component('category-header', require('./components/Category/CategoryCreate.vue').default);
-Vue.component('category-table', require('./components/Category/CategoryTableList.vue').default);
 
-/**
- * Next, we will create a fresh Vue application instance and attach it to
- * the page. Then, you may begin adding components to this application
- * or customize the JavaScript scaffolding to fit your unique needs.
- */
+
+Vue.component('pagination', require('laravel-vue-pagination'));
+
+router.beforeEach((to, from, next) => {
+    if (to.matched.some(record => record.meta.requiresAuth) ) {
+        if (Auth.check()) {
+            next();
+            return;
+        } else {
+            router.push('/boutique/login');
+        }
+    } else {
+        next();
+    }
+});
 
 const app = new Vue({
     el: '#app',
+    components: { App },
+    router,
+    render: h => h(App)
 });
