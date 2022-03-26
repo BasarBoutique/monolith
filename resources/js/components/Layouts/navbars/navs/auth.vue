@@ -239,15 +239,18 @@ import Auth from '../../../../auth';
 export default {
    data () {
      return {       
-       user: Auth.user,
-    }
+       user: Auth.user
+      };
+  },
+  mounted() {
+     console.log(Auth.user);
   },
   methods: {
     logout() {
       axios.get('/api/v1/logout',Auth.token)
       .then(({data}) => {
         Auth.logout(); 
-        this.$router.push('/');
+        this.$router.push('/boutique/login');
       })
       .catch((error) => {
         console.log(error);

@@ -17,7 +17,7 @@ class CategoryRepository{
 
     public function showAllWithCategoriesDisabled()
     {
-        return Category::withDisabledCategories()->get();;
+        return Category::withDisabledCategories()->get();
     }
 
     public function showCategoryById(array $attributes)
