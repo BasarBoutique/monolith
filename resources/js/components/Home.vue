@@ -25,14 +25,23 @@
                     </div>
                   </div>
                 </div>
-                <ul class="navbar-nav ml-auto">
-                    <li class="nav-item" v-if="loggedUser">
-                      <a class="nav-link nav-link-icon"  @click="logout()" >
+                <ul class="navbar-nav ml-auto" v-if="loggedUser"> 
+                    <li class="nav-item">
+                      <a class="nav-link nav-link-icon" @click="logout()" >
                         <i class="ni ni-key-25"></i>
                         <span class="nav-link-inner--text">Logout</span>
                       </a>
                     </li>
-                    <li class="nav-item" v-else>
+
+                    <li class="nav-item">
+                      <router-link class="nav-link nav-link-icon" exact :to="{ name:'boutique.login' }">
+                        <i class="ni ni-key-25"></i>
+                        <span class="nav-link-inner--text">{{loggedUser.data.name}}</span>
+                      </router-link>
+                    </li>
+                </ul>
+                <ul class="navbar-nav ml-auto" v-else>
+                    <li class="nav-item">
                       <router-link  class="nav-link nav-link-icon" exact :to="{ name: 'boutique.login' }" >
                         <i class="ni ni-key-25"></i>
                         <span class="nav-link-inner--text">Login</span>

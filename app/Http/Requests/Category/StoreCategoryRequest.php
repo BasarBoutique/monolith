@@ -22,6 +22,7 @@ class StoreCategoryRequest extends AuthorizationAdminRequest
         return [
             'category_title.required' => 'This category name is required',         
             'category_title.unique' => 'This category has already been created!',
+            'category_ico.required' => 'This category ico is required',   
         ];
     }
 

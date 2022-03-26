@@ -9,8 +9,19 @@ import VueSweetalert2 from "vue-sweetalert2"
 Vue.use(VueSweetalert2)
 import "sweetalert2/dist/sweetalert2.min.css"
 
+import Vue from 'vue';
+import Vuetify from 'vuetify';
+import 'vuetify/dist/vuetify.min.css'
+Vue.use(Vuetify);
+
 import Auth from './auth.js'
 Vue.use(Auth);
+
+import ArgonDashboard from './components/Base/BaseTable.vue'
+Vue.use(ArgonDashboard);
+
+import Transitions from 'vue2-transitions'
+Vue.use(Transitions);
 
 import App from './components/App.vue'
 import BoutiqueIndex from './components/Home.vue'
@@ -19,9 +30,6 @@ import Dashboard from './components/Dashboard.vue'
 import BoutiqueDashboardindex from './components/pages/charts.vue'
 import BoutiqueDashboardicons from './components/pages/icons.vue'
 import BoutiqueDashboardcategories from './components/pages/Category/CategoryTableList.vue'
-import Vue from 'vue';
-
-
 
 
 const router = new VueRouter({
@@ -79,8 +87,6 @@ const router = new VueRouter({
 
 
 
-Vue.component('pagination', require('laravel-vue-pagination'));
-
 router.beforeEach((to, from, next) => {
     if (to.matched.some(record => record.meta.requiresAuth) ) {
         if (Auth.check()) {
@@ -98,5 +104,6 @@ const app = new Vue({
     el: '#app',
     components: { App },
     router,
+    vuetify: new Vuetify(),
     render: h => h(App)
 });
