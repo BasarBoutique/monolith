@@ -1,5 +1,10 @@
+<style>
+  .talas_personalisadas{
+      color: white;
+  }
+</style>
 <template>
-  <table class="table tablesorter" :class="tableClass">
+  <table id="dtBasicExample" class="talas_personalisadas table tablesorter" :class="tableClass">
     <thead :class="theadClasses">
       <tr>
         <slot name="columns" :columns="columns">
@@ -20,7 +25,8 @@
     </tbody>
   </table>
 </template>
-<script>
+
+<script> 
 export default {
   name: 'base-table',
   props: {

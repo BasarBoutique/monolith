@@ -1,3 +1,8 @@
+<style>
+  .logout{
+    cursor: pointer;
+  }
+</style>
 <template>
 <div>
     <nav class="navbar navbar-top navbar-horizontal navbar-expand-md navbar-dark">
@@ -26,8 +31,15 @@
                   </div>
                 </div>
                 <ul class="navbar-nav ml-auto" v-if="loggedUser"> 
+
                     <li class="nav-item">
-                      <a class="nav-link nav-link-icon" @click="logout()" >
+                      <router-link class="nav-link nav-link-icon" exact :to="{ name:'boutique.dashboard.index' }">
+                        <i class="ni ni-key-25"></i>
+                        <span class="nav-link-inner--text">Dashboard</span>
+                      </router-link>
+                    </li>
+                    <li class="nav-item">
+                      <a class="logout nav-link nav-link-icon" @click.prevent="logout()" >
                         <i class="ni ni-key-25"></i>
                         <span class="nav-link-inner--text">Logout</span>
                       </a>
@@ -36,7 +48,7 @@
                     <li class="nav-item">
                       <router-link class="nav-link nav-link-icon" exact :to="{ name:'boutique.login' }">
                         <i class="ni ni-key-25"></i>
-                        <span class="nav-link-inner--text">{{loggedUser.data.name}}</span>
+                        <span class="nav-link-inner--text">Perfil</span>
                       </router-link>
                     </li>
                 </ul>
@@ -93,9 +105,9 @@ export default {
     logout() {
       axios.get('/api/v1/logout',Auth.token)
       .then(({data}) => {
-        Auth.logout(); 
-        this.$router.push('/boutique/login');
-      })
+        Auth.logout();
+        this.$router.go();
+       })
       .catch((error) => {
         console.log(error);
       });

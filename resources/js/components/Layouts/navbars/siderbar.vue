@@ -31,10 +31,12 @@
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="/">
-                                    User Management
-                                </a>
+                                <router-link class="nav-link" :to="{ name:'boutique.dashboard.UsersManagement'}">
+                                    Users Management
+                                </router-link>
                             </li>
+
+
                         </ul>
                     </div>
                 </li>
@@ -53,10 +55,11 @@
                                 </router-link>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="/">
+                                <router-link class="nav-link" :to="{ name:'boutique.dashboard.Courses'}">
                                     Courses
-                                </a>
+                                </router-link>
                             </li>
+                            
                         </ul>
                     </div>
                 </li>
@@ -67,18 +70,19 @@
                     </router-link>
                 </li>
 
-                <li class="nav-item mb-5 mr-4 ml-4 pl-1 bg-danger" style="position: absolute; bottom: 0;">
+                <!--<li class="nav-item mb-5 mr-4 ml-4 pl-1 bg-danger" style="position: absolute; bottom: 0;">
                     <a class="nav-link text-white" href="/">
                         <i class="ni ni-cloud-download-95"></i> Upgrade to PRO
                     </a>
-                </li>
+                </li>-->
               </ul>
               <!-- Divider -->
               <hr class="my-3">
               <h6 class="navbar-heading p-0 text-muted">
-              <span class="docs-normal">Documentation</span>
+              <!--<span class="docs-normal">Documentation</span>-->
             </h6>
             <!-- Navigation -->
+            <!--
             <ul class="navbar-nav mb-md-3">
               <li class="nav-item">
                 <a class="nav-link" href="https://demos.creative-tim.com/argon-dashboard/docs/getting-started/overview.html" target="_blank">
@@ -104,7 +108,7 @@
                   <span class="nav-link-text">Plugins</span>
                 </a>
               </li>
-            </ul>
+            </ul>-->
             </div>
           </div>
         </div>

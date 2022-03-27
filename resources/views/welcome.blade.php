@@ -39,21 +39,17 @@
         <script src="{{asset('js/uploads.js')}}"></script>
         <script src="{{ asset('argon') }}/vendor/jquery/dist/jquery.min.js"></script>
         <script src="{{ asset('argon') }}/vendor/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-        
-        <script src="https://cdn.jsdelivr.net/npm/vue@2.x/dist/vue.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/vuetify@1.x/dist/vuetify.js"></script>
 
         <script src="{{ asset('argon') }}/vendor/chart.js/dist/Chart.min.js"></script>
         <script src="{{ asset('argon') }}/vendor/chart.js/dist/Chart.extension.js"></script>
         
         <script src="{{ asset('argon') }}/vendor/jquery.scrollbar/jquery.scrollbar.min.js"></script>
         <script src="{{ asset('argon') }}/vendor/jquery-scroll-lock/dist/jquery-scrollLock.min.js"></script>
-
+           
         <script src="{{ asset('argon') }}/js/argon.js?v=1.0.0"></script>
         <script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.11"></script>
-        <script src="{{asset('js/typed.js')}}"></script>        
-        
-        @stack('js')
+        <script src="{{asset('js/typed.js')}}"></script>      
+       @stack('js')
         
     </body>
 </html>
