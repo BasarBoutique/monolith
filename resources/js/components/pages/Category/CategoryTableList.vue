@@ -1,21 +1,3 @@
-
-<style>
-
-  .theme--light.v-label {
-    color: rgba(166, 165, 165, 0.6);
-  }
-  .table th, .table td {
-  padding: 1rem;
-  vertical-align: top;
-  border-top: none;
-  }
-  .table thead th {
-  border-bottom: none;
-}
-.table thead th {
-  border-bottom: none;
-}
-</style>
 <template>
 <div>
   <div class="header bg-gradient-primary pb-8 pt-5 pt-md-8">
@@ -33,67 +15,98 @@
             </nav>
           </div>
           <div class="col-lg-6 col-5 text-right">
-            <button type="button" class="btn btn-sm btn-neutral" data-toggle="modal" data-target="#myModal" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog">
+            <base-button class="btn btn-sm btn-neutral"  @click="modals.modal0 = true">
               New
-            </button>
-            
-           <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                <div class="modal-dialog modal-dialog-centered" role="document">
-                  <div class="modal-content">
-                    <div class="modal-header">
-                      <v-card-title class="modal-title" id="exampleModalLabel">
-                        Category
-                      </v-card-title>
-                      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                      </button>
-                    </div>
-                    <br>
-                    <br>
-                    <v-form ref="form" @submit.prevent="created">
-                      <div class="modal-body">
-                          <div class="row justify-content-center">
-                            <div class="col-lg-3 order-lg-2">
-                              <div class="card-profile-image">
-                                <img id="imageResult" alt="" class="img-fluid shadow-sm mx-auto d-block rounded-circle img-responsive">
-                              </div>
-                            </div>
+            </base-button>
+            <modal class="modal fade" :show.sync="modals.modal0">
+              <template slot="header">
+                  <h5 class="modal-title"><i class="ni ni-folder-17">  Category</i></h5>                  
+              </template>
+              <div>
+                <v-form ref="form" @submit.prevent="CategoryCreate">
+                  <div class="modal-body">
+                      <div class="row justify-content-center">
+                        <div class="col-lg-3 order-lg-2">
+                          <div class="card-profile-image">
+                            <img :src="imagen" style="max-width: 120px;" class="img-fluid shadow-sm mx-auto d-block rounded-circle img-responsive">
                           </div>
-                          <br>
-                          <br>
-                          <br>
-                          <br>
-                          <br>
-                          <br>
-                          <div class="text-center">
-                            <label for="upload" class="btn btn-light m-0 rounded-pill px-4"> 
-                              <i class="fa fa-cloud-upload mr-2 text-muted"></i>
-                              <small class="text-uppercase font-weight-bold text-muted">Choose file</small>
-                            </label>
-                            <input id="upload" type="file" name="category_ico" onchange="readURL(this);" class="form-control border-0"  @change="onFileSelected">
-                            <div class="alert alert-warning" role="alert" v-if="errors.category_ico">
-                                <strong>Warning!</strong> {{errors.category_ico[0]}}
-                            </div>
-                          </div>
-                          <div class="input-group">                      
-                              <v-text-field class="form-control" style="color:#825ee4; border-color:1px solid #cad1d7;" v-model="form.category_title" name="category_title" type="text" label="Category Name" id="example-search-input"/>
-                          </div><br>
-                          <div class="text-center">
-                            <div class="alert alert-warning" role="alert" v-if="errors.category_title">
-                                <strong>Warning!</strong> {{errors.category_title[0]}}
-                            </div>
-                          </div>
-                          <div class="text-center">
-                            <button type="submit" class="btn btn-success mt-4">Save</button>
-                          </div>
+                        </div>
                       </div>
-                    </v-form>
-                    <div class="modal-footer">
-                      <button type="button" class="btn btn-secondary" data-dismiss="modal" >Close</button>
+                      <br>
+                      <br>
+                      <br>
+                      <br>
+                      <br>
+                      <br>
+                      <div class="text-center">
+                        <input type="file" class="form-control border-0"  @change="onFileSelected">
+                        <div class="alert alert-warning" role="alert" v-if="errors.category_ico">
+                            <strong>Warning!</strong> {{errors.category_ico[0]}}
+                        </div>
+                      </div>
+                      <div class="input-group">               
+                          <v-text-field class="form-control" style="color:#825ee4; border-color:1px solid #cad1d7;" v-model="form.category" name="category_title" type="text" label="Category Name" id="input_category"/>
+                      </div><br>
+                      <div class="text-center">
+                        <div class="alert alert-warning" role="alert" v-if="errors.category_title">
+                            <strong>Warning!</strong> {{errors.category_title[0]}}
+                        </div>
+                      </div>
+                      <div class="text-center">
+                        <button type="submit" class="btn btn-success mt-4">Save</button>
+                      </div>
                     </div>
-                  </div>
-                </div>
-            </div> 
+                </v-form>
+              </div>
+              <template slot="footer">
+                  <button type="button" class="btn btn-secondary" @click.prevent="ModalClose">Close</button>
+              </template>
+            </modal>
+          </div>
+          <div class="col-lg-6 col-5 text-right">
+            <modal id="MyModal" :show.sync="modals.modal1">
+              <template slot="header">
+                  <h5 class="modal-title"><i class="ni ni-folder-17">  Category</i></h5> 
+              </template>   
+              <div>
+                <v-form ref="form" @submit.prevent="CategoryUpdate">
+                  <div class="modal-body">
+                      <div class="row justify-content-center" >
+                        <div class="col-lg-3 order-lg-2">
+                          <div class="card-profile-image">
+                            <img :src="imagen" style="max-width: 120px;" class="img-fluid shadow-sm mx-auto d-block rounded-circle img-responsive">
+                          </div>
+                        </div>
+                      </div>
+                      <br>
+                      <br>
+                      <br>
+                      <br>
+                      <br>
+                      <div class="text-center" >
+                        <input type="file"  class="form-control border-0"  @change="onFileSelected">
+                        <div class="alert alert-warning" role="alert" v-if="errors.category_ico">
+                            <strong>Warning!</strong> {{errors.category_ico[0]}}
+                        </div>
+                      </div>
+                      <div class="input-group">               
+                          <v-text-field class="form-control" style="color:#825ee4; border-color:1px solid #cad1d7;" v-model="form.category" name="category_title" type="text" label="Category Name" id="input_category"/>
+                      </div><br>
+                      <div class="text-center">
+                        <div class="alert alert-warning" role="alert" v-if="errors[0]">
+                            <strong>Warning!</strong> {{errors[0]}}
+                        </div>
+                      </div>
+                      <div class="text-center">
+                        <button type="submit" class="btn btn-success mt-4">Save</button>
+                      </div>
+                    </div>
+                </v-form>
+              </div>
+              <template slot="footer">
+                  <button type="button" class="btn btn-secondary" @click.prevent="ModalClose">Close</button>
+              </template>
+            </modal>
           </div>
         </div>
         <div v-if="message != ''"  class="alert alert-secondary alert-dismissible fade show" role="alert">
@@ -111,9 +124,9 @@
       <div class="col">
         <div class="card bg-default shadow">
           <div class="card-header bg-transparent border-0">
-            <h3 class="text-white mb-0">Dark table</h3>
+            <h3 class="text-white mb-0">Categories</h3>
               <div class="swtich-container">
-                <input type="checkbox" style="margin:auto;"  @click="charge" class="btn btn-sm btn-neutral" name="Vehiculo"  id="switch" v-model="status.withDisabled">
+                <input type="checkbox" style="margin:auto;" @click="CategoryCharge" class="btn btn-sm btn-neutral" id="switch" v-model="status.withDisabled">
                 <label for="switch" class="lbl"></label>
               </div>
               <v-text-field v-model="search" append-icon="mdi-magnify" style="color:white; text-color:white;" label="Search" single-line hide-details clearable></v-text-field>
@@ -134,7 +147,7 @@
                     <td scope="row">
                       <div class="media align-items-center">
                         <a href="#" class="avatar rounded-circle mr-3">
-                          <img alt="Image placeholder" :src="row.photo" />
+                          <img  :src="row.photo" />
                         </a>
                         <div class="media-body">
                           <span class="name mb-0 text-sm">{{ row.category }}</span>
@@ -164,18 +177,18 @@
                           <i class="fas fa-ellipsis-v"></i>
                         </a>
 
-                        <template>
-                          <a class="dropdown-item" href="#"><i class="ni ni-settings" style="color:purple;"></i>Update</a>
-                          <a class="dropdown-item" href="#"><i class="ni ni-button-power" style="color:red;"></i>Enabled</a>
-                        </template>
+                        <template v-if="row.enabled == true" >
+                          <button class="dropdown-item" @click.prevent="CategoryDetail(row.id)" ><i class="ni ni-settings" style="color:purple;"></i>Update</button>
+                        </template>    
+                        <button class="dropdown-item" @click.prevent="CategoryDisable(row.id)" ><i class="ni ni-button-power" style="color:red;"></i>Disabled</button>                    
                       </base-dropdown>
                     </td>
                 </template>                
               </base-table>
           </div>
-          <div class="card-footer d-flex justify-content-end bg-default shadow" :class="type === 'dark' ? 'bg-transparent' : ''">
+          <!-- <div class="card-footer d-flex justify-content-end bg-default shadow" :class="type === 'dark' ? 'bg-transparent' : ''">
             <base-pagination total="30"></base-pagination>
-          </div>
+          </div> -->
         </div>
       </div>
     </div>
@@ -185,14 +198,12 @@
 </div>
 </template>
 
-
 <script>
-import BasePagination from '../../Base/BasePagination.vue'
-import BaseDropdown from '../../Base/BaseDropdown.vue'
-import BaseTable from '../../Base/BaseTable.vue'
-import BaseButton from '../../Base/BaseButton.vue'
-import footer_auth from '../../Layouts/Footer/nav_auth.vue'
-import { SlideYUpTransition } from "vue2-transitions";
+import BaseButton from '../../Base/BaseButton.vue';
+import footer_auth from '../../Layouts/Footer/nav_auth.vue';
+const config = {
+  headers: { 'content-type': 'multipart/form-data' }
+};
 
     export default {
       props: {
@@ -203,58 +214,112 @@ import { SlideYUpTransition } from "vue2-transitions";
       },
       data() {
         return {
-            search: '',
-            categories: [
-              axios.get('/api/v1/categories/all?withDisabled='+'false').then(res=>{
-                this.categories = res.data.data;
-              })
-            ],
-            form :{
-              category_ico:{
-                name:''
-              },
-              category_title :''
-            },
-            status:{
-              withDisabled:'true'
-            },
-            errors:{},
-            message:[],
-          }
-        },          
-        methods: {
-          onFileSelected(event){
-            this.form.category_ico = event.target.files[0];
+          miniatura :'',
+          modals: {
+            modal0: false,
+            modal1:false
           },
-          charge(){          
-            axios.get('/api/v1/categories/all?withDisabled='+this.status.withDisabled).then(res=>{
+          search: '',
+          categories: [
+            axios.get('/api/v1/categories/all?withDisabled=false').then(res=>{
               this.categories = res.data.data;
             })
+          ],
+          form :{
+            id:'',
+            photo:'',
+            category :'',
+            enabled:'',
           },
-          created(){
-            const config = {
-              headers: { 'content-type': 'multipart/form-data' }
-            };
-            const fd = new FormData();
-            fd.append("category_ico",this.form.category_ico.name);
-            fd.append("category_title",this.form.category_title);
-
-            axios.post('/api/v1/categories/create-category',fd,config).then(data=>{
-              this.message = data.data.message;
-            }).catch((error)=>{
-                this.errors = error.response.data.errors;
-              }
-            )
-          }
-        },
-        components:{
-          "footer-auth":footer_auth,
-                BaseTable,
-                BasePagination,
-                BaseDropdown,
-                BaseButton,
-                SlideYUpTransition
-
+          status:{
+              withDisabled:true
+          },
+          errors:{},
+          message:[]
         }
+      },
+      methods: {
+        onFileSelected(e){
+            let file = e.target.files[0];
+            this.form.photo = file;
+            this.cargarImagen(file);
+        },
+        cargarImagen(file){
+          let reader = new FileReader();
+          reader.onload = (e) =>{
+            this.miniatura = e.target.result;
+          }
+          reader.readAsDataURL(file);
+        },
+        CategoryCharge(){          
+          axios.get('/api/v1/categories/all?withDisabled='+this.status.withDisabled).then(res=>{
+            this.categories = res.data.data;
+          })
+        },
+        CategoryCreate(){
+          let fd = new FormData();
+          fd.append("category_ico",this.form.photo);
+          fd.append("category_title",this.form.category);
+
+          axios.post('/api/v1/categories/create-category',fd,config).then(data=>{
+            this.message = data.data.message;   
+            this.CategoryCharge();
+            this.ModalClose();
+          }).catch((error)=>{
+            this.errors = error.response.data.errors;
+          })
+        },
+        CategoryDetail(id){
+          axios.get('/api/v1/categories/detail/'+id).then(res=>{
+            this.form = res.data.data[0];
+            this.modals.modal1 = true;
+          });
+        },
+        CategoryUpdate(){
+          let fd = new FormData();
+          fd.append("category_ico",this.form.photo);
+          fd.append("category_title",this.form.category);
+          axios.put('/api/v1/categories/update-category/'+this.form.id,fd,config).then(data=>{
+            console.log(data.message);
+            // this.message = data.data.message;
+            this.CategoryCharge();
+            this.ModalClose();
+          }).catch((error)=>{
+            this.errors = error.response.data.errors;
+          });
+        },
+        CategoryDisable(id){
+          axios.put('/api/v1/categories/disable-category/' + id).then(data=>{
+            this.message = data.data.message;
+            this.CategoryCharge();
+          }).catch((error)=>{
+            this.errors = error.response.data.errors;
+          });;
+
+          // axios.put('/api/v1/categories/update-category/'+id).then(data=>{
+          //   this.message = data.data.message;
+          //   this.CategoryCharge();
+          // }).catch((error)=>{
+          //   this.errors = error.response.data.errors;
+          // });
+        },
+        ModalClose(){
+          this.form.category ="";
+          this.form.photo="";
+          this.miniatura="";
+          this.errors={};
+          this.modals.modal0 = false;  
+          this.modals.modal1 = false;              
+        }
+      },
+      computed: {
+        imagen(){
+          return this.miniatura;
+        }
+      },
+      components:{
+        "footer-auth":footer_auth,
+            BaseButton,
+      }
     }
 </script>

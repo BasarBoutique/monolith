@@ -378,9 +378,9 @@
 
 <script>
 import footer_auth from '../Layouts/Footer/nav_auth.vue'
-export default {
+export default {  
     components:{
         "footer-auth":footer_auth
-    }
+    },
 }
 </script>

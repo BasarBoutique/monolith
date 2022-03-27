@@ -31,8 +31,8 @@ class CategoryService{
     public function showCategories(bool $withDisabled = false)
     {
         $categories = $withDisabled
-            ? $this->categoryRepository->showAllWithCategoriesDisabled()
-            : $this->categoryRepository->showAllCategories();
+            ? $this->categoryRepository->showAllCategories()
+            : $this->categoryRepository->showAllWithCategoriesDisabled();
 
         return $categories;
     }

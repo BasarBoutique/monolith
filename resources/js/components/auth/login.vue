@@ -26,7 +26,7 @@
                                     <small>
                                             Create new account OR Sign in with these credentials:
                                     </small>
-                                </div>
+                                </div>                                    
                                     <div class="form-group mb-3">
                                         <div class="input-group input-group-alternative">
                                             <div class="input-group-prepend">
@@ -50,7 +50,7 @@
                                         </label>
                                     </div>
                                     <div class="text-center">
-                                        <button type="submit" class="btn btn-primary my-4"  @click.prevent="login">Sign in</button>
+                                        <base-button class="btn btn-primary" type="button"  @click.prevent="login">Sign in</base-button>
                                     </div>
                             </div>
                         </div>
@@ -84,7 +84,7 @@ export default {
     methods:{
         login(){
             axios.post('/api/v1/auth/login',this.form).then(({data})=>{
-                axios.get('/api/v1/auth/user',data.data.access_token).then((user)=>{
+                axios.get('/api/v1/auth/user').then((user)=>{
                     Auth.login(data.data.access_token,user.data);
                 });
                 this.$router.push('/boutique/dashboard/index');

@@ -1,4 +1,9 @@
 #upload {
-  opacity: 0;
-  visibility: hidden;
+    opacity: 0;
+    visibility: hidden;
+}
+
+#upload_update {
+    opacity: 0;
+    visibility: hidden;
 }
