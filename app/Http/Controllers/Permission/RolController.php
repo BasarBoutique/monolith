@@ -8,17 +8,29 @@ use App\Http\Requests\Core\AuthorizationAdminRequest;
 use App\Http\Requests\Permission\StoreRolRequest;
 use App\Http\Response\APIResponse;
 use App\Repositories\Permissions\RolRepository;
+use App\Services\Permission\PermissionService;
 use Exception;
 
 class RolController extends Controller
 {
+
+    private PermissionService $service;
+
+    public function __construct()
+    {
+        $this->service = new PermissionService;
+    }
+
     public function showRoles(AuthorizationAdminRequest $request)
     {
         try {
-            $repository = new RolRepository;
 
-            return APIResponse::success($repository->showRoles(), 'Retrieve list of roles');
+            $roles = $this->service->showRoles();
+
+            return APIResponse::success($roles, 'Retrieve list of roles');
+
         } catch (Exception $e) {
+
             return APIResponse::fail($e->getMessage(), 500);
         }
     }
@@ -27,16 +39,19 @@ class RolController extends Controller
     {
         try {
             $validatedRequest = $request->validated();
-            $permission_level = $validatedRequest['permission_level'];
-            $role = PermissionRoleEnum::tryFrom($permission_level);
 
-            $repository = new RolRepository;
+            $role = PermissionRoleEnum::tryFrom($validatedRequest['permission_level']);
 
-            $rol = $repository->createRol($role, $validatedRequest);
+            $params = [
+                'role' => $role,
+                'attributes' => $validatedRequest
+            ];
 
-            return APIResponse::success($rol->toArray(), 'Successfully created role!');
+            $rolCreated = $this->service->createRol($params);
+
+            return APIResponse::success($rolCreated->toArray(), 'Successfully created role!');
         }
-        catch(Exception $e){
+        catch(Exception $e) {
             return APIResponse::fail($e->getMessage(), 500);
         }
     }
