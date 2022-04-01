@@ -1,21 +1,4 @@
 
-<style>
-
-  .theme--light.v-label {
-    color: rgba(166, 165, 165, 0.6);
-  }
-  .table th, .table td {
-  padding: 1rem;
-  vertical-align: top;
-  border-top: none;
-  }
-  .table thead th {
-  border-bottom: none;
-}
-.table thead th {
-  border-bottom: none;
-}
-</style>
 <template>
     <div>
   <div class="header bg-gradient-primary pb-8 pt-5 pt-md-8">
@@ -41,7 +24,7 @@
                   <h5 class="modal-title">Courses</h5>
               </template>
               <div>
-                <v-form ref="form" @submit.prevent="CategoryCreate">
+                <v-form ref="form" @submit.prevent="CourseCreate">
                   <div class="modal-body">
                       <div class="row justify-content-center">
                         <div class="col-lg-3 order-lg-2">
@@ -62,15 +45,44 @@
                           <small class="text-uppercase font-weight-bold text-muted">Choose file</small>
                         </label>
                         <input id="upload" type="file" name="photo" onchange="readURL(this);" class="form-control border-0"  @change="onFileSelected">
-                        <div class="alert alert-warning" role="alert" v-if="errors.category_ico">
+                        <div class="alert alert-warning" role="alert" v-if="errors.Course_ico">
                             <strong>Warning!</strong> 
                         </div>
                       </div>
                       <div class="input-group">               
-                          <v-text-field class="form-control" style="color:#825ee4; border-color:1px solid #cad1d7;" v-model="form.category" name="category_title" type="text" label="Courses Name" id="example-search-input"/>
-                      </div><br>
+                          <v-text-field class="form-control" style="color:#825ee4; border-color:1px solid #cad1d7;" v-model="form.Course" name="Course_title" type="text" label="Courses Name" id="example-search-input"/>
+                      </div>
+
+
+
+
+                      <!-- Categorias del Curso  -->
+                      <div> 
+                      <v-container fluid>
+                          <v-row align="center">
+                            <v-col
+                              class="d-flex"
+                              cols="12"
+                              sm="14"
+                            >
+                              <v-select
+                                :items="items"
+                                label="Standard"
+                              ></v-select>
+                            </v-col>
+
+                          </v-row>
+                        </v-container>
+                      
+                      
+                      
+                      </div>
+                      
+
+
+                      <br>
                       <div class="text-center">
-                        <div class="alert alert-warning" role="alert" v-if="errors.category_title">
+                        <div class="alert alert-warning" role="alert" v-if="errors.Course_title">
                             <strong>Warning!</strong> 
                         </div>
                       </div>
@@ -103,7 +115,7 @@
           <div class="card-header bg-transparent border-0">
             <h3 class="text-white mb-0">Courses</h3>
               <div class="swtich-container">
-                <input type="checkbox" style="margin:auto;" @click="CategoryCharge" class="btn btn-sm btn-neutral" id="switch" v-model="status.withDisabled" checked>
+                <input type="checkbox" style="margin:auto;" @click="CourseCharge" class="btn btn-sm btn-neutral" id="switch" v-model="status.withDisabled" checked>
                 <label for="switch" class="lbl"></label>
               </div>
               <v-text-field v-model="search" append-icon="mdi-magnify" style="color:white; text-color:white;" label="Search" single-line hide-details clearable></v-text-field>
@@ -114,7 +126,7 @@
               :class="type === 'dark' ? 'table-dark' : ''"
               :thead-classes="type === 'dark' " 
               tbody-classes="list"
-              :data="categories"> <!--? 'thead-dark' : 'thead-light' -->             
+              :data="courses"> <!--? 'thead-dark' : 'thead-light' -->             
                 <template slot="columns">
                   <th>Courses</th>
                   <th>Description</th>
@@ -129,32 +141,21 @@
                           <img alt="Image placeholder" :src="row.photo" />
                         </a>
                         <div class="media-body">
-                          <span class="name mb-0 text-sm">{{ row.category }}</span>
+                          <span class="name mb-0 text-sm">{{ row.title }}</span>
                         </div>
                       </div>
                     </td>
-
-
-
-
                     <td>
-                    <!-- Descripcion -->
-                    
-                    <div class="media-body">
-                            <span class="name mb-0 text-sm">Poeta, narrador, periodista y crítico literario americano</span>
-                    </div>
-
+                      <!-- Descripcion -->
+                      <div class="media-body" style="flex: 1 1; width: 230px; white-space: nowrap; text-overflow: ellipsis; overflow: hidden;">
+                        <span class="name mb-0 text-sm">{{row.detail['about']}}</span>
+                        </div>
                     </td>
-
                     <td>
-                    <!--  Authores  -->
-                    <div class="media align-items-center">
+                      <!--  Authores  -->
+                      <div class="media align-items-center">
                         <a href="#" class="avatar rounded-circle mr-3">
-                          
-                            
-                              <img alt="Image placeholder" :src="'https://personajeshistoricos.com/wp-content/uploads/2018/04/edgar-allan-poe-1.jpg'">
-                            
-                          
+                          <img alt="Image placeholder" :src="'https://personajeshistoricos.com/wp-content/uploads/2018/04/edgar-allan-poe-1.jpg'">
                         </a>
                         <div class="media-body">
                             <span class="name mb-0 text-sm">Edgar Allan Poe</span>
@@ -163,14 +164,14 @@
 
 
                     </td>
-                    <td>
-                      <span  v-if="row.enabled == true" class="badge badge-dot mr-4">              
+                    <td class="media align-items-center">
+                      <span  v-if="row.enabled == true" class="badge badge-sm bg-gradient-success">              
                         <i class="bg-success"></i>
-                        <span class="status">Enabled</span>
+                        Enabled
                       </span>
-                      <span  v-if="row.enabled == false" class="badge badge-dot mr-4">              
+                      <span  v-if="row.enabled == false" class="badge badge-sm bg-gradient-danger">              
                         <i class="bg-danger"></i>
-                        <span class="status">Disabled</span>
+                        Disabled
                       </span>
                     </td>
                     <td class="text-right">
@@ -187,11 +188,9 @@
                         </a>
 
                         <template>
-                          <v-form ref="form" @submit.prevent="CategoryDetail(row.id)" >
-                            <button class="dropdown-item" @click="modals.modal0 = true"><i class="ni ni-settings" style="color:purple;"></i>Update</button>
-                          </v-form>
-                          <a class="dropdown-item" href="#"><i class="ni ni-button-power" style="color:red;"></i>Enabled</a>
-                        </template>
+                          <button v-if="row.enabled == true" class="dropdown-item" @click.prevent="CourseDetail(row.id)" ><i class="ni ni-settings" style="color:purple;"></i>Update</button>
+                          <button class="dropdown-item" @click.prevent="CourseDisable(row.id)" ><i class="ni ni-button-power" style="color:red;"></i>Disabled</button>                    
+                        </template> 
                       </base-dropdown>
                     </td>
                 </template>                
@@ -227,9 +226,9 @@ const config = {
             modal0: false
           },
           search: '',
-          categories: [
-            axios.get('/api/v1/categories/all?withDisabled=false').then(res=>{
-              this.categories = res.data.data;
+          courses: [
+            axios.get('/api/v1/courses/all?withDisabled=true').then(res=>{
+              this.courses = res.data.data;
             })
           ],
           form :{
@@ -237,11 +236,11 @@ const config = {
             photo:{
               name:''
             },
-            category :'',
+            Course :'',
             enabled:'',
           },
           status:{
-              withDisabled:'true'
+              withDisabled:null
           },
           errors:{},
           message:[],
@@ -251,44 +250,52 @@ const config = {
         onFileSelected(event){
             this.form.photo = event.target.files[0];
         },
-        CategoryCharge(){          
-          axios.get('/api/v1/categories/all?withDisabled='+this.status.withDisabled).then(res=>{
-            this.categories = res.data.data;
+        CourseCharge(){          
+          axios.get('/api/v1/courses/all?withDisabled='+this.status.withDisabled).then(res=>{
+            this.courses = res.data.data;
           })
         },
-        CategoryCreate(){
+        CourseCreate(){
           const fd = new FormData();
-          fd.append("category_ico",this.form.photo.name);
-          fd.append("category_title",this.form.category);
+          fd.append("Course_ico",this.form.photo.name);
+          fd.append("Course_title",this.form.Course);
 
-          axios.post('/api/v1/categories/create-category',fd,config).then(data=>{
+          axios.post('/api/v1/courses/create-course',fd,config).then(data=>{
             this.message = data.data.message;            
-            this.CategoryCharge();
+            this.CourseCharge();
             this.ModalClose();
           }).catch((error)=>{
             this.errors = error.response.data.errors;
           })
         },
-        CategoryDetail(id){
-          axios.get('/api/v1/categories/detail/'+id).then(res=>{
+        CourseDetail(id){
+          axios.get('/api/v1/courses/detail/'+id).then(res=>{
             this.form = res.data.data[0];
           });
         },
-        CategoryUpdate(){
+        CourseUpdate(){
           const fd = new FormData();
-          fd.append("category_ico",this.form.category_ico.name);
-          fd.append("category_title",this.form.category_title);
+          fd.append("Course_ico",this.form.Course_ico.name);
+          fd.append("Course_title",this.form.Course_title);
           
-          axios.post('/api/v1/categories/update-category/'+this.form.id,fd,config).then(data=>{
+          axios.post('/api/v1/courses/update-course/'+this.form.id,fd,config).then(data=>{
             this.message = data.data.message;
-            this.CategoryCharge();
+            this.CourseCharge();
           }).catch((error)=>{
             this.errors = error.response.data.errors;
           })
         },
+        CourseDisable(id){
+          axios.put('/api/v1/courses/disable-course/' + id).then(data=>{
+            this.message = data.data.message;
+            this.CourseCharge();
+          }).catch((error)=>{
+            this.errors = error.response.data.errors;
+          });
+        },
         ModalClose(){
           this.form.photo="";
-          this.form.category =""; 
+          this.form.Course =""; 
           $("#imageResult")[0].setAttribute("src", "");
           this.modals.modal0 = false;                
         }

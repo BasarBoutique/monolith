@@ -19,4 +19,3 @@ use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
 Route::get('/{any}', function () {
     return view('welcome');
 })->where('any', '.*');
-

@@ -2,7 +2,22 @@
   .talas_personalisadas{
       color: white;
   }
+  .theme--light.v-label {
+    color: rgba(166, 165, 165, 0.6);
+  }
+  .table th, .table td {
+  padding: 1rem;
+  vertical-align: top;
+  border-top: none;
+  }
+  .table thead th {
+  border-bottom: none;
+}
+.table thead th {
+  border-bottom: none;
+}
 </style>
+
 <template>
   <table id="dtBasicExample" class="talas_personalisadas table tablesorter" :class="tableClass">
     <thead :class="theadClasses">

@@ -210,7 +210,7 @@
                         <img alt="Image placeholder" v-bind:src="'../../assets/img/theme/team-4.jpg'">
                       </span>
                       <div class="media-body  ml-2  d-none d-lg-block">
-                        <span class="mb-0 text-sm  font-weight-bold">{{user.data.name}}</span>
+                        <span class="mb-0 text-sm  font-weight-bold"></span>
                       </div>
                     </div>
                   </a>
@@ -256,24 +256,14 @@
 
 <script>
 import header_siderbar from './Layouts/navbars/siderbar.vue'
-import Auth from '../auth.js'
+
 export default {
   data () {
      return {       
-       user: Auth.user
       };
   },
   methods: {
-    logout() {
-      axios.get('/api/v1/logout',Auth.token)
-      .then(({data}) => {
-        Auth.logout(); 
-        this.$router.push('/boutique/login');
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-    }
+    
   },
   components:{
     "siderbar":header_siderbar,
