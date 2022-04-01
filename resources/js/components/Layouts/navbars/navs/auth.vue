@@ -196,7 +196,7 @@
                         <img alt="Image placeholder" v-bind:src="'../../assets/img/theme/team-4.jpg'">
                       </span>
                       <div class="media-body  ml-2  d-none d-lg-block">
-                        <span class="mb-0 text-sm  font-weight-bold">{{user.data.name}}</span>
+                        <span class="mb-0 text-sm  font-weight-bold"></span>
                       </div>
                     </div>
                   </a>
@@ -230,32 +230,18 @@
               </ul>
             </div>
           </div>
-    </nav>
+        </nav>
 </template>
 <script>
-
-import Auth from '../../../../auth';
-
 export default {
-   data () {
-     return {       
-       user: Auth.user
-      };
-  },
-  mounted() {
-     console.log(Auth.user);
-  },
-  methods: {
-    logout() {
-      axios.get('/api/v1/logout',Auth.token)
-      .then(({data}) => {
-        Auth.logout(); 
-        this.$router.push('/boutique/login');
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+    name:'navbar_auth',
+    methods:{
+        logout(){
+            this.$store.dispatch('logout').then(res=>{
+              toastr.success(res.message)
+                this.$router.push('/boutique/login');
+            })
+        }
     }
-  },
 }
 </script>

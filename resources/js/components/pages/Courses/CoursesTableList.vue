@@ -227,7 +227,7 @@ const config = {
           },
           search: '',
           courses: [
-            axios.get('/api/v1/courses/all?withDisabled=true').then(res=>{
+            axios.get('/courses/all?withDisabled=true').then(res=>{
               this.courses = res.data.data;
             })
           ],
@@ -251,7 +251,7 @@ const config = {
             this.form.photo = event.target.files[0];
         },
         CourseCharge(){          
-          axios.get('/api/v1/courses/all?withDisabled='+this.status.withDisabled).then(res=>{
+          axios.get('/courses/all?withDisabled='+this.status.withDisabled).then(res=>{
             this.courses = res.data.data;
           })
         },
@@ -260,7 +260,7 @@ const config = {
           fd.append("Course_ico",this.form.photo.name);
           fd.append("Course_title",this.form.Course);
 
-          axios.post('/api/v1/courses/create-course',fd,config).then(data=>{
+          axios.post('/courses/create-course',fd,config).then(data=>{
             this.message = data.data.message;            
             this.CourseCharge();
             this.ModalClose();
@@ -269,7 +269,7 @@ const config = {
           })
         },
         CourseDetail(id){
-          axios.get('/api/v1/courses/detail/'+id).then(res=>{
+          axios.get('/courses/detail/'+id).then(res=>{
             this.form = res.data.data[0];
           });
         },
@@ -278,7 +278,7 @@ const config = {
           fd.append("Course_ico",this.form.Course_ico.name);
           fd.append("Course_title",this.form.Course_title);
           
-          axios.post('/api/v1/courses/update-course/'+this.form.id,fd,config).then(data=>{
+          axios.post('/courses/update-course/'+this.form.id,fd,config).then(data=>{
             this.message = data.data.message;
             this.CourseCharge();
           }).catch((error)=>{
@@ -286,7 +286,7 @@ const config = {
           })
         },
         CourseDisable(id){
-          axios.put('/api/v1/courses/disable-course/' + id).then(data=>{
+          axios.put('/courses/disable-course/' + id).then(data=>{
             this.message = data.data.message;
             this.CourseCharge();
           }).catch((error)=>{

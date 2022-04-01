@@ -82,11 +82,12 @@ export default {
     },
     methods:{
         login(){
-            this.$store.dispatch('login', this.credentials).then(res=>{           
-                toastr.success(res.message)
-                this.$router.push('/boutique/dashboard/index');
+            this.$store.dispatch('login', this.credentials).then(res=>{     
+                this.$store.dispatch('aboutUser').then(()=>{
+                    toastr.success(res.message);
+                    this.$router.push('/boutique/dashboard/index');         
+                }); 
             }).catch(error=>{
-                console.log(error)
                 toastr.error(error.message)
             })
         }
