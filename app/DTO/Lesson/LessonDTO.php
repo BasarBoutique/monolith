@@ -11,10 +11,10 @@ class LessonDTO implements DTOInterface{
     {
         return [
             'ld_title' => $attributes['title'],
-            'ld_url' => $attributes['ld_url'],
+            'ld_url' => $attributes['url'],
             'ld_description' => $attributes['description'],
-            'course_id' => LessonDetailDTO::make([],$attributes)
+            'course_id' => LessonDetailDTO::make($attributes)
         ];
     }
-    
+
 }

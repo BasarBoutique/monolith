@@ -8,11 +8,11 @@ use App\Models\LessonLog;
 
 class LessonDetailDTO implements DTOInterface{
 
-    static function make(array $attributes, array $externarlAttributes = []) : array
+    static function make(array $attributes, array $externalAttributes = []) : array
     {
         return [
-            'course_id' => $attributes['course_id'] ?? $externarlAttributes['course_id']
+            'course_id' => $attributes['course_id'] ?? $externalAttributes['course_id']
         ];
     }
-    
+
 }
