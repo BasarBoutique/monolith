@@ -1,5 +1,5 @@
 <?php
-    
+
 namespace App\Repositories\Lesson;
 
 use App\DTO\Interfaces\DTOInterface;
@@ -12,12 +12,12 @@ class LessonRepository{
 
     public function showAllWithLessonDisabled()
     {
-        return Lesson::withDisabledLesson()->get();
+        return Lesson::withDisabledLesson();
     }
 
     public function showAllLesson()
     {
-        return Lesson::has("detail")->get();
+        return Lesson::has("detail");
     }
 
     public function showLessonById(array $attributes)
@@ -53,8 +53,10 @@ class LessonRepository{
         try {
             $lessonDTO = $dto::make($attributes);
 
-            $lesson = LessonDetial::findOrFail($attributes['lessonId'])->update($lessonDTO);
-                        
+            $lesson = LessonDetial::findOrFail($attributes['lessonId']);
+
+            $lesson->update($lessonDTO);
+
             return $lesson;
         } catch (Exception $e) {
             Log::error($e->getMessage(),[
@@ -63,11 +65,11 @@ class LessonRepository{
             ]);
 
             throw $e;
-            
+
             return false;
         }
     }
-        
+
     public function disableLesson(array $attributes)
     {
         try {
@@ -80,7 +82,7 @@ class LessonRepository{
             ]);
 
             throw $e;
-            
+
             return false;
         }
     }
@@ -88,9 +90,15 @@ class LessonRepository{
     public function changeLessonCourse(array $attributes){
 
         try {
-            $lessonDetail = Lesson::findOrFail($attributes['lessonId'])->update(['course_id' => $attributes['course_id']]);
+
+            $lessonDetail = Lesson::findOrFail($attributes['lessonId']);
+
+            $lessonDetail->update(['course_id' => $attributes['course_id']]);
+
             return $lessonDetail;
+
         } catch (Exception $e) {
+
             Log::error($e->getMessage(),[
                 'LEVEL' => 'Repository',
                 'TRACE' =>$e->getTraceAsString()

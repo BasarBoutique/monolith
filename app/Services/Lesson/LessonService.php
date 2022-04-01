@@ -1,5 +1,5 @@
 <?php
-    
+
 namespace App\Services\Lesson;
 
 use App\DTO\Lesson\LessonDTO;
@@ -8,20 +8,20 @@ use App\Models\LessonDetial;
 use App\Repositories\Lesson\LessonRepository;
 
 class LessonService{
-    
+
     private $lessonRepository;
 
     public function __construct()
     {
         $this->lessonRepository = new LessonRepository;
     }
-    
+
     public function showLesson(bool $withDisabled = false){
         $lesson = $withDisabled
             ? $this->lessonRepository->showAllWithLessonDisabled()
             : $this->lessonRepository->showAllLesson();
 
-        return $lesson;
+        return $lesson->paginate(10);
     }
 
     public function showLessonById(array $attributes){
@@ -35,9 +35,9 @@ class LessonService{
         $lessonDTO = new LessonDTO;
 
         $lesson = $this->lessonRepository->createLesson($lessonDTO,$attributes);
-        
+
         event(new LessonRegistered($lesson));
-        
+
         return $lesson;
     }
 

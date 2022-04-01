@@ -19,7 +19,7 @@ class StoreLessonRequest extends AuthorizationAdminRequest
     {
         return [
             'title' => ['required','string',Rule::unique(LessonDetial::class, 'ld_title')] ,
-            'ld_url' => ['required','string'],
+            'url' => ['required','string'],
             'description' => ['required','array'],
             'description.context' => ['required','string'],
             'description.length' => ['required','string'],

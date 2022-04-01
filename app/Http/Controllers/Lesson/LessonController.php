@@ -9,8 +9,8 @@ use App\Http\Requests\Lesson\FilterLessonByIdRequest;
 use App\Http\Requests\Lesson\StoreLessonRequest;
 use App\Http\Requests\Lesson\UpdateLessonRequest;
 use App\Http\Resources\Lesson\LessonResource;
+use App\Http\Resources\Lesson\LessonsPaginate;
 use App\Http\Response\APIResponse;
-use App\Repositories\Lesson\LessonRepository;
 use App\Services\Lesson\LessonService;
 use Exception;
 use Illuminate\Http\Request;
@@ -28,9 +28,9 @@ class LessonController extends Controller
 
             $service = new LessonService;
 
-            $lesson = $service->showLesson($withDisabled);
+            $lessons = $service->showLesson($withDisabled);
 
-            $resource = LessonResource::collection($lesson);
+            $resource = new LessonsPaginate($lessons);
 
             return APIResponse::success($resource,'Retrieve successfully lessons');
         } catch (Exception $e) {
@@ -46,10 +46,9 @@ class LessonController extends Controller
 
             $lesson = $service->showLessonById($validatedRequest);
 
-            
-            $resource = LessonResource::collection($lesson);
-            
-            return APIResponse::success($resource,'Retrieve successfully lessons');
+            $resource = new LessonResource($lesson);
+
+            return APIResponse::success($resource,'Retrieve successfully lesson');
         } catch (Exception $e) {
             return APIResponse::fail($e->getMessage(),500);
         }
@@ -75,10 +74,10 @@ class LessonController extends Controller
 
             $service = new LessonService;
 
-            $service->update($validatedRequest);
-            
-            return APIResponse::success([], 'Succesfully updated Lesson!');
-        } catch (Exception $e) {            
+            $lesson = $service->update($validatedRequest);
+
+            return APIResponse::success($lesson->toArray(), 'Succesfully updated Lesson!');
+        } catch (Exception $e) {
             return APIResponse::fail($e->getMessage(),500);
         }
     }
@@ -103,9 +102,9 @@ class LessonController extends Controller
 
             $service = new LessonService;
 
-            $service->changeLessonCourse($validatedRequest);
+            $lesson = $service->changeLessonCourse($validatedRequest);
 
-            return APIResponse::success([], 'Course changed successfully');
+            return APIResponse::success($lesson->toArray(), 'Course changed successfully');
         } catch (Exception $e) {
             return APIResponse::fail($e->getMessage(),500);
         }

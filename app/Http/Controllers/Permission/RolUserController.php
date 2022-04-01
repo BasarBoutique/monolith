@@ -6,11 +6,19 @@ use App\Enums\PermissionRoleEnum;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Permission\StoreUserRolRequest;
 use App\Http\Response\APIResponse;
-use App\Repositories\Permissions\UserRolRepository;
+use App\Services\Permission\PermissionService;
 use Exception;
 
 class RolUserController extends Controller
 {
+
+    private PermissionService $service;
+
+    public function __construct()
+    {
+        $this->service = new PermissionService;
+    }
+
     public function assignRolToUser(StoreUserRolRequest $request)
     {
         try {
@@ -20,8 +28,13 @@ class RolUserController extends Controller
 
             $role = PermissionRoleEnum::tryFrom($permission_level) ?? PermissionRoleEnum::CLIENT;
 
-            $repository = new UserRolRepository;
-            $attachRolToUser = $repository->attachRolToUser($role, $validatedRequest['user']);
+            $params = [
+                'role' => $role,
+                'user' => $validatedRequest['user']
+            ];
+
+
+            $attachRolToUser = $this->service->attachRolToUser($params);
 
             return APIResponse::success($attachRolToUser->toArray(), 'Attached Rol to User successfully');
         } catch (Exception $e) {
