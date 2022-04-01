@@ -81,7 +81,19 @@ export default {
         }
     },
     methods:{
+        // login : async function() {
+        //     try {
+        //         await this.$store.dispatch('Login',this.credentials).then(res =>{
+        //             // this.$store.dispatch('aboutUser').then(()=>{
+        //             //     toastr.success(res.message);
+        //             // }); 
+        //             this.$router.push('/boutique/dashboard/index');         
+        //         })
+        //     } catch (error) {
+        //         toastr.error(error)
+        //     }
         login(){
+
             this.$store.dispatch('login', this.credentials).then(res=>{     
                 this.$store.dispatch('aboutUser').then(()=>{
                     toastr.success(res.message);

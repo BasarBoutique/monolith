@@ -1,4 +1,8 @@
-
+<style>
+.text-white input {
+      color: rgb(255, 255, 255) !important;
+}
+</style>
 <template>
     <div>
   <div class="header bg-gradient-primary pb-8 pt-5 pt-md-8">
@@ -118,7 +122,9 @@
                 <input type="checkbox" style="margin:auto;" @click="CourseCharge" class="btn btn-sm btn-neutral" id="switch" v-model="status.withDisabled" checked>
                 <label for="switch" class="lbl"></label>
               </div>
-              <v-text-field v-model="search" append-icon="mdi-magnify" style="color:white; text-color:white;" label="Search" single-line hide-details clearable></v-text-field>
+              <v-form ref="form" @submit.prevent="CoursesSearch">
+                <v-text-field class="text-white" v-model="filter.title" label="Search" single-line></v-text-field>
+              </v-form>
           </div>
           <div class="table-responsive">
               <base-table 
@@ -138,7 +144,7 @@
                     <td scope="row">
                       <div class="media align-items-center">
                         <a href="#" class="avatar rounded-circle mr-3">
-                          <img alt="Image placeholder" :src="row.photo" />
+                          <img :src="row.photo" />
                         </a>
                         <div class="media-body">
                           <span class="name mb-0 text-sm">{{ row.title }}</span>
@@ -225,12 +231,14 @@ const config = {
           modals: {
             modal0: false
           },
-          search: '',
           courses: [
             axios.get('/courses/all?withDisabled=true').then(res=>{
               this.courses = res.data.data;
             })
           ],
+          filter:{
+            title: null
+          },
           form :{
             id:'',
             photo:{
@@ -283,6 +291,17 @@ const config = {
             this.CourseCharge();
           }).catch((error)=>{
             this.errors = error.response.data.errors;
+          })
+        },
+        CoursesSearch(){
+          axios.post('/courses/search',{
+            filters : this.filter
+            }).then(res=>{
+             this.courses = res.data.data.courses;
+             console.log(this.filter.title);
+             console.log(res.data.data.courses);
+          }).catch((error)=>{
+            this.CourseCharge();
           })
         },
         CourseDisable(id){

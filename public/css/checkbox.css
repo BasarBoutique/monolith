@@ -2,7 +2,7 @@
     margin-top:-20px;
     width: 65px;
     height: 33px;
-    background: #00C8B1;
+    background: #ff5395;
     border-radius: 100px;
     cursor: pointer;
     position: relative;
@@ -28,7 +28,7 @@
   }
    
   #switch:checked + .lbl{
-    background: #ff5395;
+    background: #00C8B1;
   }
    
   #switch{

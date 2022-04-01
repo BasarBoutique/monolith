@@ -221,18 +221,18 @@ const config = {
           },
           search: '',
           categories: [
-            axios.get('/categories/all?withDisabled=true').then(res=>{
+            axios.get('/categories/all?withDisabled=false').then(res=>{
               this.categories = res.data.data;
             })
           ],
           form :{
-            id:'',
-            photo:'',
-            category :'',
-            enabled:'',
+            id:null,
+            photo:null,
+            category :null,
+            enabled:null,
           },
           status:{
-              withDisabled:null
+              withDisabled:false
           },
           errors:{},
           message:[]
@@ -260,6 +260,7 @@ const config = {
           let fd = new FormData();
           fd.append("category_ico",this.form.photo);
           fd.append("category_title",this.form.category);
+          axios.defaults.headers.common['Authorization']= 'Bearer ' + this.$store.state.token
           axios.post('/categories/create-category',fd,config).then(data=>{
             this.message = data.data.message;   
             this.CategoryCharge();
@@ -277,18 +278,36 @@ const config = {
         },
         CategoryUpdate(){
           let fd = new FormData();
-          fd.append("category_ico",this.form.photo);
-          fd.append("category_title",this.form.category);
-          axios.put('/categories/update-category/'+this.form.id,fd,config).then(data=>{
+          fd.append("_method", "put");
+          fd.append("category_ico",this.form.photo['name']);
+          fd.append("category_title", this.form.category);
+
+          axios.defaults.headers.common['Authorization']= 'Bearer ' + this.$store.state.token
+          
+          axios({
+            methods: "put",
+            url : "/categories/update-category/"+this.form.id,
+            data : fd,
+            headers : config
+          }).then(data=>{
             console.log(data.message);
-            // this.message = data.data.message;
+            this.message = data.data.message;
             this.CategoryCharge();
             this.ModalClose();
           }).catch((error)=>{
             this.errors = error.response.data.errors;
           });
+          // axios.put('/categories/update-category/'+this.form.id,fd,config).then(data=>{
+          //   console.log(data.message);
+          //   // this.message = data.data.message;
+          //   this.CategoryCharge();
+          //   this.ModalClose();
+          // }).catch((error)=>{
+          //   this.errors = error.response.data.errors;
+          // });
         },
         CategoryDisable(id){
+          axios.defaults.headers.common['Authorization']= 'Bearer ' + this.$store.state.token
           axios.put('/categories/disable-category/' + id).then(data=>{
             this.message = data.data.message;
             this.CategoryCharge();
