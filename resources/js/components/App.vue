@@ -24,6 +24,11 @@ import navbar_guest from '../components/Layouts/navbars/navs/guest'
 import navbar_auth from '../components/Layouts/navbars/navs/auth.vue'
 import header_siderbar from '../components/Layouts/navbars/siderbar.vue'
 export default {
+    data(){
+      return{
+        User : JSON.parse(this.$store.state.user)
+      }
+    },
     components:{
         navbar_guest,
         footer_guest,

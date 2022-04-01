@@ -196,7 +196,7 @@
                         <img alt="Image placeholder" v-bind:src="'../../assets/img/theme/team-4.jpg'">
                       </span>
                       <div class="media-body  ml-2  d-none d-lg-block">
-                        <span class="mb-0 text-sm  font-weight-bold"></span>
+                        <span class="mb-0 text-sm  font-weight-bold">{{User.name}}</span>
                       </div>
                     </div>
                   </a>
@@ -204,22 +204,10 @@
                     <div class="dropdown-header noti-title">
                       <h6 class="text-overflow m-0">Welcome!</h6>
                     </div>
-                    <a href="#!" class="dropdown-item">
+                    <router-link  exact :to="{name:'boutique.dashboard.UsersProfile'}" class="dropdown-item">
                       <i class="ni ni-single-02"></i>
                       <span>My profile</span>
-                    </a>
-                    <a href="#!" class="dropdown-item">
-                      <i class="ni ni-settings-gear-65"></i>
-                      <span>Settings</span>
-                    </a>
-                    <a href="#!" class="dropdown-item">
-                      <i class="ni ni-calendar-grid-58"></i>
-                      <span>Activity</span>
-                    </a>
-                    <a href="#!" class="dropdown-item">
-                      <i class="ni ni-support-16"></i>
-                      <span>Support</span>
-                    </a>
+                    </router-link>
                     <div class="dropdown-divider"></div>
                     <a href="#!" @click.prevent="logout" class="dropdown-item">
                       <i class="ni ni-user-run"></i>
@@ -233,7 +221,13 @@
         </nav>
 </template>
 <script>
+
 export default {
+    data(){
+      return{
+        User : JSON.parse(this.$store.state.user)
+      }
+    },
     name:'navbar_auth',
     methods:{
         logout(){

@@ -7,7 +7,7 @@
         <div class="container-fluid d-flex align-items-center">
           <div class="row">
             <div class="col-lg-7 col-md-10">
-              <h1 class="display-2 text-white">nombre</h1>
+              <h1 class="display-2 text-white">{{User.name}}</h1>
               <p class="text-white mt-0 mb-5">This is your profile page. You can see the progress you've made with your work and manage your projects or assigned tasks</p>
               <a href="#!" class="btn btn-info">Edit profile</a>
             </div>
@@ -92,11 +92,11 @@
                             <div class="pl-lg-4">
                                 <div class="form-group">
                                     <label class="form-control-label" for="input-name">Name</label>
-                                    <input type="text" name="name" id="input-name" class="form-control form-control-alternative"  required autofocus>
+                                    <input type="text" name="name" id="input-name" :placeholder=User.name class="form-control form-control-alternative"  required autofocus>
                                 </div>
                                 <div class="form-group">
                                     <label class="form-control-label" for="input-email">Email</label>
-                                    <input type="email" name="email" id="input-email" class="form-control form-control-alternative" required>
+                                    <input type="email" name="email" id="input-email" :placeholder=User.email class="form-control form-control-alternative" required>
                                 </div>
 
                                 <div class="text-center">
@@ -106,7 +106,7 @@
                         </form>
                         <hr class="my-4" />
                         <form method="post">                           
-                            <h6 class="heading-small text-muted mb-4">'Password</h6>
+                            <h6 class="heading-small text-muted mb-4">Password</h6>
 
                             <div class="pl-lg-4">
                                 <div class="form-group">
@@ -138,6 +138,11 @@
 <script>
 import footer_auth from '../../Layouts/Footer/nav_auth.vue';
   export default {
+      data(){
+        return{
+            User : JSON.parse(this.$store.state.user)
+        }
+    },
     components:{
       footer_auth
       }
