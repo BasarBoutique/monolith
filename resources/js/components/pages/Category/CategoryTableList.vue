@@ -221,7 +221,7 @@ const config = {
           },
           search: '',
           categories: [
-            axios.get('/api/v1/categories/all?withDisabled=true').then(res=>{
+            axios.get('/categories/all?withDisabled=true').then(res=>{
               this.categories = res.data.data;
             })
           ],
@@ -251,8 +251,8 @@ const config = {
           }
           reader.readAsDataURL(file);
         },
-        CategoryCharge(){          
-          axios.get('/api/v1/categories/all?withDisabled='+this.status.withDisabled).then(res=>{
+        CategoryCharge(){     
+          axios.get('/categories/all?withDisabled='+this.status.withDisabled).then(res=>{
             this.categories = res.data.data;
           })
         },
@@ -260,17 +260,16 @@ const config = {
           let fd = new FormData();
           fd.append("category_ico",this.form.photo);
           fd.append("category_title",this.form.category);
-
-          axios.post('/api/v1/categories/create-category',fd,config).then(data=>{
+          axios.post('/categories/create-category',fd,config).then(data=>{
             this.message = data.data.message;   
             this.CategoryCharge();
             this.ModalClose();
           }).catch((error)=>{
             this.errors = error.response.data.errors;
-          })
+          });
         },
         CategoryDetail(id){
-          axios.get('/api/v1/categories/detail/'+id).then(res=>{
+          axios.get('/categories/detail/'+id).then(res=>{
             this.form = res.data.data[0];
             this.miniatura =res.data.data[0].photo;
             this.modals.modal1 = true;
@@ -280,7 +279,7 @@ const config = {
           let fd = new FormData();
           fd.append("category_ico",this.form.photo);
           fd.append("category_title",this.form.category);
-          axios.put('/api/v1/categories/update-category/'+this.form.id,fd,config).then(data=>{
+          axios.put('/categories/update-category/'+this.form.id,fd,config).then(data=>{
             console.log(data.message);
             // this.message = data.data.message;
             this.CategoryCharge();
@@ -290,7 +289,7 @@ const config = {
           });
         },
         CategoryDisable(id){
-          axios.put('/api/v1/categories/disable-category/' + id).then(data=>{
+          axios.put('/categories/disable-category/' + id).then(data=>{
             this.message = data.data.message;
             this.CategoryCharge();
           }).catch((error)=>{

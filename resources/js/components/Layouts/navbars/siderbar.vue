@@ -114,3 +114,9 @@
         </div>
       </nav>
 </template>
+
+<script>
+export default {
+  name:"header_siderbar"
+}
+</script>

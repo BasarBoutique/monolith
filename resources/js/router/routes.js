@@ -74,17 +74,17 @@ const routes = [{
                 path: '/boutique/dashboard/UsersManagement',
                 component: BoutiqueDashboardUsers,
                 name: 'boutique.dashboard.UsersManagement', 
-        meta: {
-            requiresAuth: true
-        },
+                meta: {
+                    requiresAuth: true
+                },
             },
             {
                 path: '/boutique/dashboard/UsersProfile',
                 component: BoutiqueDashboardPerfil,
-                name: 'boutique.dashboard.UsersProfile', 
-        meta: {
-            requiresAuth: true
-        },
+                name: 'boutique.dashboard.UsersProfile',  
+                meta: {
+                    requiresAuth: true
+                },
             }
 
         ]

@@ -15,7 +15,7 @@
         </div>
       </div>
       <div class="container-fluid mt--7" style="background:#f7fafc;">
-          <div class="row">
+        <div class="row">
             <div class="col-xl-4 order-xl-2 mb-5 mb-xl-0">
               <div class="card card-profile shadow">
                         <div class="row justify-content-center">
@@ -71,7 +71,7 @@
                                 <a href="#">Show more</a>
                             </div>
                         </div>
-              </div>
+                </div>
             </div>
             <div class="col-xl-8 order-xl-1">
                 <div class="card bg-secondary shadow">
@@ -89,16 +89,6 @@
                         <form method="post"  autocomplete="off">
                             <h6 class="heading-small text-muted mb-4">User information</h6>
                             
-                            <!-- @if (session('status'))
-                                <div class="alert alert-success alert-dismissible fade show" role="alert">
-                                    {{ session('status
-                                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                                        <span aria-hidden="true">&times;</span>
-                                    </button>
-                                </div>
-                            @endif -->
-
-
                             <div class="pl-lg-4">
                                 <div class="form-group">
                                     <label class="form-control-label" for="input-name">Name</label>
@@ -141,17 +131,15 @@
                 </div>
             </div>
         </div>
-        <footer-auth></footer-auth>
+        <footer_auth></footer_auth>
       </div>
   </div>
 </template>
 <script>
 import footer_auth from '../../Layouts/Footer/nav_auth.vue';
   export default {
-    data() {
-    }, 
     components:{
-      "footer-auth":footer_auth,
+      footer_auth
       }
   }
 </script>

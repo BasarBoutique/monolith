@@ -3,7 +3,7 @@
     <nav class="navbar navbar-top navbar-horizontal navbar-expand-md navbar-dark">
         <div class="container px-4">
             <router-link class="navbar-brand" exact :to="{ name: 'boutique.index' }">
-              <img v-bind:src="'../assets/img/brand/white.png'"/>
+              <img v-bind:src="'../../../../../../public/assets/img/brand/white.png'"/>
             </router-link>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-collapse-main" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
@@ -89,10 +89,5 @@ export default {
             })
         }
     },
-    computed:{
-      loggedIn(){
-        return this.$store.getters.loggedIn
-      }
-    }
 }
 </script>
