@@ -22,10 +22,10 @@ class CoursesController extends Controller
         try {
 
             $request->validate([
-                'withDisabled' => 'required|boolean'
+                'withDisabled' => 'required|string'
             ]);
 
-            $withDisabled = $request->get('withDisabled');
+            $withDisabled =  filter_var($request->get('withDisabled'), FILTER_VALIDATE_BOOLEAN);
 
             $service = new CourseService;
 

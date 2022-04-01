@@ -1,19 +1,9 @@
 <style>
-  .theme--light.v-label {
-    color: rgba(166, 165, 165, 0.6);
-  }
-  .table th, .table td {
-  padding: 1rem;
-  vertical-align: top;
-  border-top: none;
-  }
-  .table thead th {
-  border-bottom: none;
-}
-.table thead th {
-  border-bottom: none;
+.display_select{
+  display: none;
 }
 </style>
+
 <template>
     <div>
   <div class="header bg-gradient-primary pb-8 pt-5 pt-md-8">
@@ -115,64 +105,60 @@
               :data="categories"> <!--? 'thead-dark' : 'thead-light' -->             
                 <template slot="columns">
                   <th>Users</th>
-                  <th>Email</th>
-                  <th>Role</th>
                   <th>Phone</th>
-                  <th></th>
+                  <th>Role</th>
+                  <!-- <th></th> -->
                 </template>
                 <template slot-scope="{ row }">
                     <td>
-                    <!--  Usuarios   -->
-                    <div class="media align-items-center">
-                        
+                      <div class="media align-items-center">
                         <a href="#" class="avatar rounded-circle mr-3">
                               <img alt="Image placeholder" :src="'https://i.pinimg.com/736x/49/c8/e4/49c8e403cd1929e9e7b02126824ff831.jpg'">
                         </a>
-
-                        <div class="media-body">
-                            <span class="name mb-0 text-sm">Kuno Anticucho</span>
+                        <div class="d-flex flex-column justify-content-center">
+                          <span class="name mb-0 text-sm">Kuno Anticucho</span>
+                          <p class="text-xs text-secondary mb-0">john@creative-tim.com</p>
                         </div>
-                    </div>
-
-
+                      </div>
                     </td>
 
-
-
-
-                    <td>
-                    <!-- Correo Electronico -->
                     
-                    <div class="media-body">
-                            <span class="name mb-0 text-sm">correo@gmail.com</span>
-                    </div>
-
+                    <td>
+                      <!-- Celular  -->
+                      <div class="media align-items-center">
+                        <span class="name mb-0 text-sm"><i class="fas fa-mobile-alt"></i> +(51) 995478124</span>
+                      </div>
                     </td>
 
                     <td>
-                    <!--  Roles   -->
-                    <div class="media align-items-center">
-                        <!--
-                        <a href="#" class="avatar rounded-circle mr-3">
-                              <img alt="Image placeholder" :src="'https://personajeshistoricos.com/wp-content/uploads/2018/04/edgar-allan-poe-1.jpg'">
-                        </a>-->
+                      <!--  Roles   -->
+                      <div class="media align-items-right">
+                          <span :id="row.id +'_item'" v-if="row.enabled == true" class="badge badge-sm bg-gradient-success">              
+                            <i class="bg-success"></i>
+                            Enabled
+                          </span>
+                          <span :id="row.id +'_item'" v-if="row.enabled == false" class="badge badge-sm bg-gradient-danger">              
+                            <i class="bg-danger"></i>
+                            Disabled
+                          </span>
+                        
+                          <button @click="showSelect(row.id)" :id="row.id +'select_display'" type="button"  data-toggle="tooltip" style="margin-left:4px;" data-placement="top" title="Preciona dos veces para cambiar de rol">
+                            <i class="ni ni-settings" style="color:white"></i>
+                          </button>
 
-                        <div class="media-body">
-                            <span class="name mb-0 text-sm">Administrador</span>
-                        </div>
-                    </div>
+                          <va-select class="display_select" :id="row.id +'_data'" v-model="row.category" placeholder="Seleccione un rol" no-uncheck>
+                            <template v-for="cate in categorias">
+                              <va-option :key="cate.id" :value="cate.id" :label="cate.title"> 
+                                {{cate.title}}  
+                              </va-option>
+                            </template>
+                          </va-select>
 
 
+                      </div>
                     </td>
-                    <td>
-                    <!-- Celular  -->
-                    
-                    <div class="media-body">
-                            <span class="name mb-0 text-sm">995478124</span>
-                    </div>
 
-                    </td>
-                    <td class="text-right">
+                    <!-- <td class="text-right">
                       <base-dropdown class="dropdown" position="right">
                         <a
                           slot="title"
@@ -192,7 +178,8 @@
                           <a class="dropdown-item" href="#"><i class="ni ni-button-power" style="color:red;"></i>Enabled</a>
                         </template>
                       </base-dropdown>
-                    </td>
+                    </td> -->
+
                 </template>                
               </base-table>
           </div>
@@ -222,6 +209,11 @@ const config = {
       },
       data() {
         return {
+          categorias : [
+            axios.get('/api/v1/categories/all?withDisabled=true').then(res=>{
+              this.categorias = res.data.data;
+            })
+          ],
           modals: {
             modal0: false
           },
@@ -247,6 +239,14 @@ const config = {
         }
       },
       methods: {
+        showSelect(id){
+            var x = document.getElementById(id+'_data');        
+            $('#'+id+'select_display').click(function(){
+              $('#'+id+'_data').fadeIn();
+              $('#'+id+'_item').fadeOut();
+              $('#'+id+'select_display').fadeOut();
+            })
+        },
         onFileSelected(event){
             this.form.photo = event.target.files[0];
         },

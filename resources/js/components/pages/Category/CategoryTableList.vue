@@ -150,18 +150,18 @@
                           <img  :src="row.photo" />
                         </a>
                         <div class="media-body">
-                          <span class="name mb-0 text-sm">{{ row.category }}</span>
+                          <span class="name mb-0 text-sm">{{ row.title }}</span>
                         </div>
                       </div>
                     </td>
-                    <td>
-                      <span  v-if="row.enabled == true" class="badge badge-dot mr-4">              
+                    <td class="media align-items-center">
+                      <span  v-if="row.enabled == true" class="badge badge-sm bg-gradient-success">              
                         <i class="bg-success"></i>
-                        <span class="status">Enabled</span>
+                        Enabled
                       </span>
-                      <span  v-if="row.enabled == false" class="badge badge-dot mr-4">              
+                      <span  v-if="row.enabled == false" class="badge badge-sm bg-gradient-danger">              
                         <i class="bg-danger"></i>
-                        <span class="status">Disabled</span>
+                        Disabled
                       </span>
                     </td>
                     <td class="text-right">
@@ -177,10 +177,10 @@
                           <i class="fas fa-ellipsis-v"></i>
                         </a>
 
-                        <template v-if="row.enabled == true" >
-                          <button class="dropdown-item" @click.prevent="CategoryDetail(row.id)" ><i class="ni ni-settings" style="color:purple;"></i>Update</button>
+                        <template>
+                          <button v-if="row.enabled == true" class="dropdown-item" @click.prevent="CategoryDetail(row.id)" ><i class="ni ni-settings" style="color:purple;"></i>Update</button>
+                          <button class="dropdown-item" @click.prevent="CategoryDisable(row.id)" ><i class="ni ni-button-power" style="color:red;"></i>Disabled</button>                    
                         </template>    
-                        <button class="dropdown-item" @click.prevent="CategoryDisable(row.id)" ><i class="ni ni-button-power" style="color:red;"></i>Disabled</button>                    
                       </base-dropdown>
                     </td>
                 </template>                
@@ -221,7 +221,7 @@ const config = {
           },
           search: '',
           categories: [
-            axios.get('/api/v1/categories/all?withDisabled=false').then(res=>{
+            axios.get('/api/v1/categories/all?withDisabled=true').then(res=>{
               this.categories = res.data.data;
             })
           ],
@@ -232,7 +232,7 @@ const config = {
             enabled:'',
           },
           status:{
-              withDisabled:true
+              withDisabled:null
           },
           errors:{},
           message:[]
@@ -272,6 +272,7 @@ const config = {
         CategoryDetail(id){
           axios.get('/api/v1/categories/detail/'+id).then(res=>{
             this.form = res.data.data[0];
+            this.miniatura =res.data.data[0].photo;
             this.modals.modal1 = true;
           });
         },
@@ -294,14 +295,7 @@ const config = {
             this.CategoryCharge();
           }).catch((error)=>{
             this.errors = error.response.data.errors;
-          });;
-
-          // axios.put('/api/v1/categories/update-category/'+id).then(data=>{
-          //   this.message = data.data.message;
-          //   this.CategoryCharge();
-          // }).catch((error)=>{
-          //   this.errors = error.response.data.errors;
-          // });
+          });
         },
         ModalClose(){
           this.form.category ="";

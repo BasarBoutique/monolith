@@ -19,7 +19,7 @@ class CategoryResource extends JsonResource
 
         return [
             'id' => $category->category_id,
-            'category' => $category->category_title,
+            'title' => $category->category_title,
             'photo' => $category->category_ico,
             'enabled' => boolval($category->is_enabled)
         ];

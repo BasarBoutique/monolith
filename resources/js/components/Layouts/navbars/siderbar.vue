@@ -26,12 +26,12 @@
                     <div class="collapse show" id="navbar-user">
                         <ul class="nav nav-sm flex-column">
                             <li class="nav-item">
-                                <a class="nav-link" href="/">
+                                <router-link class="nav-link" exact :to="{ name:'boutique.dashboard.UsersProfile'}">
                                     User profile
-                                </a>
+                                </router-link>
                             </li>
                             <li class="nav-item">
-                                <router-link class="nav-link" :to="{ name:'boutique.dashboard.UsersManagement'}">
+                                <router-link class="nav-link" exact :to="{ name:'boutique.dashboard.UsersManagement'}">
                                     Users Management
                                 </router-link>
                             </li>
