@@ -2,10 +2,9 @@
 
 namespace App\DTO\Lesson;
 
-use App\DTO\Interfaces\DTOInterface;
-use App\Models\Lesson;
+use App\DTO\CoreDTO;
 
-class LessonDTO implements DTOInterface{
+class LessonDTO extends CoreDTO {
 
     static function make(array $attributes) : array
     {

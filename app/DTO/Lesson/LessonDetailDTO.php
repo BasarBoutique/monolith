@@ -2,11 +2,9 @@
 
 namespace App\DTO\Lesson;
 
-use App\DTO\Interfaces\DTOInterface;
-use App\Models\LessonDetial;
-use App\Models\LessonLog;
+use App\DTO\CoreDTO;
 
-class LessonDetailDTO implements DTOInterface{
+class LessonDetailDTO extends CoreDTO {
 
     static function make(array $attributes, array $externalAttributes = []) : array
     {

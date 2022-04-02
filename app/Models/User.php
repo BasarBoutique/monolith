@@ -48,7 +48,7 @@ class User extends Authenticatable implements MustVerifyEmail
 
     public function isAdmin()
     {
-        return $this->permissions()->where('permission_level', PermissionRoleEnum::ADMIN)->exists();
+        return $this->permissions()->where('permission_level', PermissionRoleEnum::ADMIN)->select('puser_id')->exists();
     }
 
     public function isTeacher()
@@ -63,7 +63,7 @@ class User extends Authenticatable implements MustVerifyEmail
 
     public function permissions()
     {
-        return $this->belongsTo(PermissionUser::class,'user_id');
+        return $this->belongsTo(PermissionUser::class,'user_id', 'user_id');
     }
 
     public function purcharsedCourses()

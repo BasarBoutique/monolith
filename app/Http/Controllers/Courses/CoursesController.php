@@ -33,7 +33,7 @@ class CoursesController extends Controller
 
             $resource = CourseResource::collection($courses);
 
-            return APIResponse::success( $resource, 'Retrieve successfully courses');
+            return APIResponse::success($resource, 'Retrieve successfully courses');
 
         } catch (Exception $e) {
             return APIResponse::fail($e->getMessage(),500);
@@ -84,7 +84,9 @@ class CoursesController extends Controller
 
             $course = $service->createCourse($validatedRequest);
 
-            return APIResponse::success($course->toArray(), "Course created successfully");
+            $resource = new CourseResource($course);
+
+            return APIResponse::success($resource, "Course created successfully");
 
         } catch (Exception $e) {
             return APIResponse::fail($e->getMessage());
@@ -100,7 +102,9 @@ class CoursesController extends Controller
 
             $course = $service->updateCourse($validatedRequest);
 
-            return APIResponse::success($course->toArray(), 'Course updated successfully');
+            $resource = new CourseResource($course);
+
+            return APIResponse::success($resource, 'Course updated successfully');
 
         } catch (Exception $e) {
 
@@ -118,7 +122,9 @@ class CoursesController extends Controller
 
             $course = $service->changeCourseTeacher($validatedRequest);
 
-            return APIResponse::success($course->toArray(), 'Teacher changed successfully');
+            $resource = new CourseResource($course);
+
+            return APIResponse::success($resource, 'Teacher changed successfully');
 
         } catch (Exception $e) {
 

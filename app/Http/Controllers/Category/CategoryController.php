@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Category;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Category\DisableCategoryRequest;
 use App\Http\Requests\Category\FilterCategotyByIdRequest;
+use App\Http\Requests\Category\ShowCategoriesRequest;
 use App\Http\Requests\Category\StoreCategoryRequest;
 use App\Http\Requests\Category\UpdateCategoryRequest;
 use App\Http\Resources\Category\CategoryResource;
@@ -31,15 +32,13 @@ class CategoryController extends Controller
         }
     }
 
-    public function showCategories(Request $request)
+    public function showCategories(ShowCategoriesRequest $request)
     {
         try {
-            $request->validate([
-                'withDisabled' => 'required|in:true,false'
-            ]);
 
-            $withDisabled =  filter_var($request->get('withDisabled'), FILTER_VALIDATE_BOOLEAN);
-            // $withDisabled =  $request->get('withDisabled');
+            $validatedRequest = $request->validated();
+
+            $withDisabled =  $validatedRequest['withDisabled'];
 
             $service = new CategoryService;
 

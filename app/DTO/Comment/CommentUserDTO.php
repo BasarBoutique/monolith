@@ -2,9 +2,9 @@
 
 namespace App\DTO\Comment;
 
-use App\DTO\Interfaces\DTOInterface;
+use App\DTO\CoreDTO;
 
-class CommentUserDTO implements DTOInterface
+class CommentUserDTO extends CoreDTO
 {
 
     static function make(array $attributes, array $externalAttributes = []) : array

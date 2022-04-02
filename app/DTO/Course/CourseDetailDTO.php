@@ -2,9 +2,10 @@
 
 namespace App\DTO\Course;
 
+use App\DTO\CoreDTO;
 use App\DTO\Interfaces\DTOInterface;
 
-class CourseDetailDTO implements DTOInterface {
+class CourseDetailDTO extends CoreDTO  {
 
     static function make(array $attributes) : array
     {
