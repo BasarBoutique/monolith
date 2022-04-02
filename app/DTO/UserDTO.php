@@ -2,9 +2,7 @@
 
 namespace App\DTO;
 
-use App\DTO\Interfaces\DTOInterface;
-
-class UserDTO implements DTOInterface {
+class UserDTO extends CoreDTO {
 
     static function make(array $attributes) : array
     {
@@ -15,5 +13,5 @@ class UserDTO implements DTOInterface {
             'details' => UserDetailDTO::make($attributes['details'] ?? [], $attributes)
         ];
     }
-    
+
 }

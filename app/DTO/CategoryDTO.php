@@ -2,9 +2,7 @@
 
 namespace App\DTO;
 
-use App\DTO\Interfaces\DTOInterface;
-
-class CategoryDTO implements DTOInterface{
+class CategoryDTO extends CoreDTO {
 
     static function make(array $attributes) : array
     {
@@ -13,5 +11,5 @@ class CategoryDTO implements DTOInterface{
             'category_ico' => $attributes['category_ico'],
         ];
     }
-    
+
 }
