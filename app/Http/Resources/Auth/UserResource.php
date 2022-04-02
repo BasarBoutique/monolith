@@ -14,12 +14,16 @@ class UserResource extends JsonResource
      */
     public function toArray($request)
     {
-        /** @var App/Models/User $user */
+        /** @var \App\Models\User $user */
         $user = $this;
         return [
             'id' => $user->user_id,
             'name' => $user->name,
             'email' => $user->email,
+            'detail' => $user->detail,
+            'permissions' => $this->whenLoaded('permissions', function () {
+                return 'permisos';
+            }),
         ];
     }
 }

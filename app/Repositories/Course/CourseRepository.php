@@ -41,7 +41,15 @@ class CourseRepository {
 
         $course = Courses::create($courseDTO);
 
+        $courseDTO = $dto::append($courseDTO, 'category', 'course_id', $course->course_id);
+
         $course->detail()->create($courseDTO['detail']);
+
+        $course->category()->create($courseDTO['category']);
+
+        $course->refresh();
+
+        $course->load('detail');
 
         return $course;
     }
@@ -61,7 +69,7 @@ class CourseRepository {
     public function changeCourseTeacher(int $courseId, int $teacherId)
     {
         $courseDetail = CourseDetail::findOrFail($courseId);
-        
+
         $courseDetail->teacher()->associate($teacherId);
         $courseDetail->save();
 

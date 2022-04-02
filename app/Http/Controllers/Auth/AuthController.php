@@ -21,9 +21,11 @@ class AuthController extends Controller
 
             $service = new UserService;
 
-            $service->create($attributes);
+            $user = $service->create($attributes);
 
-            return APIResponse::success([], 'Successfully created user!');
+            $resource = new UserResource($user);
+
+            return APIResponse::success($resource, 'Successfully created user!');
 
         }
         catch(Exception $e){

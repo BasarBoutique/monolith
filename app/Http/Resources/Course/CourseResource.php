@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources\Course;
 
+use App\Http\Resources\Category\CategoryResource;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class CourseResource extends JsonResource
@@ -14,14 +15,18 @@ class CourseResource extends JsonResource
      */
     public function toArray($request)
     {
+        /** @var \App\Models\Courses $course */
         $course = $this;
 
         return [
             'id' => $course->course_id,
             'title' => $course->course_title,
             'photo' => $course->course_photo,
-            'detail' => $course->detail->cdetail_description,
-            'enabled' => boolval($course->is_enabled)
+            'detail' => new CourseDetailResource($this->whenLoaded('detail')),
+            'category' => $this->whenLoaded('category', function () {
+                return new CategoryResource($this->category);
+            }),
+            'enabled' => $this->is_enabled
         ];
     }
 }

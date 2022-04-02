@@ -30,5 +30,24 @@ class UserRepository
         }
     }
 
+    public function updateUser(DTOInterface $dto, array $attributes)
+    {
+        try {
+
+            $userDTO = $dto::make($attributes);
+
+            // $user = User::findOrFail($user)
+
+        } catch (\Exception $e) {
+
+            throw $e;
+
+            Log::error($e->getMessage(), [
+                'LEVEL' => 'Repository',
+                'TRACE' => $e->getTraceAsString()
+            ]);
+        }
+    }
+
 
 }
