@@ -1,3 +1,8 @@
+<style>
+.text-white input {
+      color: rgb(255, 255, 255) !important;
+}
+</style>
 <template>
 <div>
   <div class="header bg-gradient-primary pb-8 pt-5 pt-md-8">
@@ -14,17 +19,18 @@
               </ol>
             </nav>
           </div>
-          <div class="col-lg-6 col-5 text-right">
+          <div class="col-lg-6 col-5 text-right" >
             <base-button class="btn btn-sm btn-neutral"  @click="modals.modal0 = true">
               New
             </base-button>
             <modal class="modal fade" :show.sync="modals.modal0">
-              <template slot="header">
-                  <h5 class="modal-title"><i class="ni ni-folder-17">  Category</i></h5>                  
+              <template slot="header" >
+                  <h5 class="modal-title"><i class="ni ni-folder-17">  Category</i></h5> 
+                  <a class="btn" @click.prevent="ModalClose">x</a>                 
               </template>
               <div>
-                <v-form ref="form" @submit.prevent="CategoryCreate">
-                  <div class="modal-body">
+                <v-form  ref="form" @submit.prevent="CategoryCreate">
+                  <div class="modal-body" style="width:100%">
                       <div class="row justify-content-center">
                         <div class="col-lg-3 order-lg-2">
                           <div class="card-profile-image">
@@ -84,13 +90,13 @@
                       <br>
                       <br>
                       <div class="text-center" >
-                        <input type="file"  class="form-control border-0"  @change="onFileSelected">
+                        <input type="file"  class="form-control border-0" @change="onFileSelected">
                         <div class="alert alert-warning" role="alert" v-if="errors.category_ico">
                             <strong>Warning!</strong> {{errors.category_ico[0]}}
                         </div>
                       </div>
                       <div class="input-group">               
-                          <v-text-field class="form-control" style="color:#825ee4; border-color:1px solid #cad1d7;" v-model="form.category" name="category_title" type="text" label="Category Name" id="input_category"/>
+                          <v-text-field class="form-control" style="color:#825ee4; border-color:1px solid #cad1d7;" v-model="form.title" name="category_title" type="text" label="Category Name" id="input_category"/>
                       </div><br>
                       <div class="text-center">
                         <div class="alert alert-warning" role="alert" v-if="errors[0]">
@@ -225,14 +231,17 @@ const config = {
               this.categories = res.data.data;
             })
           ],
+          filter:{
+            title: null
+          },
           form :{
             id:null,
             photo:null,
-            category :null,
+            category:null,
             enabled:null,
           },
           status:{
-              withDisabled:false
+              withDisabled:true
           },
           errors:{},
           message:[]

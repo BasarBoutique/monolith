@@ -15,10 +15,10 @@
           v-show="show"
           tabindex="-1"
           role="dialog"  aria-labelledby="exampleModalLabel"
-          :aria-hidden="!show" data-backdrop="static" data-keyboard="false">
+          :aria-hidden="!show" style="overflow-y:hidden;">
 
         <div class="modal-dialog-centered">
-          <div class="modal-content" style="width: 30%" >
+          <div class="modal-content"  style="width:30%;overflow-y: scroll;  height: 650px;" >
             <div class="modal-header" :class="[headerClasses]" v-if="$slots.header">
               <slot name="header"></slot>
             </div>

@@ -21,10 +21,12 @@ class LessonController extends Controller
         try {
 
             $request->validate([
-                'withDisabled' => 'required|boolean'
+                'withDisabled' => 'required|in:true,false'
             ]);
-
-            $withDisabled = $request->get('withDisabled');
+            
+            $withDisabled =  filter_var($request->get('withDisabled'), FILTER_VALIDATE_BOOLEAN);
+            
+            // $withDisabled = $request->get('withDisabled');
 
             $service = new LessonService;
 
@@ -46,7 +48,7 @@ class LessonController extends Controller
 
             $lesson = $service->showLessonById($validatedRequest);
 
-            $resource = new LessonResource($lesson);
+            $resource = LessonResource::collection($lesson);
 
             return APIResponse::success($resource,'Retrieve successfully lesson');
         } catch (Exception $e) {

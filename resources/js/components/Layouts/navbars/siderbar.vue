@@ -59,7 +59,11 @@
                                     Courses
                                 </router-link>
                             </li>
-                            
+                            <li class="nav-item">
+                                <router-link class="nav-link" :to="{ name:'boutique.dashboard.Lessons'}">
+                                    Lessons
+                                </router-link>
+                            </li>
                         </ul>
                     </div>
                 </li>

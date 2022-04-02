@@ -23,7 +23,7 @@ class LessonResource extends JsonResource
             'lesson' => $lesson->ld_id,
             'detail' => [
                 'title' => $lesson->detail->ld_title,
-                'photo-url' => $lesson->detail->ld_url,
+                'photo' => $lesson->detail->ld_url,
                 'description' => $lesson->detail->ld_description,
             ],
             'enabled' => boolval($lesson->is_enabled)
