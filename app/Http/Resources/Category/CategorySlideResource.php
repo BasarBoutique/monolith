@@ -14,6 +14,7 @@ class CategorySlideResource extends JsonResource
      */
     public function toArray($request)
     {
+        /** @var \App\Models\Category $category */
         $category = $this;
 
         return [
