@@ -21,9 +21,16 @@ class UserService {
 
         $user = $this->userRepository->create($userDTO, $attributes);
 
+        $user->with('detail');
+
         event(new UserRegistered($user));
 
         return $user;
+    }
+
+    public function updateUser(array $attributes)
+    {
+        
     }
 
 }
