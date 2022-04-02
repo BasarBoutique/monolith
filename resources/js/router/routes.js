@@ -9,6 +9,7 @@ import BoutiqueDashboardindex from '../components/pages/charts.vue'
 import BoutiqueDashboardicons from '../components/pages/icons.vue'
 import BoutiqueDashboardcategories from '../components/pages/Category/CategoryTableList.vue'
 import BoutiqueDashboardCourses from '../components/pages/Courses/CoursesTableList.vue'
+import BoutiqueDashboardLessons from '../components/pages/Lesson/LessonTableList.vue'
 import BoutiqueDashboardUsers from '../components/pages/Users/ManagementUsersList.vue'
 import BoutiqueDashboardPerfil from '../components/pages/Users/ProfileUsers.vue'
 
@@ -66,6 +67,14 @@ const routes = [{
                 path: '/boutique/dashboard/Courses',
                 component: BoutiqueDashboardCourses,
                 name: 'boutique.dashboard.Courses', 
+                meta: {
+                    requiresAuth: true
+                },
+            },
+            {
+                path: '/boutique/dashboard/Lessons',
+                component: BoutiqueDashboardLessons,
+                name: 'boutique.dashboard.Lessons', 
                 meta: {
                     requiresAuth: true
                 },

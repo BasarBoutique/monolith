@@ -30,8 +30,8 @@ class StoreLessonRequest extends AuthorizationAdminRequest
     public function messages()
     {
         return [
-            'ld_title.required' => 'This lesson name is required',
-            'ld_url.required' => 'This lesson is required',
+            'title.required' => 'This lesson name is required',
+            'url.required' => 'This lesson is required',
             'description.required' => 'How lesson description is the video?',
             'description.context.required' => 'This lesson description is required',
             'description.length.required' => 'This lesson length is required',

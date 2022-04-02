@@ -11,7 +11,7 @@ class CourseDTO extends CoreDTO {
     {
         return [
             'course_title' => $attributes['title'],
-            'course_photo' => $attributes['photo-url'],
+            'course_photo' => $attributes['photo'],
             'category' =>
                 [
                     'category_id' => $attributes['category']

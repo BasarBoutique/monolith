@@ -26,8 +26,8 @@ class CourseService{
 
     public function showAllCourses(bool $withDisabled = false){
         $courses = $withDisabled
-            ? $this->courseRepository->showAllCourses()
-            : $this->courseRepository->showAllWithCoursesDisabled();
+            ? $this->courseRepository->showAllWithCoursesDisabled()
+            : $this->courseRepository->showAllCourses();
 
         return $courses;
     }

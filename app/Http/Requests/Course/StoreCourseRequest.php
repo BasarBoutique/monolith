@@ -21,11 +21,18 @@ class StoreCourseRequest extends JsonRequest
     {
         return [
             'title' => ['required', 'string', Rule::unique(Courses::class, 'course_title')],
-            'photo-url' => ['required', 'url'],
+            'photo' => ['required', 'url'],
             'category' => ['required', 'numeric', Rule::exists(Category::class, 'category_id')],
             'detail' => ['required', 'array'],
             'detail.author' => ['required', 'numeric', new IsTeacher],
             'detail.description' => ['sometimes']
+        ];
+    }
+
+    public function messages()
+    {
+        return [
+            'detail.author.required' => 'This author is required',         
         ];
     }
 }

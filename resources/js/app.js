@@ -29,7 +29,7 @@ import router from './router/routes'
 import store from './store/store.js'
 import ArgonDashboard from './components/plugins/argon-dashboard'
 Vue.use(ArgonDashboard);
-
+import '@mdi/font/css/materialdesignicons.css'
 
 Vue.config.productionTip = false
 

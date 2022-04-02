@@ -1,10 +1,10 @@
 <style>
 .text-white input {
       color: rgb(255, 255, 255) !important;
-}
+}  
 </style>
 <template>
-    <div>
+<div>
   <div class="header bg-gradient-primary pb-8 pt-5 pt-md-8">
     <div class="container-fluid">
       <div class="header-body">
@@ -20,12 +20,13 @@
             </nav>
           </div>
           <div class="col-lg-6 col-5 text-right">
-            <button type="button" class="btn btn-sm btn-neutral" @click="modals.modal0 = true">
+            <base-button class="btn btn-sm btn-neutral"  @click="modals.modal0 = true">
               New
-            </button>
-            <modal :show.sync="modals.modal0">
+            </base-button>
+            <modal class="modal fade"  :show.sync="modals.modal0">
               <template slot="header">
-                  <h5 class="modal-title">Courses</h5>
+                  <h5 class="modal-title"><i class="ni ni-folder-17">  Course</i></h5> 
+                  <a class="btn" @click.prevent="ModalClose">x</a>                     
               </template>
               <div>
                 <v-form ref="form" @submit.prevent="CourseCreate">
@@ -33,7 +34,7 @@
                       <div class="row justify-content-center">
                         <div class="col-lg-3 order-lg-2">
                           <div class="card-profile-image">
-                            <img id="imageResult" alt="" class="img-fluid shadow-sm mx-auto d-block rounded-circle img-responsive">
+                            <img :src="imagen" style="max-width: 120px;" class="img-fluid shadow-sm mx-auto d-block rounded-circle img-responsive">
                           </div>
                         </div>
                       </div>
@@ -44,60 +45,144 @@
                       <br>
                       <br>
                       <div class="text-center">
-                        <label for="upload" class="btn btn-light m-0 rounded-pill px-4"> 
-                          <i class="fa fa-cloud-upload mr-2 text-muted"></i>
-                          <small class="text-uppercase font-weight-bold text-muted">Choose file</small>
-                        </label>
-                        <input id="upload" type="file" name="photo" onchange="readURL(this);" class="form-control border-0"  @change="onFileSelected">
-                        <div class="alert alert-warning" role="alert" v-if="errors.Course_ico">
-                            <strong>Warning!</strong> 
+                        <input type="file" class="form-control border-0"  @change="onFileSelected">
+                        <div class="alert alert-warning" role="alert" v-if="errors.photo">
+                            <strong>Warning!</strong> {{errors.photo[0]}}
                         </div>
                       </div>
-                      <div class="input-group">               
-                          <v-text-field class="form-control" style="color:#825ee4; border-color:1px solid #cad1d7;" v-model="form.Course" name="Course_title" type="text" label="Courses Name" id="example-search-input"/>
+
+                      <div class="form-group">               
+                          <v-text-field class="form-control" style="color:#825ee4; border-color:1px solid #cad1d7;" v-model="form.title" name="title" type="text" label="Category Name" id="input_category"/>
                       </div>
-
-
-
-
-                      <!-- Categorias del Curso  -->
-                      <div> 
-                      <v-container fluid>
-                          <v-row align="center">
-                            <v-col
-                              class="d-flex"
-                              cols="12"
-                              sm="14"
-                            >
-                              <v-select
-                                :items="items"
-                                label="Standard"
-                              ></v-select>
-                            </v-col>
-
-                          </v-row>
-                        </v-container>
-                      
-                      
-                      
-                      </div>
-                      
-
-
-                      <br>
                       <div class="text-center">
-                        <div class="alert alert-warning" role="alert" v-if="errors.Course_title">
-                            <strong>Warning!</strong> 
+                        <div class="alert alert-warning" role="alert" v-if="errors.title">
+                            <strong>Warning!</strong> {{errors.title[0]}}
                         </div>
                       </div>
+
+                      <div class="form-row">
+                        <div class="form-group col-md-6"> 
+                          <v-select style="color:#825ee4;" class="form-control" :items="items" v-model="form.author" label="Author"></v-select>
+                        </div>
+                         <div class="form-group col-md-6"> 
+                          <v-select style="color:#825ee4;" class="form-control" :items="items" v-model="form.category" label="Category"></v-select>
+                        </div>                                
+                      </div>
+
+                      <div class="form-row">
+                        <div class="text-center">
+                          <div class="alert alert-warning" role="alert" v-if="errors.detail">
+                              <strong>Warning!</strong> {{errors['detail.author'][0]}}
+                          </div>
+                        </div>
+                        <div class="text-center">
+                          <div class="alert alert-warning" role="alert" v-if="errors.detail">
+                              <!-- <strong>Warning!</strong> {{errors.category[0]}} -->
+                          </div>
+                        </div>    
+                      </div>
+
+                      <div class="form-group"> 
+                        <v-textarea filled style="color:#825ee4;" v-model="form.description" label="Descripción del curso">
+                        </v-textarea>
+                      </div>
+                      <div class="text-center">
+                        <div class="alert alert-warning" role="alert" v-if="errors.detail">
+                              <strong>Warning!</strong> {{errors['detail'][0]}}
+                        </div>
+                      </div>
+
                       <div class="text-center">
                         <button type="submit" class="btn btn-success mt-4">Save</button>
                       </div>
-                    </div>
+
+                  </div>
                 </v-form>
               </div>
               <template slot="footer">
-                  <button type="button" class="btn btn-secondary" @click="modals.modal0 = false">Close</button>
+                  <button type="button" class="btn btn-secondary" @click.prevent="ModalClose">Close</button>
+              </template>
+            </modal>
+          </div>
+          <div class="col-lg-6 col-5 text-right">
+            <modal class="modal fade"  :show.sync="modals.modal1">
+              <template slot="header">
+                  <h5 class="modal-title"><i class="ni ni-folder-17">  Course</i></h5> 
+                  <a class="btn" @click.prevent="ModalClose">x</a>                     
+              </template>
+              <div>
+                <v-form ref="form" @submit.prevent="CourseCreate">
+                  <div class="modal-body">
+                      <div class="row justify-content-center">
+                        <div class="col-lg-3 order-lg-2">
+                          <div class="card-profile-image">
+                            <img :src="imagen" style="max-width: 120px;" class="img-fluid shadow-sm mx-auto d-block rounded-circle img-responsive">
+                          </div>
+                        </div>
+                      </div>
+                      <br>
+                      <br>
+                      <br>
+                      <br>
+                      <br>
+                      <br>
+                      <div class="text-center">
+                        <input type="file" class="form-control border-0"  @change="onFileSelected">
+                        <div class="alert alert-warning" role="alert" v-if="errors.photo">
+                            <strong>Warning!</strong> {{errors.photo[0]}}
+                        </div>
+                      </div>
+
+                      <div class="form-group">               
+                          <v-text-field class="form-control" style="color:#825ee4; border-color:1px solid #cad1d7;" v-model="form.title" name="title" type="text" label="Category Name" id="input_category"/>
+                      </div>
+                      <div class="text-center">
+                        <div class="alert alert-warning" role="alert" v-if="errors.title">
+                            <strong>Warning!</strong> {{errors.title[0]}}
+                        </div>
+                      </div>
+
+                      <div class="form-row">
+                        <div class="form-group col-md-6"> 
+                          <v-select style="color:#825ee4;" class="form-control" :items="items" v-model="form.author" label="Author"></v-select>
+                        </div>
+                         <div class="form-group col-md-6"> 
+                          <v-select style="color:#825ee4;" class="form-control" :items="items" v-model="form.category" label="Category"></v-select>
+                        </div>                                
+                      </div>
+
+                      <div class="form-row">
+                        <div class="text-center">
+                          <div class="alert alert-warning" role="alert" v-if="errors.detail">
+                              <strong>Warning!</strong> {{errors['detail.author'][0]}}
+                          </div>
+                        </div>
+                        <div class="text-center">
+                          <div class="alert alert-warning" role="alert" v-if="errors.detail">
+                              <!-- <strong>Warning!</strong> {{errors.category[0]}} -->
+                          </div>
+                        </div>    
+                      </div>
+
+                      <div class="form-group"> 
+                        <v-textarea filled style="color:#825ee4;" v-model="form.detail" label="Descripción del curso">
+                        </v-textarea>
+                      </div>
+                      <div class="text-center">
+                        <div class="alert alert-warning" role="alert" v-if="errors.detail">
+                              <strong>Warning!</strong> {{errors['detail'][0]}}
+                        </div>
+                      </div>
+
+                      <div class="text-center">
+                        <button type="submit" class="btn btn-success mt-4">Save</button>
+                      </div>
+
+                  </div>
+                </v-form>
+              </div>
+              <template slot="footer">
+                  <button type="button" class="btn btn-secondary" @click.prevent="ModalClose">Close</button>
               </template>
             </modal>
           </div>
@@ -137,6 +222,7 @@
                   <th>Courses</th>
                   <th>Description</th>
                   <th>Author</th>
+                  <th>Category</th>
                   <th>Status</th>
                   <th></th>
                 </template>
@@ -157,19 +243,31 @@
                         <span class="name mb-0 text-sm">{{row.detail['about']}}</span>
                         </div>
                     </td>
+
                     <td>
-                      <!--  Authores  -->
+                        <!--  Authores  -->
                       <div class="media align-items-center">
-                        <a href="#" class="avatar rounded-circle mr-3">
-                          <img alt="Image placeholder" :src="'https://personajeshistoricos.com/wp-content/uploads/2018/04/edgar-allan-poe-1.jpg'">
-                        </a>
-                        <div class="media-body">
-                            <span class="name mb-0 text-sm">Edgar Allan Poe</span>
-                        </div>
-                    </div>
-
-
+                          <a href="#" class="avatar rounded-circle mr-3">
+                            <img alt="Image placeholder" :src="'https://personajeshistoricos.com/wp-content/uploads/2018/04/edgar-allan-poe-1.jpg'">
+                          </a>
+                          <div class="media-body">
+                              <span class="name mb-0 text-sm">Edgar Allan Poe</span>
+                          </div>
+                      </div>
                     </td>
+
+                    <td>
+                        <!--  Categories  -->
+                      <div class="media align-items-center">
+                          <a href="#" class="avatar rounded-circle mr-3">
+                            <img alt="Image placeholder" :src="'https://personajeshistoricos.com/wp-content/uploads/2018/04/edgar-allan-poe-1.jpg'">
+                          </a>
+                          <div class="media-body">
+                              <span class="name mb-0 text-sm">Category</span>
+                          </div>
+                      </div>
+                    </td>
+
                     <td class="media align-items-center">
                       <span  v-if="row.enabled == true" class="badge badge-sm bg-gradient-success">              
                         <i class="bg-success"></i>
@@ -228,11 +326,14 @@ const config = {
       },
       data() {
         return {
+          miniatura :'',
           modals: {
-            modal0: false
+            modal0: false,
+            modal1:false
           },
+          search: '',
           courses: [
-            axios.get('/courses/all?withDisabled=true').then(res=>{
+            axios.get('/courses/all?withDisabled=false').then(res=>{
               this.courses = res.data.data;
             })
           ],
@@ -240,23 +341,33 @@ const config = {
             title: null
           },
           form :{
-            id:'',
-            photo:{
-              name:''
-            },
-            Course :'',
+            id:null,
+            title:null,
+            photo:null,
+            author:null,
+            description:null,
+            category:null,
             enabled:'',
           },
           status:{
-              withDisabled:null
+              withDisabled:true
           },
           errors:{},
           message:[],
         }
       },
       methods: {
-        onFileSelected(event){
-            this.form.photo = event.target.files[0];
+        onFileSelected(e){
+            let file = e.target.files[0];
+            this.form.photo = file;
+            this.cargarImagen(file);
+        },
+        cargarImagen(file){
+          let reader = new FileReader();
+          reader.onload = (e) =>{
+            this.miniatura = e.target.result;
+          }
+          reader.readAsDataURL(file);
         },
         CourseCharge(){          
           axios.get('/courses/all?withDisabled='+this.status.withDisabled).then(res=>{
@@ -265,9 +376,9 @@ const config = {
         },
         CourseCreate(){
           const fd = new FormData();
-          fd.append("Course_ico",this.form.photo.name);
-          fd.append("Course_title",this.form.Course);
-
+          // fd.append("Course_ico",this.form.photo.name);
+          // fd.append("Course_title",this.form.Course);
+          axios.defaults.headers.common['Authorization']= 'Bearer ' + this.$store.state.token
           axios.post('/courses/create-course',fd,config).then(data=>{
             this.message = data.data.message;            
             this.CourseCharge();
@@ -279,13 +390,15 @@ const config = {
         CourseDetail(id){
           axios.get('/courses/detail/'+id).then(res=>{
             this.form = res.data.data[0];
+            this.miniatura =res.data.data[0].photo;
+            this.modals.modal1 = true;
           });
         },
         CourseUpdate(){
           const fd = new FormData();
-          fd.append("Course_ico",this.form.Course_ico.name);
-          fd.append("Course_title",this.form.Course_title);
-          
+          // fd.append("Course_ico",this.form.Course_ico.name);
+          // fd.append("Course_title",this.form.Course_title);
+          axios.defaults.headers.common['Authorization']= 'Bearer ' + this.$store.state.token
           axios.post('/courses/update-course/'+this.form.id,fd,config).then(data=>{
             this.message = data.data.message;
             this.CourseCharge();
@@ -305,6 +418,7 @@ const config = {
           })
         },
         CourseDisable(id){
+          axios.defaults.headers.common['Authorization']= 'Bearer ' + this.$store.state.token
           axios.put('/courses/disable-course/' + id).then(data=>{
             this.message = data.data.message;
             this.CourseCharge();
@@ -313,10 +427,19 @@ const config = {
           });
         },
         ModalClose(){
+          this.form.title ="";
           this.form.photo="";
-          this.form.Course =""; 
-          $("#imageResult")[0].setAttribute("src", "");
-          this.modals.modal0 = false;                
+          this.form.author="";
+          this.form.description="";
+          this.miniatura="";
+          this.errors={};
+          this.modals.modal0 = false;    
+          this.modals.modal1 = false;           
+        }
+      },
+      computed: {
+        imagen(){
+          return this.miniatura;
         }
       },
       components:{
