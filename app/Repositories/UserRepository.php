@@ -18,6 +18,8 @@ class UserRepository
 
             $user->detail()->create($userDTO['details']);
 
+            $user->load('detail', 'permissions');
+
             return $user;
         } catch (Exception $e) {
 

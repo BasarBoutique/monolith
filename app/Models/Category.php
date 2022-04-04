@@ -10,6 +10,8 @@ class Category extends Model
 {
     use HasFactory;
 
+    const SLIDE_PER_PAGE = 5;
+
     protected $table = "category";
     protected $primaryKey = "category_id";
 

@@ -4,21 +4,21 @@ namespace App\Http\Controllers\Category;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Category\DisableCategoryRequest;
-use App\Http\Requests\Category\FilterCategotyByIdRequest;
+use App\Http\Requests\Category\FilterCategoryRequest;
 use App\Http\Requests\Category\ShowCategoriesRequest;
 use App\Http\Requests\Category\StoreCategoryRequest;
 use App\Http\Requests\Category\UpdateCategoryRequest;
+use App\Http\Resources\Category\CategoryPaginateResource;
 use App\Http\Resources\Category\CategoryResource;
 use App\Http\Resources\Category\CategorySlideResource;
 use App\Http\Response\APIResponse;
-use App\Repositories\Category\CategoryRepository;
+use App\Models\Category;
 use App\Services\Category\CategoryService;
 use Exception;
-use Illuminate\Http\Request;
 
 class CategoryController extends Controller
 {
-    public function slideCategories(){
+    public function slideCategories() {
         try {
             $service = new CategoryService;
 
@@ -38,13 +38,11 @@ class CategoryController extends Controller
 
             $validatedRequest = $request->validated();
 
-            $withDisabled =  $validatedRequest['withDisabled'];
-
             $service = new CategoryService;
 
-            $categories = $service->showCategories($withDisabled);
+            $categories = $service->showCategories($validatedRequest);
 
-            $resource = CategoryResource::collection($categories);
+            $resource = new CategoryPaginateResource($categories);
 
             return APIResponse::success( $resource, 'Retrieve successfully categories');
 
@@ -53,16 +51,16 @@ class CategoryController extends Controller
         }
     }
 
-    public function showCategoryById(FilterCategotyByIdRequest $request)
+    public function showCategoryById(FilterCategoryRequest $request)
     {
         try {
             $validatedRequest = $request->validated();
 
-            $resource = new CategoryService;
+            $service = new CategoryService;
 
-            $category = $resource->showCategoryById($validatedRequest);
+            $category = $service->showCategoryById($validatedRequest['categoryId']);
 
-            $resource = CategoryResource::collection($category);
+            $resource = new CategoryResource($category);
 
             return APIResponse::success( $resource, 'Retrieve successfully category');
 

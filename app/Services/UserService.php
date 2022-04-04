@@ -21,7 +21,7 @@ class UserService {
 
         $user = $this->userRepository->create($userDTO, $attributes);
 
-        $user->with('detail');
+        $user->load('detail');
 
         event(new UserRegistered($user));
 
@@ -30,7 +30,7 @@ class UserService {
 
     public function updateUser(array $attributes)
     {
-        
+
     }
 
 }

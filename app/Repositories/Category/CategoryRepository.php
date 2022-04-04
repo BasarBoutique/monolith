@@ -10,21 +10,24 @@ use Illuminate\Support\Facades\Log;
 
 class CategoryRepository{
 
-    public function showAllCategories()
+    public function showAllCategories(int $perPage)
     {
-        return Category::all();
+        return Category::simplePaginate($perPage);
     }
 
-    public function showAllWithCategoriesDisabled()
+    public function showAllWithCategoriesDisabled(int $perPage)
     {
-        return Category::withDisabledCategories()->get();
+
+        return Category::withDisabledCategories()->simplePaginate($perPage);
     }
 
-    public function showCategoryById(array $attributes)
+    public function showCategoryById(int $categoryId)
     {
         try {
-            $category = Category::where('category_id','=',$attributes['categoryId'])->get();
+            $category = Category::findOrFail($categoryId);
+
             return $category;
+
         } catch (Exception $e) {
             Log::error($e->getMessage(),[
                 'LEVEL' => 'Repository',
