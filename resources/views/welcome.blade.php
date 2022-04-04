@@ -50,7 +50,8 @@
         
         <div class="main-content">
             <div id="app">
-                <app></app>
+                <app>
+                </app>
             </div>
         </div>        
         

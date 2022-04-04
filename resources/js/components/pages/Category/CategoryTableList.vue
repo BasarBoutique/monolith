@@ -267,8 +267,11 @@ const config = {
         },
         CategoryCreate(){
           let fd = new FormData();
-          fd.append("category_ico",this.form.photo);
+          fd.append("category_ico",this.form.photo.name);
           fd.append("category_title",this.form.category);
+
+          console.log(fd);
+
           axios.defaults.headers.common['Authorization']= 'Bearer ' + this.$store.state.token
           axios.post('/categories/create-category',fd,config).then(data=>{
             this.message = data.data.message;   
@@ -299,7 +302,6 @@ const config = {
             data : fd,
             headers : config
           }).then(data=>{
-            console.log(data.message);
             this.message = data.data.message;
             this.CategoryCharge();
             this.ModalClose();

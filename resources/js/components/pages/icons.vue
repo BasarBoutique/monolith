@@ -24,10 +24,10 @@
         </div>
 
          <div class="container-fluid mt--6" style="background:#f7fafc;">
-            <div class="row justify-content-center">
+            <div class="row justify-content-center ">
                 <div class=" col ">
-                <div class="card">
-                    <div class="card-header bg-transparent">
+                <div class="card ">
+                    <div class="card-header bg-transparent ">
                     <h3 class="mb-0">Icons</h3>
                     </div>
                     <div class="card-body">

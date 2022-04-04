@@ -18,7 +18,7 @@
           :aria-hidden="!show" style="overflow-y:hidden;">
 
         <div class="modal-dialog-centered">
-          <div class="modal-content"  style="width:30%;overflow-y: scroll;  height: 650px;" >
+          <div class="modal-content"  style="width:40%;overflow-y: scroll;  height: 650px;" >
             <div class="modal-header" :class="[headerClasses]" v-if="$slots.header">
               <slot name="header"></slot>
             </div>
