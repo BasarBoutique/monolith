@@ -26,6 +26,6 @@ class PermissionUser extends Model
 
     public function rol()
     {
-        return $this->hasOne(PermissionHierarchy::class, 'permission_level');
+        return $this->hasMany(PermissionHierarchy::class, 'permission_level', 'permission_level');
     }
 }

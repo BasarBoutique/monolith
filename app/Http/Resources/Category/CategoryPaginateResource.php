@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Resources\Permission;
+namespace App\Http\Resources\Category;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class PermissionResource extends JsonResource
+class CategoryPaginateResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -15,11 +15,11 @@ class PermissionResource extends JsonResource
     public function toArray($request)
     {
         return [
-            'permission_level' => $this->permission_level,
-            'permission_name' => $this->ph_label,
-            'labels' => $this->whenLoaded('permissions', function () {
-                return $this->permissions;
-            })
+            'categories' => CategoryResource::collection($this->getCollection()),
+            'pagination' => [
+                'first_page' => $this->url(1),
+                'next_page' => $this->nextPageUrl()
+            ]
         ];
     }
 }

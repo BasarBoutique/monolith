@@ -10,7 +10,8 @@ class ShowCategoriesRequest extends JsonRequest
     public function prepareForValidation()
     {
         $this->merge([
-            'withDisabled' => filter_var($this->withDisabled, FILTER_VALIDATE_BOOLEAN)
+            'withDisabled' => filter_var($this->withDisabled, FILTER_VALIDATE_BOOLEAN),
+            'perPage' => $this->perPage ?? 5
         ]);
     }
 
@@ -22,7 +23,8 @@ class ShowCategoriesRequest extends JsonRequest
     public function rules()
     {
         return [
-            'withDisabled' => 'required|boolean'
+            'withDisabled' => 'required|boolean',
+            'perPage' => 'required|numeric'
         ];
     }
 }
