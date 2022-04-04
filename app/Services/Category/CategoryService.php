@@ -15,24 +15,26 @@ class CategoryService{
         $this->categoryRepository = new CategoryRepository;
     }
 
-    public function slideCategories(){
-        $category = $this->categoryRepository->showAllCategories();
-        return $category;
-    }
+    public function slideCategories() {
 
-    public function showCategoryById(array $attributes)
-    {
-
-        $category = $this->categoryRepository->showCategoryById($attributes);
+        $category = $this->categoryRepository->showAllCategories(Category::SLIDE_PER_PAGE);
 
         return $category;
     }
 
-    public function showCategories(bool $withDisabled = false)
+    public function showCategoryById(int $categoryId)
     {
-        $categories = $withDisabled
-            ? $this->categoryRepository->showAllWithCategoriesDisabled()
-            : $this->categoryRepository->showAllCategories();
+
+        $category = $this->categoryRepository->showCategoryById($categoryId);
+
+        return $category;
+    }
+
+    public function showCategories(array $args)
+    {
+        $categories = $args['withDisabled']
+            ? $this->categoryRepository->showAllWithCategoriesDisabled($args['perPage'])
+            : $this->categoryRepository->showAllCategories($args['perPage']);
 
         return $categories;
     }

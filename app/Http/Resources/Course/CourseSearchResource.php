@@ -18,11 +18,8 @@ class CourseSearchResource extends JsonResource
             'courses' => CourseResource::collection($this->getCollection()),
             'filters' => $request->filters,
             'pagination' => [
-                'total' => $this->total(),
-                'count' => $this->count(),
-                'per_page' => $this->perPage(),
-                'current_page' => $this->currentPage(),
-                'total_pages' => $this->lastPage()
+                'first_page' => $this->url(1),
+                'next_page' => $this->nextPageUrl()
             ]
         ];
     }

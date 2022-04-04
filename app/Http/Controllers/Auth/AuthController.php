@@ -65,9 +65,12 @@ class AuthController extends Controller
     public function user(Request $request) {
 
         try {
+
+            $request->user();
+
             $resource = new UserResource($request->user());
 
-            return APIResponse::make(true, $resource);
+            return APIResponse::success($resource, 'Retrieve successfully user');
 
         } catch (Exception $e){
             return APIResponse::fail($e->getMessage(), 500);

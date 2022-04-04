@@ -6,6 +6,10 @@ use Illuminate\Http\Resources\Json\JsonResource;
 
 class CategoryResource extends JsonResource
 {
+
+
+    const wrap = 'categories';
+
     /**
      * Transform the resource into an array.
      *
@@ -17,11 +21,12 @@ class CategoryResource extends JsonResource
         /** @var App/Models/Category $category */
         $category = $this;
 
+
         return [
             'id' => $category->category_id,
             'title' => $category->category_title,
-            'photo' => $category->category_ico,
-            'enabled' => boolval($category->is_enabled)
+            'photo-url' => $category->category_ico,
+            'enabled' => $category->is_enabled
         ];
     }
 }
