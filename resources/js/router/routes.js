@@ -126,7 +126,7 @@ router.beforeEach((to, from, next) => {
     } else if(to.matched.some(record => record.meta.visitor)) {
         if (store.getters.loggedIn) {
             next({
-                name: 'boutique.dashboard.index',
+                name: 'Index',
             });
         } else {
             next();

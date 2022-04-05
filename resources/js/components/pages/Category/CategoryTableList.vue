@@ -1,7 +1,7 @@
 <style>
 .text-white input {
       color: rgb(255, 255, 255) !important;
-}
+}  
 </style>
 <template>
 <div>
@@ -13,7 +13,7 @@
             <h6 class="h2 text-white d-inline-block mb-0">Tables</h6>
             <nav aria-label="breadcrumb" class="d-none d-md-inline-block ml-md-4">
               <ol class="breadcrumb breadcrumb-links breadcrumb-dark">
-                <li class="breadcrumb-item"><router-link exact :to="{ name: 'boutique.dashboard.index' }"><i class="fas fa-home"></i></router-link></li>
+                <li class="breadcrumb-item"><router-link exact :to="{ path: '/boutique/dashboard/index' }"><i class="fas fa-home"></i></router-link></li>
                 <li class="breadcrumb-item active" aria-current="page">Tables</li>
                 <li class="breadcrumb-item active" aria-current="page">Categories</li>
               </ol>
@@ -135,7 +135,9 @@
                 <input type="checkbox" style="margin:auto;" @click="CategoryCharge" class="btn btn-sm btn-neutral" id="switch" v-model="status.withDisabled">
                 <label for="switch" class="lbl"></label>
               </div>
-              <v-text-field v-model="search" append-icon="mdi-magnify" style="color:white; text-color:white;" label="Search" single-line hide-details clearable></v-text-field>
+              <v-form ref="form" @submit.prevent="">
+                <v-text-field class="text-white" v-model="filter.title" append-icon="mdi-magnify" style="color:white; text-color:white;" label="Search" single-line hide-details clearable></v-text-field>
+              </v-form>
           </div>
           <div class="table-responsive">
               <base-table 
@@ -153,7 +155,7 @@
                     <td scope="row">
                       <div class="media align-items-center">
                         <a href="#" class="avatar rounded-circle mr-3">
-                          <img  :src="row.photo" />
+                          <img  :src="row['photo-url']" />
                         </a>
                         <div class="media-body">
                           <span class="name mb-0 text-sm">{{ row.title }}</span>
@@ -228,7 +230,7 @@ const config = {
           search: '',
           categories: [
             axios.get('/categories/all?withDisabled=false').then(res=>{
-              this.categories = res.data.data;
+              this.categories = res.data.data.categories;
             })
           ],
           filter:{
@@ -262,7 +264,7 @@ const config = {
         },
         CategoryCharge(){     
           axios.get('/categories/all?withDisabled='+this.status.withDisabled).then(res=>{
-            this.categories = res.data.data;
+            this.categories = res.data.data.categories;
           })
         },
         CategoryCreate(){

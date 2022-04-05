@@ -14,7 +14,7 @@
             <h6 class="h2 text-white d-inline-block mb-0">User Info</h6>
             <nav aria-label="breadcrumb" class="d-none d-md-inline-block ml-md-4">
               <ol class="breadcrumb breadcrumb-links breadcrumb-dark">
-                <li class="breadcrumb-item"><router-link exact :to="{ name: 'boutique.dashboard.index' }"><i class="fas fa-home"></i></router-link></li>
+                <li class="breadcrumb-item"><router-link exact :to="{ path: '/boutique/dashboard/index' }"><i class="fas fa-home"></i></router-link></li>
                 <li class="breadcrumb-item active" aria-current="page">User Info</li>
                 <li class="breadcrumb-item active" aria-current="page">User Management</li>
               </ol>
