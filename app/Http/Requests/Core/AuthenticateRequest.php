@@ -5,7 +5,7 @@ namespace App\Http\Requests\Core;
 use App\Http\Response\APIResponse;
 use Illuminate\Http\Exceptions\HttpResponseException;
 
-class AuthorizationAdminRequest extends JsonRequest
+class AuthenticateRequest extends JsonRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -14,16 +14,23 @@ class AuthorizationAdminRequest extends JsonRequest
      */
     public function authorize()
     {
-        return $this->user()->isAdmin();
+        return $this->user()->is_enabled;
     }
 
+    /**
+     * Get the validation rules that apply to the request.
+     *
+     * @return array
+     */
     public function rules()
     {
-        return [];
+        return [
+            //
+        ];
     }
 
     protected function failedAuthorization()
     {
-        throw new HttpResponseException(APIResponse::fail('Unauthorized', 403));
+        throw new HttpResponseException(APIResponse::fail('Not authorize to execute this action', 403));
     }
 }

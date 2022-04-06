@@ -46,6 +46,7 @@ class AuthController extends Controller
                 $authenticated['details'],
                 $authenticated['message'],
                 $authenticated['http_code']);
+
         } catch (Exception $e) {
             return APIResponse::fail($e->getMessage(), 500);
         }
@@ -65,8 +66,6 @@ class AuthController extends Controller
     public function user(Request $request) {
 
         try {
-
-            $request->user();
 
             $resource = new UserResource($request->user());
 

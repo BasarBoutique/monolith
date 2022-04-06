@@ -26,7 +26,8 @@ class StoreUserRequest extends JsonRequest
         return [
             'name'=>'required|string',
             'email'=>'required|string|email|unique:users',
-            'password'=>'required|string'
+            'password'=>'required|string',
+            'detail' => 'sometimes|array'
         ];
     }
 
@@ -34,10 +35,10 @@ class StoreUserRequest extends JsonRequest
     {
         return [
             'name.required' => "What's your name?",
-            
+
             'email.required' => 'Enter an email address.',
             'email.unique' => 'This email address has already been taken.',
-            
+
             'password.required' => 'Enter a password.',
         ];
     }
