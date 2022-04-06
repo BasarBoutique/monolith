@@ -29,7 +29,7 @@ class UniqueUserRol implements Rule
      */
     public function passes($attribute, $value)
     {
-        $permissionUser = PermissionUser::where('permission_level', $value)->where('user_id', $this->userId)->first();
+        $permissionUser = PermissionUser::withDisabledRoles()->where('permission_level', $value)->where('user_id', $this->userId)->first();
 
         return is_null($permissionUser);
     }
