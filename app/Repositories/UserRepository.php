@@ -3,6 +3,7 @@
 namespace App\Repositories;
 
 use App\DTO\Interfaces\DTOInterface;
+use App\Enums\PermissionRoleEnum;
 use App\Models\User;
 use Exception;
 use Illuminate\Support\Facades\Log;
@@ -18,7 +19,12 @@ class UserRepository
 
             $user->detail()->create($userDTO['details']);
 
-            $user->load('detail', 'permissions');
+            $user->roles()->create([
+                'permission_level' => PermissionRoleEnum::CLIENT,
+                'user_id' => $user->user_id
+            ]);
+
+            $user->refresh();
 
             return $user;
         } catch (Exception $e) {

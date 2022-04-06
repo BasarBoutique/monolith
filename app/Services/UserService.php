@@ -21,8 +21,6 @@ class UserService {
 
         $user = $this->userRepository->create($userDTO, $attributes);
 
-        $user->load('detail');
-
         event(new UserRegistered($user));
 
         return $user;
