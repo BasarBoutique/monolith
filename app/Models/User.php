@@ -48,12 +48,12 @@ class User extends Authenticatable implements MustVerifyEmail
 
     public function isAdmin()
     {
-        return $this->permissions()->where('permission_level', PermissionRoleEnum::ADMIN)->select('puser_id')->exists();
+        return $this->roles()->where('permission_level', PermissionRoleEnum::ADMIN)->select('puser_id')->exists();
     }
 
     public function isTeacher()
     {
-        return $this->permissions()->where('permission_level', PermissionRoleEnum::TEACHER)->exists();
+        return $this->roles()->where('permission_level', PermissionRoleEnum::TEACHER)->exists();
     }
 
     public function detail()
@@ -82,7 +82,7 @@ class User extends Authenticatable implements MustVerifyEmail
     }
 
     public function permissions_user($rol){
-        $this->permissions()->create([
+        $this->roles()->create([
             "permission_level"=>$rol,
             "user_id"=>$this->user_id
         ]);
