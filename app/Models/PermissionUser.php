@@ -28,4 +28,9 @@ class PermissionUser extends Model
     {
         return $this->hasMany(PermissionHierarchy::class, 'permission_level', 'permission_level');
     }
+
+    public function scopeWithDisabledRoles($query)
+    {
+        return $query->withoutGlobalScope(IsEnabledScope::class);
+    }
 }

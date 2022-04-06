@@ -12,7 +12,12 @@ class PermissionService
 {
     public function showRoles()
     {
-        return PermissionHierarchy::all();
+
+        $roles = PermissionHierarchy::all();
+
+        $roles->load('permissions');
+
+        return $roles;
     }
 
     public function createPermission(array $params)
@@ -62,6 +67,9 @@ class PermissionService
 
     public function unattachRolToUser(array $params)
     {
+
+        $repository = new UserRolRepository;
+
         throw new NotImplementedException("unattach rol to user");
     }
 
