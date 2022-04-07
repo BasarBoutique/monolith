@@ -19,8 +19,14 @@ class UserRolRepository {
         return $permissionUser;
     }
 
-    public function unattachRolToUser(PermissionRoleEnum $role, User $user)
+    public function unattachRolToUser(PermissionRoleEnum $role, int $user_id)
     {
-        return true;
+        $permissionUser = PermissionUser::where('permission_level', $role)->where('user_id', $user_id)->first();
+
+        $permissionUser->update([
+            'is_enabled' => false
+        ]);
+
+        return $permissionUser;
     }
 }

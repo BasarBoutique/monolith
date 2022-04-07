@@ -6,6 +6,7 @@ use App\Enums\PermissionRoleEnum;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Core\AuthorizationAdminRequest;
 use App\Http\Requests\Permission\StoreRolRequest;
+use App\Http\Resources\Permission\PermissionResource;
 use App\Http\Response\APIResponse;
 use App\Repositories\Permissions\RolRepository;
 use App\Services\Permission\PermissionService;
@@ -21,13 +22,15 @@ class RolController extends Controller
         $this->service = new PermissionService;
     }
 
-    public function showRoles(AuthorizationAdminRequest $request)
+    public function showRoles(Request $request)
     {
         try {
 
             $roles = $this->service->showRoles();
 
-            return APIResponse::success($roles, 'Retrieve list of roles');
+            $resource = PermissionResource::collection($roles);
+
+            return APIResponse::success($resource, 'Retrieve list of roles');
 
         } catch (Exception $e) {
 
