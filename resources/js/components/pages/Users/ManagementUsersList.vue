@@ -181,8 +181,6 @@
                               </va-option>
                             </template>
                           </va-select>
-
-
                       </div>
                     </td>
 
