@@ -358,7 +358,7 @@ const config = {
       methods: {
         category(){
           axios.get('/categories/all?withDisabled=false').then(res=>{
-              this.categories = res.data.data;
+              this.categories = res.data.data.categories;
           })
         },
         onFileSelected(e){
@@ -399,8 +399,8 @@ const config = {
         },
         CourseDetail(id){
           axios.get('/courses/detail/'+id).then(res=>{
-            this.form = res.data.data[0];
-            this.miniatura =res.data.data[0].photo;
+            this.form = res.data.data;
+            this.miniatura =res.data.data.photo;
             this.modals.modal1 = true;
           });
         },

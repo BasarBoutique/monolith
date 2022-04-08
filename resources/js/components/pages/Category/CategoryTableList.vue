@@ -295,8 +295,8 @@ const config = {
         },
         CategoryDetail(id){
           axios.get('/categories/detail/'+id).then(res=>{
-            this.form = res.data.data[0];
-            this.miniatura =res.data.data[0].photo;
+            this.form = res.data.data;
+            this.miniatura =res.data.data["photo-url"];
             this.modals.modal1 = true;
           });
         },

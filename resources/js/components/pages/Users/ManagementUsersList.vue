@@ -242,7 +242,7 @@ import footer_auth from '../../Layouts/Footer/nav_auth.vue';
           search: '',
           categories: [
             axios.get('/categories/all?withDisabled=false').then(res=>{
-              this.categories = res.data.data;
+              this.categories = res.data.data.categories;
             })
           ],
           form :{
@@ -276,7 +276,7 @@ import footer_auth from '../../Layouts/Footer/nav_auth.vue';
         },
         CategoryCharge(){          
           axios.get('/categories/all?withDisabled='+this.status.withDisabled).then(res=>{
-            this.categories = res.data.data;
+            this.categories = res.data.data.categories;
           })
         },
         UsersCreate(){       

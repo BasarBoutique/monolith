@@ -376,8 +376,8 @@ const config = {
         LessonDetail(id){
           console.log(id);
           axios.get('/lesson/detail/'+id).then(res=>{
-            this.form = res.data.data[0];
-            this.miniatura =res.data.data[0].photo;
+            this.form = res.data.data;
+            this.miniatura =res.data.data.photo;
             this.modals.modal1 = true;
           });
         },
