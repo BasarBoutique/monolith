@@ -41,6 +41,16 @@ class RouteServiceProvider extends ServiceProvider
                 ->middleware('api')
                 ->namespace($this->namespace)
                 ->group(base_path('routes/api/v1/auth.php'));
+
+            /**
+             * AUTH API V2
+             */
+            Route::prefix('api/v2/auth')
+                ->middleware('api')
+                ->namespace($this->namespace)
+                ->group(base_path('routes/api/v2/auth.php'));
+
+
             /**
              * PERMISSIONS API V1
              */
@@ -67,26 +77,26 @@ class RouteServiceProvider extends ServiceProvider
                 ->group(base_path('routes/api/v1/courses.php'));
             /**
              * COURSES API V1
-             */  
+             */
             Route::prefix('api/v1/lesson')
                 ->middleware('api')
                 ->namespace($this->namespace)
                 ->group(base_path('routes/api/v1/lesson.php'));
             /**
              * COURSES API V1
-             */ 
+             */
             Route::prefix('api/v1/comment')
                 ->middleware('api')
                 ->namespace($this->namespace)
                 ->group(base_path('routes/api/v1/comment.php'));
-            
+
 
 
             Route::middleware('web')
                 ->namespace($this->namespace)
                 ->group(base_path('routes/web.php'));
 
-            
+
         });
     }
 

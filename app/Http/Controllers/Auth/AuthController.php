@@ -10,10 +10,13 @@ use App\Http\Response\APIResponse;
 use App\Services\AuthService;
 use App\Services\UserService;
 use Exception;
+use Google_AccessToken_Verify;
+use Google_Client;
 use Illuminate\Http\Request;
 
 class AuthController extends Controller
 {
+
     public function signUp(StoreUserRequest $request){
         try {
 
@@ -30,6 +33,26 @@ class AuthController extends Controller
         }
         catch(Exception $e){
             return APIResponse::fail($e->getMessage(), 500);
+        }
+    }
+
+    public function loginWithGoogle(Request $request)
+    {
+        try {
+            $token = app(Google_AccessToken_Verify::class)->verifyIdToken($request->idToken);
+
+            if(!$token) {
+                return APIResponse::fail("Token is expired.", 403);
+            }
+
+            $service = new UserService;
+
+            
+
+            return APIResponse::success(['token' => $token], '');
+        } catch (Exception $e) {
+
+            return APIResponse::fail($e->getMessage());
         }
     }
 

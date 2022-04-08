@@ -10,7 +10,7 @@ class UserDTO extends CoreDTO {
             'name' => $attributes['name'],
             'email' => $attributes['email'],
             'password' => bcrypt($attributes['password']),
-            'detail' => UserDetailDTO::make($attributes['detail'] ?? [])
+            'detail' => UserDetailDTO::make($attributes['detail'] ?? $attributes)
         ];
     }
 
