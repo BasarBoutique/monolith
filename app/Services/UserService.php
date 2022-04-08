@@ -26,9 +26,13 @@ class UserService {
         return $user;
     }
 
-    public function updateUser(array $attributes)
+    public function updateUser(array $attributes, int $userId)
     {
+        $userDTO = new UserDTO;
 
+        $user = $this->userRepository->updateUser($userDTO, $attributes, $userId);
+
+        return $user;
     }
 
 }
