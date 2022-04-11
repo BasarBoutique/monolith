@@ -7,6 +7,7 @@ use App\Http\Requests\LoginRequest;
 use App\Http\Requests\StoreUserRequest;
 use App\Http\Resources\Auth\UserResource;
 use App\Http\Response\APIResponse;
+use App\Models\User;
 use App\Services\AuthService;
 use App\Services\UserService;
 use Exception;
@@ -47,7 +48,7 @@ class AuthController extends Controller
 
             $service = new UserService;
 
-            
+
 
             return APIResponse::success(['token' => $token], '');
         } catch (Exception $e) {
@@ -90,7 +91,9 @@ class AuthController extends Controller
 
         try {
 
-            $resource = new UserResource($request->user());
+            $user = User::find($request->user()->user_id)->load('detail', 'roles');
+
+            $resource = new UserResource($user);
 
             return APIResponse::success($resource, 'Retrieve successfully user');
 

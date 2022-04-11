@@ -6,6 +6,8 @@ use App\Enums\PermissionRoleEnum;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Permission\DettachRolRequest;
 use App\Http\Requests\Permission\StoreUserRolRequest;
+use App\Http\Resources\Permission\PermissionResource;
+use App\Http\Resources\Permission\UserRolResource;
 use App\Http\Response\APIResponse;
 use App\Services\Permission\PermissionService;
 use Exception;
@@ -20,43 +22,56 @@ class RolUserController extends Controller
         $this->service = new PermissionService;
     }
 
-    public function assignRolToUser(StoreUserRolRequest $request)
+    public function assignRolesToUser(StoreUserRolRequest $request)
     {
         try {
             $validatedRequest = $request->validated();
 
             $permission_level = $validatedRequest['permission_level'];
 
-            $role = PermissionRoleEnum::tryFrom($permission_level) ?? PermissionRoleEnum::CLIENT;
+            $roles = array_unique($permission_level);
 
             $params = [
-                'role' => $role,
+                'roles' => array_map(function($value) {
+                                return PermissionRoleEnum::tryFrom($value);
+                            }, $roles),
                 'user' => $validatedRequest['user']
             ];
 
 
-            $attachRolToUser = $this->service->attachRolToUser($params);
+            $attachRolToUser = $this->service->attachRolesToUser($params);
 
-            return APIResponse::success($attachRolToUser->toArray(), 'Attached Rol to User successfully');
+            $resource = new UserRolResource($attachRolToUser);
+
+            return APIResponse::success($resource, 'Attached Roles to User successfully');
+
         } catch (Exception $e) {
             return APIResponse::fail($e->getMessage(), 500);
         }
     }
 
-    public function dettachRolToUser(DettachRolRequest $request)
+    public function dettachRolesToUser(DettachRolRequest $request)
     {
         try {
 
             $validatedRequest = $request->validated();
 
-            $role = PermissionRoleEnum::tryFrom($validatedRequest['permission_level']);
+            $permission_level = $validatedRequest['permission_level'];
+
+            $roles = array_unique($permission_level);
 
             $params = [
-                'role' => $role,
+                'roles' => array_map(function($value) {
+                                return PermissionRoleEnum::tryFrom($value);
+                            }, $roles),
                 'user' => $validatedRequest['user']
             ];
 
-            $dettachRolToUser = $this->service->unattachRolToUser($params);
+            $dettachRolToUser = $this->service->dettachRolesToUser($params);
+
+            $resource = new UserRolResource($dettachRolToUser);
+
+            return APIResponse::success($resource, "Successfully dettached roles of user");
 
 
         } catch (Exception $e) {

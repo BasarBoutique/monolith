@@ -2,13 +2,13 @@
 
 namespace App\Http\Requests\Permission;
 
-use App\Http\Requests\Core\AuthorizationAdminRequest;
+use App\Enums\PermissionRoleEnum;
+use App\Http\Requests\Core\JsonRequest;
 use App\Models\User;
 use App\Rules\Permission\UniqueUserRol;
-use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Validation\Rule;
+use Illuminate\Validation\Rules\Enum;
 
-class StoreUserRolRequest extends AuthorizationAdminRequest
+class StoreUserRolRequest extends JsonRequest
 {
 
 
@@ -28,7 +28,8 @@ class StoreUserRolRequest extends AuthorizationAdminRequest
     {
         return [
             'user' => ['required'],
-            'permission_level' => ['numeric', new UniqueUserRol($this->request->get('user_id'))]
+            'permission_level' => ['required', 'array'],
+            'permission_level.*' => ['numeric', new Enum(PermissionRoleEnum::class)]
         ];
     }
 }

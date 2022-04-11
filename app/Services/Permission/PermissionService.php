@@ -58,19 +58,19 @@ class PermissionService
         return $repository->disableRol($params['role']);
     }
 
-    public function attachRolToUser(array $params)
+    public function attachRolesToUser(array $params)
     {
         $repository = new UserRolRepository;
 
-        return $repository->attachRolToUser($params['role'], $params['user']);
+        return $repository->attachRolesToUser($params['roles'], $params['user']);
     }
 
-    public function unattachRolToUser(array $params)
+    public function dettachRolesToUser(array $params)
     {
 
         $repository = new UserRolRepository;
 
-        throw new NotImplementedException("unattach rol to user");
+        return $repository->unattachRolesToUser($params['roles'], $params['user']);
     }
 
 

@@ -2,22 +2,23 @@
 
 namespace App\Http\Requests\Permission;
 
-use App\Http\Requests\Core\AuthorizationAdminRequest;
+use App\Enums\PermissionRoleEnum;
+use App\Http\Requests\Core\JsonRequest;
 use App\Models\PermissionUser;
 use App\Models\User;
-use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
-use Illuminate\Validation\Rules\Exists;
+use Illuminate\Validation\Rules\Enum;
 
-class DettachRolRequest extends AuthorizationAdminRequest
+class DettachRolRequest extends JsonRequest
 {
 
-    public function prepareForValidation()
+    protected function prepareForValidation()
     {
         $this->merge([
-            'permission_level' => PermissionUser::where('user_id')
+            'user' => User::find($this->user_id)
         ]);
     }
+
 
     /**
      * Get the validation rules that apply to the request.
@@ -27,11 +28,11 @@ class DettachRolRequest extends AuthorizationAdminRequest
     public function rules()
     {
 
-        $permissions_user = PermissionUser::where('user_id', $this->user)->pluck('permission_level');
 
         return [
-            'user' => ['required', 'numeric'],
-            'permission_level' => ['required', Rule::in($permissions_user)]
+            'user' => ['required'],
+            'permission_level' => ['required', 'array'],
+            'permission_level.*' => ['required', 'numeric', new Enum(PermissionRoleEnum::class)]
         ];
     }
 }
