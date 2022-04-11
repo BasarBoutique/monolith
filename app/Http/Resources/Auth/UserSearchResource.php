@@ -1,10 +1,11 @@
 <?php
 
-namespace App\Http\Resources\Course;
+namespace App\Http\Resources\Auth;
 
+use App\Http\Resources\Core\PaginationResource;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class CourseDetailResource extends JsonResource
+class UserSearchResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -15,9 +16,8 @@ class CourseDetailResource extends JsonResource
     public function toArray($request)
     {
         return [
-            'description' => $this->cdetail_description,
-            'author' => $this->cdetail_author
+            'users' => UserResource::collection($this->getCollection()),
+            'paginate' => new PaginationResource($this)
         ];
     }
-
 }

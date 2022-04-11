@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Resources\Course;
+namespace App\Http\Resources\Category;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class CourseDetailResource extends JsonResource
+class CategorySearchResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -14,10 +14,6 @@ class CourseDetailResource extends JsonResource
      */
     public function toArray($request)
     {
-        return [
-            'description' => $this->cdetail_description,
-            'author' => $this->cdetail_author
-        ];
+        return parent::toArray($request);
     }
-
 }

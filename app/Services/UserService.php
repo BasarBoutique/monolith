@@ -5,6 +5,7 @@ namespace App\Services;
 use App\DTO\UserDTO;
 use App\Events\UserRegistered;
 use App\Repositories\UserRepository;
+use App\Repositories\UserSearchRepository;
 
 class UserService {
 
@@ -14,6 +15,19 @@ class UserService {
     {
         $this->userRepository = new UserRepository;
     }
+
+    public function searchUsers(array $queryParams)
+    {
+
+        $repository = new UserSearchRepository;
+
+        $repository->makeQuery($queryParams['filters']);
+        $repository->orderBy($queryParams['order']);
+
+        return $repository->paginateSearch($queryParams['paginate']);
+
+    }
+
 
     public function create(array $attributes)
     {

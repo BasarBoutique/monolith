@@ -1,13 +1,12 @@
 <?php
 
-namespace App\Http\Requests\Lesson;
+namespace App\Http\Requests\Category;
 
 use App\Http\Requests\Core\JsonRequest;
 use Illuminate\Foundation\Http\FormRequest;
 
-class SearchLessonRequest extends JsonRequest
+class SearchCategoriesRequest extends JsonRequest
 {
-
 
     protected function prepareForValidation()
     {
@@ -23,6 +22,7 @@ class SearchLessonRequest extends JsonRequest
         ]);
     }
 
+
     /**
      * Get the validation rules that apply to the request.
      *
@@ -33,11 +33,10 @@ class SearchLessonRequest extends JsonRequest
         return [
             'filters' => 'required|array',
             'filters.withDisabled' => 'sometimes|boolean',
-            'filters.courses' => 'sometimes|array',
-            'filters.courses.*' => 'numeric',
-            'filters.title' => 'sometimes|string',
+            'filters.title' => 'sometimes|string|min:3',
             'order' => 'required|array',
             'order.sort_by' => 'sometimes|string',
+            'order.order_by' => 'sometimes|string',
             'paginate' => 'numeric'
         ];
     }

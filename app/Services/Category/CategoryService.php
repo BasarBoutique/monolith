@@ -3,8 +3,10 @@
 namespace App\Services\Category;
 
 use App\DTO\CategoryDTO;
+use App\Http\Resources\Category\CategorySearchResource;
 use App\Models\Category;
 use App\Repositories\Category\CategoryRepository;
+use App\Repositories\Category\CategorySearchRepository;
 
 class CategoryService{
 
@@ -28,6 +30,18 @@ class CategoryService{
         $category = $this->categoryRepository->showCategoryById($categoryId);
 
         return $category;
+    }
+
+    public function searchCategories(array $queryParams)
+    {
+
+        $repository = new CategorySearchRepository;
+
+        $repository->makeQuery($queryParams['filters']);
+        $repository->orderBy($queryParams['order']);
+
+        return $repository->paginateSearch($queryParams['paginate']);
+
     }
 
     public function showCategories(array $args)
