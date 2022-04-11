@@ -56,7 +56,7 @@ class UserSearchRepository
     {
         if(isset($roles) && !empty($roles)) {
             $this->users->whereHas('roles', function ($q) use ($roles) {
-                $q->select('permission_users.user_id')->whereIn('permission_users.user_id', $roles);
+                $q->select('permission_users.permission_level')->whereIn('permission_users.permission_level', $roles);
             });
         }
     }
