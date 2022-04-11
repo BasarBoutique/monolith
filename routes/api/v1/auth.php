@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Auth\UserController;
 use App\Http\Controllers\Email\VerificationController;
 use Illuminate\Support\Facades\Route;
 
@@ -14,4 +15,8 @@ Route::middleware(['signed'])->group(function () {
 Route::middleware(['auth:api'])->group(function () {
     Route::get('user', 'Auth\AuthController@user');
     Route::get('logout', 'Auth\AuthController@logout');
+
+    Route::middleware(['can:isAdmin'])->group(function () {
+        Route::get('search', [UserController::class, 'searchUsers']);
+    });
 });
