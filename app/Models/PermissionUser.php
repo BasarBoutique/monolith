@@ -38,4 +38,9 @@ class PermissionUser extends Model
     {
         return $query->withoutGlobalScope(IsEnabledScope::class);
     }
+
+    public function scopeOnlyDisabledRoles($query)
+    {
+        return $query->withoutGlobalScope(IsEnabledScope::class)->where('is_enabled', false);
+    }
 }
