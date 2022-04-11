@@ -69,7 +69,7 @@ class RolUserController extends Controller
 
             $dettachRolToUser = $this->service->dettachRolesToUser($params);
 
-            return APIResponse::success($dettachRolToUser, "Retrieve list of roles disabled of user");
+            return APIResponse::success(['updated' => $dettachRolToUser], "Retrieve list of roles disabled of user");
 
 
         } catch (Exception $e) {
