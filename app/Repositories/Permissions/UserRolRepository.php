@@ -3,30 +3,69 @@
 namespace App\Repositories\Permissions;
 
 use App\Enums\PermissionRoleEnum;
-use App\Models\PermissionUser;
 use App\Models\User;
+use Illuminate\Support\Facades\DB;
 
 class UserRolRepository {
 
 
-    public function attachRolToUser(PermissionRoleEnum $role, User $user)
+    public function attachRolesToUser(array $roles, User $user)
     {
-        $permissionUser = PermissionUser::create([
-            'permission_level' => $role,
-            'user_id' => $user->user_id
-        ]);
 
-        return $permissionUser;
+        $userRoles = $user->roles()->withDisabledRoles();
+
+        $filteredRoles = $userRoles->pluck('permission_level')->toArray();
+
+        $uniqueIds = array_filter($roles, function (PermissionRoleEnum $prol) use ($filteredRoles) {
+            return !in_array($prol->value, $filteredRoles);
+        });
+
+        $roleIds = array_map(function (PermissionRoleEnum $prol) {
+
+            return ['permission_level' => $prol];
+
+        }, $uniqueIds);
+
+        $transaction = DB::transaction(function () use ($roleIds, $userRoles) {
+
+            if(empty($roleIds)) {
+                return $userRoles->get();
+            }
+
+            return $userRoles->createMany($roleIds);
+
+        });
+
+        return $transaction->load('rol');
     }
 
-    public function unattachRolToUser(PermissionRoleEnum $role, int $user_id)
+    public function unattachRolesToUser(array $roles, User $user)
     {
-        $permissionUser = PermissionUser::where('permission_level', $role)->where('user_id', $user_id)->first();
 
-        $permissionUser->update([
-            'is_enabled' => false
-        ]);
+        $userRoles = $user->roles();
 
-        return $permissionUser;
+        $roleIds = array_map(function(PermissionRoleEnum $rol) {
+
+            return $rol->value;
+
+        }, $roles);
+
+        $uniqueIds = $userRoles->whereIn('permission_level', $roles);
+
+        $transaction = DB::transaction(function () use ($uniqueIds, $userRoles) {
+
+            if(!$uniqueIds->exists()) {
+                return $userRoles->withDisabledRoles()->get();
+            }
+
+            $uniqueIds->update([
+                'is_enabled' => false
+            ]);
+
+
+            return $userRoles->withDisabledRoles()->get();
+        });
+
+        return $transaction->load('rol');
     }
 }

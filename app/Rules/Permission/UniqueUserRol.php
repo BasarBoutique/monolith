@@ -24,14 +24,14 @@ class UniqueUserRol implements Rule
      * Determine if the validation rule passes.
      *
      * @param  string  $attribute
-     * @param  mixed  $value
+     * @param  mixed  $values
      * @return bool
      */
-    public function passes($attribute, $value)
+    public function passes($attribute, $values)
     {
-        $permissionUser = PermissionUser::withDisabledRoles()->where('permission_level', $value)->where('user_id', $this->userId)->first();
+        $permissionUser = PermissionUser::withDisabledRoles()->whereIn('permission_level', $values)->where('user_id', $this->userId)->exists();
 
-        return is_null($permissionUser);
+        return !$permissionUser;
     }
 
     /**

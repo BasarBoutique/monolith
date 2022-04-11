@@ -19,8 +19,6 @@ class UserResource extends JsonResource
         /** @var \App\Models\User $user */
         $user = $this;
 
-        $user->load('detail', 'roles');
-
         return [
             'id' => $user->user_id,
             'name' => $user->name,
@@ -38,7 +36,7 @@ class UserResource extends JsonResource
                 ];
             }),
             'roles' => $this->whenLoaded('roles', function () {
-                $roles = $this->roles->rol;
+                $roles = $this->roles->load('rol')->pluck('rol');
                 return PermissionResource::collection($roles);
 
             }),

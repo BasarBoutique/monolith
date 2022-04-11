@@ -63,7 +63,7 @@ class User extends Authenticatable implements MustVerifyEmail
 
     public function roles()
     {
-        return $this->belongsTo(PermissionUser::class,'user_id', 'user_id');
+        return $this->hasMany(PermissionUser::class, 'user_id', 'user_id');
     }
 
     public function purcharsedCourses()
