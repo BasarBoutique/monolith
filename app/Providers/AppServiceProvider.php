@@ -7,7 +7,7 @@ use App\Models\Comment;
 use App\Models\CourseDetail;
 use App\Models\Courses;
 use App\Models\Lesson;
-use App\Models\LessonDetial;
+use App\Models\LessonDetail;
 use App\Models\PermissionHierarchy;
 use App\Models\PermissionUser;
 use App\Models\User;
@@ -61,7 +61,7 @@ class AppServiceProvider extends ServiceProvider
         Category::observe(CategoryObserver::class);
         Courses::observe(CourseObserver::class);
         CourseDetail::observe(CourseDetailObserver::class);
-        LessonDetial::observe(LessonObserver::class);
+        LessonDetail::observe(LessonObserver::class);
         Comment::observe(CommentObserver::class);
         Lesson::observe(LessonDetailObserver::class);
     }

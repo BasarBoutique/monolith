@@ -4,7 +4,7 @@ namespace App\Http\Requests\Lesson;
 
 use App\Http\Requests\Core\AuthorizationAdminRequest;
 use App\Models\Courses;
-use App\Models\LessonDetial;
+use App\Models\LessonDetail;
 use Illuminate\Validation\Rule;
 
 class UpdateLessonRequest extends AuthorizationAdminRequest
@@ -25,13 +25,13 @@ class UpdateLessonRequest extends AuthorizationAdminRequest
     public function rules()
     {
         return [
-            'lessonId' => ['required','numeric', Rule::exists(LessonDetial::class, 'ld_id')],
-            'title' => 
+            'lessonId' => ['required','numeric', Rule::exists(LessonDetail::class, 'ld_id')],
+            'title' =>
                 [
                     'sometimes',
                     'required',
                     'string',
-                    Rule::unique(LessonDetial::class, 'ld_title')->ignore($this->route('lessonId'),'ld_id')
+                    Rule::unique(LessonDetail::class, 'ld_title')->ignore($this->route('lessonId'),'ld_id')
                      ],
             'ld_url' => ['sometimes','required','string'],
             'description' => ['sometimes','required','array'],

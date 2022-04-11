@@ -1,11 +1,10 @@
 <?php
 
-namespace App\Http\Resources\Category;
+namespace App\Http\Resources\Core;
 
-use App\Http\Resources\Core\PaginationResource;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class CategoryPaginateResource extends JsonResource
+class PaginationResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -16,8 +15,10 @@ class CategoryPaginateResource extends JsonResource
     public function toArray($request)
     {
         return [
-            'categories' => CategoryResource::collection($this->getCollection()),
-            'pagination' => new PaginationResource($this)
+            'first_page' => $this->url(1),
+            'next_page' => $this->nextPageUrl(),
+            'total' => $this->total(),
+            'current_page' => $this->url($this->currentPage())
         ];
     }
 }

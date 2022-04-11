@@ -24,12 +24,11 @@ class CourseService{
         return $searchRepository->paginateSearch($queryParams['paginate']);
     }
 
-    public function showAllCourses(bool $withDisabled = false){
-        $courses = $withDisabled
-            ? $this->courseRepository->showAllWithCoursesDisabled()
-            : $this->courseRepository->showAllCourses();
+    public function showAllCourses(array $queryParams)
+    {
+        $courses =  $this->courseRepository->showAllCourses($queryParams['withDisabled']);
 
-        return $courses;
+        return $this->courseRepository->paginateAll($courses, $queryParams['limit']);
     }
 
     public function showCourseById(array $attributes){

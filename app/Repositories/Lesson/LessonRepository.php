@@ -4,7 +4,7 @@ namespace App\Repositories\Lesson;
 
 use App\DTO\Interfaces\DTOInterface;
 use App\Models\Lesson;
-use App\Models\LessonDetial;
+use App\Models\LessonDetail;
 use Exception;
 use Illuminate\Support\Facades\Log;
 
@@ -41,7 +41,7 @@ class LessonRepository{
     {
         $lessonDTO = $dto::make($attributes);
 
-        $lesson = LessonDetial::create($lessonDTO);
+        $lesson = LessonDetail::create($lessonDTO);
 
         $lesson->detail()->create($lessonDTO['course_id']);
 
@@ -53,7 +53,7 @@ class LessonRepository{
         try {
             $lessonDTO = $dto::make($attributes);
 
-            $lesson = LessonDetial::findOrFail($attributes['lessonId']);
+            $lesson = LessonDetail::findOrFail($attributes['lessonId']);
 
             $lesson->update($lessonDTO);
 

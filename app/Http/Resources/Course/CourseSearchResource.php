@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources\Course;
 
+use App\Http\Resources\Core\PaginationResource;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class CourseSearchResource extends JsonResource
@@ -17,10 +18,7 @@ class CourseSearchResource extends JsonResource
         return [
             'courses' => CourseResource::collection($this->getCollection()),
             'filters' => $request->filters,
-            'pagination' => [
-                'first_page' => $this->url(1),
-                'next_page' => $this->nextPageUrl()
-            ]
+            'pagination' => new PaginationResource($this)
         ];
     }
 }

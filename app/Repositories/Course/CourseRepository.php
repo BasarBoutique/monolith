@@ -10,14 +10,18 @@ use Illuminate\Support\Facades\Log;
 
 class CourseRepository {
 
-    public function showAllCourses()
+    public function showAllCourses($withDisabled)
     {
-        return Courses::all();
+        if($withDisabled) {
+            return Courses::withDisabledCourses();
+        }
+
+        return (new Courses);
     }
 
-    public function showAllWithCoursesDisabled()
+    public function paginateAll($courses, $limit = 15)
     {
-        return Courses::WithDisabledCourses()->get();;
+        return $courses->paginate($limit);
     }
 
     public function showCourseById(array $attributes){

@@ -4,8 +4,8 @@ namespace App\Services\Lesson;
 
 use App\DTO\Lesson\LessonDTO;
 use App\Events\Lesson\LessonRegistered;
-use App\Models\LessonDetial;
 use App\Repositories\Lesson\LessonRepository;
+use App\Repositories\Lesson\LessonSearchRepository;
 
 class LessonService{
 
@@ -28,6 +28,18 @@ class LessonService{
         $lesson = $this->lessonRepository->showLessonById($attributes);
 
         return $lesson;
+    }
+
+    public function searchLessons(array $queryParams)
+    {
+
+        $repository = new LessonSearchRepository();
+
+        $repository->makeQuery($queryParams['filters']);
+        $repository->orderBy($queryParams['order']);
+
+        return $repository->paginateSearch($queryParams['paginate']);
+
     }
 
     public function create(array $attributes)
