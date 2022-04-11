@@ -9,6 +9,7 @@ use App\Http\Requests\Course\FilterCourseByIdRequest;
 use App\Http\Requests\Course\SearchCourseRequest;
 use App\Http\Requests\Course\StoreCourseRequest;
 use App\Http\Requests\Course\UpdateCourseRequest;
+use App\Http\Resources\Course\CoursePaginate;
 use App\Http\Resources\Course\CourseResource;
 use App\Http\Resources\Course\CourseSearchResource;
 use App\Http\Response\APIResponse;
@@ -22,16 +23,20 @@ class CoursesController extends Controller
         try {
 
             $request->validate([
-                'withDisabled' => 'required|in:true,false'
+                'withDisabled' => 'required|in:true,false',
+                'limit' => 'numeric'
             ]);
 
-            $withDisabled =  filter_var($request->get('withDisabled'), FILTER_VALIDATE_BOOLEAN);
+            $queryParams = [
+                'withDisabled' => filter_var($request->get('withDisabled'), FILTER_VALIDATE_BOOLEAN),
+                'limit' => optional($request)->limit ?? 15
+            ];
 
             $service = new CourseService;
 
-            $courses = $service->showAllCourses($withDisabled);
+            $courses = $service->showAllCourses($queryParams);
 
-            $resource = CourseResource::collection($courses);
+            $resource = new CoursePaginate($courses);
 
             return APIResponse::success($resource, 'Retrieve successfully courses');
 

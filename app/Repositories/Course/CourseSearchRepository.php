@@ -11,7 +11,7 @@ class CourseSearchRepository
 
     public function __construct()
     {
-        $this->courses = Courses::with(['detail']);
+        $this->courses = (new Courses);
     }
 
     public function searchById(int $courseId)
@@ -24,6 +24,7 @@ class CourseSearchRepository
         $this->filterByCategories($query['categories'] ?? []);
         $this->filterByTitle($query['title'] ?? '');
         $this->filterByAuthors($query['authors'] ?? []);
+        $this->courses->load('detail');
     }
 
     public function orderBy(array $order)

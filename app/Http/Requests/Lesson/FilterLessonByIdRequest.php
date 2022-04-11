@@ -3,8 +3,7 @@
 namespace App\Http\Requests\Lesson;
 
 use App\Http\Requests\Core\JsonRequest;
-use App\Models\Lesson;
-use App\Models\LessonDetial;
+use App\Models\LessonDetail;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
@@ -26,7 +25,7 @@ class FilterLessonByIdRequest extends JsonRequest
     public function rules()
     {
         return [
-            'lessonId' => ['required','numeric', Rule::exists(LessonDetial::class,'ld_id')]
+            'lessonId' => ['required','numeric', Rule::exists(LessonDetail::class,'ld_id')]
         ];
     }
 }

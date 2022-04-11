@@ -6,10 +6,13 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Lesson\ChangeCourseRequest;
 use App\Http\Requests\Lesson\DisableLeassonRequest;
 use App\Http\Requests\Lesson\FilterLessonByIdRequest;
+use App\Http\Requests\Lesson\SearchLessonRequest;
 use App\Http\Requests\Lesson\StoreLessonRequest;
 use App\Http\Requests\Lesson\UpdateLessonRequest;
 use App\Http\Resources\Lesson\LessonResource;
+use App\Http\Resources\Lesson\LessonSearchResource;
 use App\Http\Resources\Lesson\LessonsPaginate;
+use App\Http\Resources\Lesson\SearchLessonResource;
 use App\Http\Response\APIResponse;
 use App\Services\Lesson\LessonService;
 use Exception;
@@ -23,10 +26,8 @@ class LessonController extends Controller
             $request->validate([
                 'withDisabled' => 'required|in:true,false'
             ]);
-            
-            $withDisabled =  filter_var($request->get('withDisabled'), FILTER_VALIDATE_BOOLEAN);
-            
-            // $withDisabled = $request->get('withDisabled');
+
+            $withDisabled = filter_var($request->get('withDisabled'), FILTER_VALIDATE_BOOLEAN);
 
             $service = new LessonService;
 
@@ -37,6 +38,26 @@ class LessonController extends Controller
             return APIResponse::success($resource,'Retrieve successfully lessons');
         } catch (Exception $e) {
             return APIResponse::fail($e->getMessage(),500);
+        }
+    }
+
+    public function searchLessons(SearchLessonRequest $request)
+    {
+        try {
+
+            $validatedRequest = $request->validated();
+
+            $service = new LessonService;
+
+            $lessons = $service->searchLessons($validatedRequest);
+
+            $resource = new LessonSearchResource($lessons);
+
+            return APIResponse::success($resource, 'Retireve successfully filtered lessons');
+
+        } catch (Exception $e) {
+
+            return APIResponse::fail($e->getMessage(), 500);
         }
     }
 

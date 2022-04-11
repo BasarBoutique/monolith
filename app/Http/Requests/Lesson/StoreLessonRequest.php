@@ -4,7 +4,7 @@ namespace App\Http\Requests\Lesson;
 
 use App\Http\Requests\Core\AuthorizationAdminRequest;
 use App\Models\Courses;
-use App\Models\LessonDetial;
+use App\Models\LessonDetail;
 use Illuminate\Validation\Rule;
 
 class StoreLessonRequest extends AuthorizationAdminRequest
@@ -18,7 +18,7 @@ class StoreLessonRequest extends AuthorizationAdminRequest
     public function rules()
     {
         return [
-            'title' => ['required','string',Rule::unique(LessonDetial::class, 'ld_title')] ,
+            'title' => ['required','string',Rule::unique(LessonDetail::class, 'ld_title')] ,
             'url' => ['required','string'],
             'description' => ['required','array'],
             'description.context' => ['required','string'],

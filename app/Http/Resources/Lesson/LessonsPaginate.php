@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources\Lesson;
 
+use App\Http\Resources\Core\PaginationResource;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class LessonsPaginate extends JsonResource
@@ -15,14 +16,8 @@ class LessonsPaginate extends JsonResource
     public function toArray($request)
     {
         return [
-            'courses' => LessonResource::collection($this->getCollection()),
-            'pagination' => [
-                'total' => $this->total(),
-                'count' => $this->count(),
-                'per_page' => $this->perPage(),
-                'current_page' => $this->currentPage(),
-                'total_pages' => $this->lastPage()
-            ]
+            'lessons' => LessonResource::collection($this->getCollection()),
+            'pagination' => new PaginationResource($this)
         ];
 
     }

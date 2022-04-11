@@ -21,11 +21,9 @@ class LessonResource extends JsonResource
             'id' => $lesson->lesson_id,
             'curso' => $lesson->course_id,
             'lesson' => $lesson->ld_id,
-            'detail' => [
-                'title' => $lesson->detail->ld_title,
-                'photo' => $lesson->detail->ld_url,
-                'description' => $lesson->detail->ld_description,
-            ],
+            'detail' => $this->whenLoaded('detail', function () use ($lesson) {
+                return new LessonDetailResource($lesson->detail);
+            }),
             'enabled' => boolval($lesson->is_enabled)
         ];
     }

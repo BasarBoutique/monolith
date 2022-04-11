@@ -15,7 +15,8 @@ class CourseDetailResource extends JsonResource
     public function toArray($request)
     {
         return [
-            'description' => $this->cdetail_description
+            'description' => $this->cdetail_description,
+            'author' => $this->cdetail_author
         ];
     }
 
