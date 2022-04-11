@@ -44,28 +44,20 @@ class UserRolRepository {
 
         $userRoles = $user->roles();
 
-        $roleIds = array_map(function(PermissionRoleEnum $rol) {
-
-            return $rol->value;
-
-        }, $roles);
-
         $uniqueIds = $userRoles->whereIn('permission_level', $roles);
 
-        $transaction = DB::transaction(function () use ($uniqueIds, $userRoles) {
+        return DB::transaction(function () use ($uniqueIds) {
 
-            if(!$uniqueIds->exists()) {
-                return $userRoles->withDisabledRoles()->get();
+            if($uniqueIds->exists()) {
+                return $uniqueIds->update([
+                    'is_enabled' => false
+                ]);
+
             }
 
-            $uniqueIds->update([
-                'is_enabled' => false
-            ]);
-
-
-            return $userRoles->withDisabledRoles()->get();
+            return false;
         });
 
-        return $transaction->load('rol');
+
     }
 }
