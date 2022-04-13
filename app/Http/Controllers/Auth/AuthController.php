@@ -25,6 +25,10 @@ class AuthController extends Controller
 
             $service = new UserService;
 
+            $file = $request->file('image');
+
+            $attributes['file'] = $file;
+
             $user = $service->create($attributes);
 
             $resource = new UserResource($user);

@@ -30,4 +30,10 @@ class UserDetail extends Model
         'udetail_movil'
     ];
 
+    public function assignImage(?string $link)
+    {
+        $this->udetail_photo = $link;
+        $this->save();
+    }
+
 }

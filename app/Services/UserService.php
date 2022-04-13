@@ -2,10 +2,13 @@
 
 namespace App\Services;
 
+use App\DTO\ImageDTO;
 use App\DTO\UserDTO;
+use App\Enums\ImageFolderEnum;
 use App\Events\UserRegistered;
 use App\Repositories\UserRepository;
 use App\Repositories\UserSearchRepository;
+use App\Services\Image\ImageService;
 
 class UserService {
 
@@ -33,7 +36,21 @@ class UserService {
     {
         $userDTO = new UserDTO;
 
+        $imageDTO = new ImageDTO;
+
         $user = $this->userRepository->create($userDTO, $attributes);
+
+        $imageAttr = [
+            'file' => $attributes['file'],
+            'id' => $user->detail->udetail_uuid,
+            'folder' => 'user'
+        ];
+
+        $imageService = new ImageService(app('firebase.storage'));
+
+        $uploadImage = $imageService->uploadImage($imageDTO, $imageAttr);
+
+        $user->detail->udetail_photo = $imageService->getUrlPath($uploadImage);
 
         event(new UserRegistered($user));
 
