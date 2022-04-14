@@ -5,6 +5,9 @@ window.Vue = require('vue').default;
 
 window.toastr = require('toastr');
 
+import Multiselect from 'vue-multiselect';
+Vue.component('multiselect', Multiselect);
+
 import VueSweetalert2 from "vue-sweetalert2";
 import "sweetalert2/dist/sweetalert2.min.css";
 Vue.use(VueSweetalert2);

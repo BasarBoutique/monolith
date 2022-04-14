@@ -225,7 +225,7 @@ export default {
         },
         logout(){
             this.$store.dispatch('logout').then(res=>{
-              toastr.success(res.message)
+              toastr.success(res.message);
                 this.$router.push('/boutique/login');
             })
         }

@@ -53,7 +53,7 @@
                         </div>
 
                         <div class="form-group">               
-                            <v-text-field class="form-control" style="color:#825ee4; border-color:1px solid #cad1d7;" v-model="form.title" name="title" type="text" label="Category Name" id="input_category"/>
+                            <v-text-field class="form-control" style="color:#825ee4; border-color:1px solid #cad1d7;" v-model="form.title" name="title" type="text" label="Course Name" id="input_courses"/>
                         </div>
                         <div class="text-center">
                           <div class="alert alert-warning" role="alert" v-if="errors.title">
@@ -330,7 +330,7 @@ const config = {
           search: '',
           courses: [
             axios.get('/courses/all?withDisabled=false').then(res=>{
-              this.courses = res.data.data;
+              this.courses = res.data.data.courses;
             })
           ],
           categories : [
@@ -375,7 +375,7 @@ const config = {
         },
         CourseCharge(){          
           axios.get('/courses/all?withDisabled='+this.status.withDisabled).then(res=>{
-            this.courses = res.data.data;
+            this.courses = res.data.data.courses;
           })
         },
         CourseCreate(){
