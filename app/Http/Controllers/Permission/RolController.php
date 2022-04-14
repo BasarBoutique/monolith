@@ -11,6 +11,7 @@ use App\Http\Response\APIResponse;
 use App\Repositories\Permissions\RolRepository;
 use App\Services\Permission\PermissionService;
 use Exception;
+use Illuminate\Http\Request;
 
 class RolController extends Controller
 {

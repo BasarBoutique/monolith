@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources\Category;
 
+use App\Http\Resources\Core\PaginationResource;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class CategoryPaginateResource extends JsonResource
@@ -16,10 +17,7 @@ class CategoryPaginateResource extends JsonResource
     {
         return [
             'categories' => CategoryResource::collection($this->getCollection()),
-            'pagination' => [
-                'first_page' => $this->url(1),
-                'next_page' => $this->nextPageUrl()
-            ]
+            'pagination' => new PaginationResource($this)
         ];
     }
 }

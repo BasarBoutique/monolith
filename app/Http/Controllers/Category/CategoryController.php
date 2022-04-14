@@ -5,11 +5,13 @@ namespace App\Http\Controllers\Category;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Category\DisableCategoryRequest;
 use App\Http\Requests\Category\FilterCategoryRequest;
+use App\Http\Requests\Category\SearchCategoriesRequest;
 use App\Http\Requests\Category\ShowCategoriesRequest;
 use App\Http\Requests\Category\StoreCategoryRequest;
 use App\Http\Requests\Category\UpdateCategoryRequest;
 use App\Http\Resources\Category\CategoryPaginateResource;
 use App\Http\Resources\Category\CategoryResource;
+use App\Http\Resources\Category\CategorySearchResource;
 use App\Http\Resources\Category\CategorySlideResource;
 use App\Http\Response\APIResponse;
 use App\Models\Category;
@@ -48,6 +50,27 @@ class CategoryController extends Controller
 
         } catch (Exception $e) {
             return APIResponse::fail($e->getMessage(),500);
+        }
+    }
+
+    public function searchCategories(SearchCategoriesRequest $request)
+    {
+        try {
+
+            $validatedRequest = $request->validated();
+
+            $service = new CategoryService;
+
+            $categories = $service->searchCategories($validatedRequest);
+
+            $resource = new CategorySearchResource($categories);
+
+            return APIResponse::success($resource, 'Retrieve succesfully filtered categories');
+
+
+        } catch (Exception $e) {
+
+            return APIResponse::fail($e->getMessage(), 500);
         }
     }
 

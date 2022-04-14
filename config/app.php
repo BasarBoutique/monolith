@@ -180,8 +180,9 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
         App\Providers\TelescopeServiceProvider::class,
+        App\Providers\GoogleServiceProvider::class,
         Laravel\Passport\PassportServiceProvider::class,
-        LaravelFrontendPresets\ArgonPreset\ArgonPresetServiceProvider::class 
+        LaravelFrontendPresets\ArgonPreset\ArgonPresetServiceProvider::class
 
     ],
 

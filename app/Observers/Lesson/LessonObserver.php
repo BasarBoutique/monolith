@@ -3,8 +3,6 @@
 namespace App\Observers\Lesson;
 
 use App\Enums\LessonLogEnum;
-use App\Models\Lesson;
-use App\Models\LessonDetial;
 use App\Models\LessonLog;
 use Illuminate\Support\Facades\Log;
 

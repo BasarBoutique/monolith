@@ -26,11 +26,21 @@ class PermissionUser extends Model
 
     public function rol()
     {
-        return $this->hasMany(PermissionHierarchy::class, 'permission_level', 'permission_level');
+        return $this->hasOne(PermissionHierarchy::class, 'permission_level', 'permission_level');
+    }
+
+    public function user()
+    {
+        return $this->hasOne(User::class, 'user_id', 'user_id');
     }
 
     public function scopeWithDisabledRoles($query)
     {
         return $query->withoutGlobalScope(IsEnabledScope::class);
+    }
+
+    public function scopeOnlyDisabledRoles($query)
+    {
+        return $query->withoutGlobalScope(IsEnabledScope::class)->where('is_enabled', false);
     }
 }

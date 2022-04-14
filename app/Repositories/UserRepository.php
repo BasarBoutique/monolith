@@ -17,7 +17,7 @@ class UserRepository
 
             $user = User::create($userDTO);
 
-            $user->detail()->create($userDTO['details']);
+            $user->detail()->create($userDTO['detail']);
 
             $user->roles()->create([
                 'permission_level' => PermissionRoleEnum::CLIENT,
@@ -38,13 +38,21 @@ class UserRepository
         }
     }
 
-    public function updateUser(DTOInterface $dto, array $attributes)
+    public function updateUser(DTOInterface $dto, array $attributes, int $userId)
     {
         try {
 
             $userDTO = $dto::make($attributes);
 
-            // $user = User::findOrFail($user)
+            $user = User::findOrFail($userId);
+
+            $user->update($userDTO);
+
+            if(!empty($userDTO['detail'])) {
+                $user->detail()->update($userDTO['detail']);
+            }
+
+            return $user;
 
         } catch (\Exception $e) {
 

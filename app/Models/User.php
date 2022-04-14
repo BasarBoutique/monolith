@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Enums\PermissionRoleEnum;
+use App\Models\Scopes\IsAuthorizedScope;
 use Illuminate\Auth\Notifications\VerifyEmail;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -46,6 +47,23 @@ class User extends Authenticatable implements MustVerifyEmail
         'email_verified_at' => 'datetime',
     ];
 
+    protected static function booted()
+    {
+        static::addGlobalScope(new IsAuthorizedScope);
+    }
+
+    public function scopeWithDisabledUsers($query)
+    {
+        return $query->withoutGlobalScope(IsAuthorizedScope::class);
+    }
+
+    public function scopeSearchByName($query, string $name)
+    {
+        return $query->whereHas('detail', function ($q) use ($name) {
+            $q->where('udetail_fullname', '%' . $name . '%');
+        });
+    }
+
     public function isAdmin()
     {
         return $this->roles()->where('permission_level', PermissionRoleEnum::ADMIN)->select('puser_id')->exists();
@@ -63,7 +81,7 @@ class User extends Authenticatable implements MustVerifyEmail
 
     public function roles()
     {
-        return $this->belongsTo(PermissionUser::class,'user_id', 'user_id');
+        return $this->hasMany(PermissionUser::class, 'user_id', 'user_id');
     }
 
     public function purcharsedCourses()
