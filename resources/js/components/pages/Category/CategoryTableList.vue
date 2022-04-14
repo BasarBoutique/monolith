@@ -203,9 +203,9 @@
                 </template>                
               </base-table>
           </div>
-          <!-- <div class="card-footer d-flex justify-content-end bg-default shadow" :class="type === 'dark' ? 'bg-transparent' : ''">
+          <div class="card-footer d-flex justify-content-end bg-default shadow" :class="type === 'dark' ? 'bg-transparent' : ''">
             <base-pagination total="30"></base-pagination>
-          </div> -->
+          </div>
         </div>
       </div>
     </div>

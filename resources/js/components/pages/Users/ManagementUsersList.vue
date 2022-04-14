@@ -174,7 +174,7 @@
                             <i class="ni ni-settings" style="color:white"></i>
                           </button>
 
-                          <va-select class="display_select" :id="row.id +'_data'" v-model="row.category" placeholder="Seleccione un rol" no-uncheck>
+                          <va-select class="display_select" :id="row.id +'_data'" @submit.prevent="CategoryCharge" v-model="row.category" placeholder="Seleccione un rol" no-uncheck>
                             <template v-for="rol in roles">
                               <va-option :key="rol.permission_level" :value="rol.permission_level" :label="rol.ph_label"> 
                                 {{rol.ph_label}}  

@@ -33,7 +33,7 @@ class UserResource extends JsonResource
                     'fullname' => $detail->udetail_fullname,
                     'photo' => $detail->udetail_photo,
                     'address' => $detail->udetail_direction,
-                    'phone' => $detail->udetail_phone,
+                    'phone' => $detail->udetail_movil,
                     'uuid' => $detail->udetail_uuid
                 ];
             }),
