@@ -1,7 +1,7 @@
 <style>
 .text-white input {
       color: rgb(255, 255, 255) !important;
-}
+}  
 </style>
 <template>
 <div>
@@ -13,7 +13,7 @@
             <h6 class="h2 text-white d-inline-block mb-0">Tables</h6>
             <nav aria-label="breadcrumb" class="d-none d-md-inline-block ml-md-4">
               <ol class="breadcrumb breadcrumb-links breadcrumb-dark">
-                <li class="breadcrumb-item"><router-link exact :to="{ name: 'boutique.dashboard.index' }"><i class="fas fa-home"></i></router-link></li>
+                <li class="breadcrumb-item"><router-link exact :to="{ path: '/boutique/dashboard/index' }"><i class="fas fa-home"></i></router-link></li>
                 <li class="breadcrumb-item active" aria-current="page">Tables</li>
                 <li class="breadcrumb-item active" aria-current="page">Categories</li>
               </ol>
@@ -130,12 +130,23 @@
       <div class="col">
         <div class="card bg-default shadow">
           <div class="card-header bg-transparent border-0">
-            <h3 class="text-white mb-0">Categories</h3>
-              <div class="swtich-container">
-                <input type="checkbox" style="margin:auto;" @click="CategoryCharge" class="btn btn-sm btn-neutral" id="switch" v-model="status.withDisabled">
-                <label for="switch" class="lbl"></label>
-              </div>
-              <v-text-field v-model="search" append-icon="mdi-magnify" style="color:white; text-color:white;" label="Search" single-line hide-details clearable></v-text-field>
+            <h3 class="text-white mb-0">Categories</h3> 
+            <div style="margin-top:10px;">             
+              <select name="example_length" v-model="status.perPage" style="width:65px;" @click.prevent="CategoryCharge" aria-controls="example" class="custom-select custom-select-sm form-control form-control-sm">
+                <option value="5">5</option>
+                <option value="10">10</option>
+                <option value="25">25</option>
+                <option value="50">50</option>
+                <option value="100">100</option>
+              </select>
+            </div>
+            <div class="swtich-container">
+              <input type="checkbox" style="margin:auto;" @click="CategoryCharge" class="btn btn-sm btn-neutral" id="switch" v-model="status.withDisabled">
+              <label for="switch" class="lbl"></label>
+            </div>
+            <v-form ref="form" @submit.prevent="">
+              <v-text-field class="text-white" v-model="filter.title" append-icon="mdi-magnify" style="color:white; text-color:white;" label="Search" single-line hide-details clearable></v-text-field>
+            </v-form>
           </div>
           <div class="table-responsive">
               <base-table 
@@ -153,7 +164,7 @@
                     <td scope="row">
                       <div class="media align-items-center">
                         <a href="#" class="avatar rounded-circle mr-3">
-                          <img  :src="row.photo" />
+                          <img  :src="row['photo-url']" />
                         </a>
                         <div class="media-body">
                           <span class="name mb-0 text-sm">{{ row.title }}</span>
@@ -192,9 +203,9 @@
                 </template>                
               </base-table>
           </div>
-          <!-- <div class="card-footer d-flex justify-content-end bg-default shadow" :class="type === 'dark' ? 'bg-transparent' : ''">
+          <div class="card-footer d-flex justify-content-end bg-default shadow" :class="type === 'dark' ? 'bg-transparent' : ''">
             <base-pagination total="30"></base-pagination>
-          </div> -->
+          </div>
         </div>
       </div>
     </div>
@@ -228,7 +239,7 @@ const config = {
           search: '',
           categories: [
             axios.get('/categories/all?withDisabled=false').then(res=>{
-              this.categories = res.data.data;
+              this.categories = res.data.data.categories;
             })
           ],
           filter:{
@@ -241,7 +252,8 @@ const config = {
             enabled:null,
           },
           status:{
-              withDisabled:true
+              withDisabled:true,
+              perPage:null
           },
           errors:{},
           message:[]
@@ -261,14 +273,17 @@ const config = {
           reader.readAsDataURL(file);
         },
         CategoryCharge(){     
-          axios.get('/categories/all?withDisabled='+this.status.withDisabled).then(res=>{
-            this.categories = res.data.data;
+          axios.get('/categories/all',{params:{withDisabled:this.status.withDisabled,perPage:this.status.perPage}}).then(res=>{
+            this.categories = res.data.data.categories;
           })
         },
         CategoryCreate(){
           let fd = new FormData();
-          fd.append("category_ico",this.form.photo);
+          fd.append("category_ico",this.form.photo.name);
           fd.append("category_title",this.form.category);
+
+          console.log(fd);
+
           axios.defaults.headers.common['Authorization']= 'Bearer ' + this.$store.state.token
           axios.post('/categories/create-category',fd,config).then(data=>{
             this.message = data.data.message;   
@@ -280,8 +295,8 @@ const config = {
         },
         CategoryDetail(id){
           axios.get('/categories/detail/'+id).then(res=>{
-            this.form = res.data.data[0];
-            this.miniatura =res.data.data[0].photo;
+            this.form = res.data.data;
+            this.miniatura =res.data.data["photo-url"];
             this.modals.modal1 = true;
           });
         },
@@ -299,7 +314,6 @@ const config = {
             data : fd,
             headers : config
           }).then(data=>{
-            console.log(data.message);
             this.message = data.data.message;
             this.CategoryCharge();
             this.ModalClose();

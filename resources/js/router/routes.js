@@ -12,7 +12,7 @@ import BoutiqueDashboardCourses from '../components/pages/Courses/CoursesTableLi
 import BoutiqueDashboardLessons from '../components/pages/Lesson/LessonTableList.vue'
 import BoutiqueDashboardUsers from '../components/pages/Users/ManagementUsersList.vue'
 import BoutiqueDashboardPerfil from '../components/pages/Users/ProfileUsers.vue'
-
+import BoutiqueDashboardComments from '../components/pages/Comment/CommentTableList.vue'
 
 Vue.use(VueRouter)
 
@@ -42,7 +42,7 @@ const routes = [{
         children: [{
                 path: '/boutique/dashboard/index',
                 component: BoutiqueDashboardindex,
-                name: 'boutique.dashboard.index', 
+                name: 'Index', 
                 meta: {
                     requiresAuth: true
                 },
@@ -50,7 +50,7 @@ const routes = [{
             {
                 path: '/boutique/dashboard/icons',
                 component: BoutiqueDashboardicons,
-                name: 'boutique.dashboard.icons', 
+                name: 'Icons', 
                 meta: {
                     requiresAuth: true
                 },
@@ -58,7 +58,7 @@ const routes = [{
             {
                 path: '/boutique/dashboard/categories',
                 component: BoutiqueDashboardcategories,
-                name: 'boutique.dashboard.categories', 
+                name: 'Category Management', 
                 meta: {
                     requiresAuth: true
                 },
@@ -66,7 +66,7 @@ const routes = [{
             {
                 path: '/boutique/dashboard/Courses',
                 component: BoutiqueDashboardCourses,
-                name: 'boutique.dashboard.Courses', 
+                name: 'Course Management', 
                 meta: {
                     requiresAuth: true
                 },
@@ -74,7 +74,7 @@ const routes = [{
             {
                 path: '/boutique/dashboard/Lessons',
                 component: BoutiqueDashboardLessons,
-                name: 'boutique.dashboard.Lessons', 
+                name: 'Lesson Management', 
                 meta: {
                     requiresAuth: true
                 },
@@ -82,7 +82,7 @@ const routes = [{
             {
                 path: '/boutique/dashboard/UsersManagement',
                 component: BoutiqueDashboardUsers,
-                name: 'boutique.dashboard.UsersManagement', 
+                name: 'User Management', 
                 meta: {
                     requiresAuth: true
                 },
@@ -90,7 +90,15 @@ const routes = [{
             {
                 path: '/boutique/dashboard/UsersProfile',
                 component: BoutiqueDashboardPerfil,
-                name: 'boutique.dashboard.UsersProfile',  
+                name: 'User Profile',  
+                meta: {
+                    requiresAuth: true
+                },
+            },
+            {
+                path: '/boutique/dashboard/Comments',
+                component: BoutiqueDashboardComments,
+                name: 'Calification Management',  
                 meta: {
                     requiresAuth: true
                 },
@@ -118,7 +126,7 @@ router.beforeEach((to, from, next) => {
     } else if(to.matched.some(record => record.meta.visitor)) {
         if (store.getters.loggedIn) {
             next({
-                name: 'boutique.dashboard.index',
+                name: 'Index',
             });
         } else {
             next();

@@ -13,7 +13,7 @@
             <h6 class="h2 text-white d-inline-block mb-0">Tables</h6>
             <nav aria-label="breadcrumb" class="d-none d-md-inline-block ml-md-4">
               <ol class="breadcrumb breadcrumb-links breadcrumb-dark">
-                <li class="breadcrumb-item"><router-link exact :to="{ name: 'boutique.dashboard.index' }"><i class="fas fa-home"></i></router-link></li>
+                <li class="breadcrumb-item"><router-link exact :to="{ path: '/boutique/dashboard/index' }"><i class="fas fa-home"></i></router-link></li>
                 <li class="breadcrumb-item active" aria-current="page">Tables</li>
                 <li class="breadcrumb-item active" aria-current="page">Lessons</li>
               </ol>
@@ -208,7 +208,7 @@
                 <label for="switch" class="lbl"></label>
               </div>
               <v-form ref="form" @submit.prevent="LessonsSearch">
-                <v-text-field class="text-white" v-model="filter.title" label="Search" single-line></v-text-field>
+                <v-text-field class="text-white" v-model="filter.title" append-icon="mdi-magnify" style="color:white; text-color:white;" label="Search" single-line hide-details clearable></v-text-field>
               </v-form>
           </div>
           <div class="table-responsive">
@@ -376,8 +376,8 @@ const config = {
         LessonDetail(id){
           console.log(id);
           axios.get('/lesson/detail/'+id).then(res=>{
-            this.form = res.data.data[0];
-            this.miniatura =res.data.data[0].photo;
+            this.form = res.data.data;
+            this.miniatura =res.data.data.photo;
             this.modals.modal1 = true;
           });
         },

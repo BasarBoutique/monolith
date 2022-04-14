@@ -27,7 +27,7 @@
                 </div>
                 <ul class="navbar-nav ml-auto" v-if="loggedIn"> 
                     <li class="nav-item">
-                      <router-link class="nav-link nav-link-icon" exact :to="{ name:'boutique.dashboard.index' }">
+                      <router-link class="nav-link nav-link-icon" exact :to="{ path: '/boutique/dashboard/index' }">
                         <i class="ni ni-key-25"></i>
                         <span class="nav-link-inner--text">Dashboard</span>
                       </router-link>
@@ -40,7 +40,7 @@
                     </li>
 
                     <li class="nav-item">
-                      <router-link class="nav-link nav-link-icon" exact :to="{ name:'boutique.dashboard.UsersProfile' }">
+                      <router-link class="nav-link nav-link-icon" exact :to="{ path: '/boutique/dashboard/UsersProfile' }">
                         <i class="ni ni-key-25"></i>
                         <span class="nav-link-inner--text">Perfil</span>
                       </router-link>
