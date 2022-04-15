@@ -11,7 +11,7 @@ class UserSearchRepository
 
     public function __construct()
     {
-        $this->users = (new User);
+        $this->users = User::with(['roles', 'detail']);
     }
 
 
@@ -20,8 +20,6 @@ class UserSearchRepository
         $this->withDisabledUsers($query['withDisabled'] ?? false);
         $this->filterByRoles($query['roles'] ?? []);
         $this->filterByName($query['name'] ?? '');
-        $this->users->load('detail');
-
     }
 
     public function orderBy(array $order)

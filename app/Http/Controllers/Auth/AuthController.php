@@ -12,7 +12,7 @@ use App\Services\AuthService;
 use App\Services\UserService;
 use Exception;
 use Google_AccessToken_Verify;
-use Google_Client;
+
 use Illuminate\Http\Request;
 
 class AuthController extends Controller
@@ -69,11 +69,7 @@ class AuthController extends Controller
 
             $authenticated = $service->createToken($request->user(), $request->validated());
 
-            return APIResponse::make(
-                $authenticated['http_code'] === 202,
-                $authenticated['details'],
-                $authenticated['message'],
-                $authenticated['http_code']);
+            return APIResponse::success($authenticated['details'], $authenticated['message']);
 
         } catch (Exception $e) {
             return APIResponse::fail($e->getMessage(), 500);

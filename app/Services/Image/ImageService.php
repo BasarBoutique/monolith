@@ -19,11 +19,13 @@ class ImageService
         $this->storage = $storage;
     }
 
-    public function getUrlPath($object) : ?string
+    public static function getUrlPath($imageName) : ?string
     {
-        if(empty($object) && !$object) {
+        if(empty($imageName) && !$imageName) {
             return '';
         }
+
+        $object = app('firebase.storage')->getBucket()->object($imageName);
 
         return $object->signedUrl(new DateTime('2022-09-09T15:03:01.012345Z'));
     }
@@ -52,7 +54,7 @@ class ImageService
 
                 unlink($local_folder . $file);
 
-                return $object;
+                return $object->info();
             }
 
             return null;

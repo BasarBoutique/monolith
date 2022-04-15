@@ -2,13 +2,15 @@
 
 namespace App\Models;
 
+use App\Traits\HasImage;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Ramsey\Uuid\Uuid;
 
 class UserDetail extends Model
 {
-    use HasFactory;
+    use HasFactory, HasImage;
 
     protected $table = "user_details";
 
@@ -21,6 +23,13 @@ class UserDetail extends Model
         static::creating(function ($detail) {
             $detail->udetail_uuid = (string) Uuid::uuid4()->toString();
         });
+    }
+
+    protected function udetailPhoto() : Attribute
+    {
+        return Attribute::make(
+            get: fn ($value) => $this->getImageUrl($value)
+        );
     }
 
     protected $fillable = [

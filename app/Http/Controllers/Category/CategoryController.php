@@ -14,7 +14,6 @@ use App\Http\Resources\Category\CategoryResource;
 use App\Http\Resources\Category\CategorySearchResource;
 use App\Http\Resources\Category\CategorySlideResource;
 use App\Http\Response\APIResponse;
-use App\Models\Category;
 use App\Services\Category\CategoryService;
 use Exception;
 
@@ -94,11 +93,15 @@ class CategoryController extends Controller
 
     public function createCategory(StoreCategoryRequest $request){
         try {
-            $validatedRequest = $request->validated();
+            $attributes = $request->validated();
 
             $service = new CategoryService;
 
-            $category = $service->create($validatedRequest);
+            $file = $request->file('image');
+
+            $attributes['file'] = $file;
+
+            $category = $service->create($attributes);
 
             return APIResponse::success($category->toArray(),'Successfully created Category!');
         }

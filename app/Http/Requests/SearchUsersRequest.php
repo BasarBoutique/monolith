@@ -11,9 +11,6 @@ class SearchUsersRequest extends JsonRequest
     protected function prepareForValidation()
     {
         $this->merge([
-            'filters' => [
-                'withDisabled' => false
-            ],
             'order' => [
                 'order_by' => $this->order['order_by'] ?? 'created',
                 'sort_by' => $this->order['sort_by'] ?? 'desc'
@@ -34,7 +31,7 @@ class SearchUsersRequest extends JsonRequest
             'filters' => 'required|array',
             'filters.withDisabled' => 'required|boolean',
             'filters.roles' => 'sometimes|array',
-            'filters.roles.*' => 'numeric',
+            'filters.roles.*' => 'sometimes|distinct|numeric',
             'filters.name' => 'sometimes|string|min:3',
             'order' => 'required|array',
             'order.sort_by' => 'sometimes|string',

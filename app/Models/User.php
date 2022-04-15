@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Enums\PermissionRoleEnum;
 use App\Models\Scopes\IsAuthorizedScope;
+use App\Traits\HasImage;
 use Illuminate\Auth\Notifications\VerifyEmail;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -13,7 +14,7 @@ use Laravel\Passport\HasApiTokens;
 
 class User extends Authenticatable implements MustVerifyEmail
 {
-    use HasApiTokens, HasFactory, Notifiable;
+    use HasApiTokens, HasFactory, Notifiable, HasImage;
 
     protected $table='users';
     protected $primaryKey='user_id';
