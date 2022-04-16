@@ -261,7 +261,7 @@ import footer_auth from '../../Layouts/Footer/nav_auth.vue';
           },
           users: [
             axios.defaults.headers.common['Authorization']= 'Bearer ' + this.$store.state.token,
-            axios.get('/auth/users/search').then(res=>{
+            axios.get('/auth/users/search',{params:{filters:{withDisabled:false}}}).then(res=>{
               this.users = res.data.data['users'];
             })
           ],
@@ -282,7 +282,7 @@ import footer_auth from '../../Layouts/Footer/nav_auth.vue';
       methods: {
         showRoles(){
           axios.defaults.headers.common['Authorization']= 'Bearer ' + this.$store.state.token;
-          axios.get('/permissions/roles').then(res=>{
+          axios.get('/permissions/roles',{params:{filters:{withDisabled: false }}}).then(res=>{
             for (let index = 0; index < res.data.data.length; index++) {
               this.roles[index] = {
                 'permission_level' :  res.data.data[index].permission_level,

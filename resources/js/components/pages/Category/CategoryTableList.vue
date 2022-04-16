@@ -279,8 +279,8 @@ const config = {
         },
         CategoryCreate(){
           let fd = new FormData();
-            fd.append("category_ico",this.form.photo.name);
-            fd.append("category_title",this.form.category);
+            fd.append("image",this.form.photo);
+            fd.append("title",this.form.category);          
         
           axios.defaults.headers.common['Authorization']= 'Bearer ' + this.$store.state.token;
           axios.post('/categories/create-category',fd,config).then(data=>{
