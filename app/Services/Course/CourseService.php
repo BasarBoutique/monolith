@@ -3,8 +3,10 @@
 namespace App\Services\Course;
 
 use App\DTO\Course\CourseDTO;
+use App\DTO\ImageDTO;
 use App\Repositories\Course\CourseRepository;
 use App\Repositories\Course\CourseSearchRepository;
+use App\Services\Image\ImageService;
 
 class CourseService{
     private $courseRepository;
@@ -40,10 +42,25 @@ class CourseService{
     public function createCourse(array $attributes)
     {
         $courseDTO = new CourseDTO;
-
         $courseRepository = new CourseRepository;
 
-        return $courseRepository->createCourse($courseDTO, $attributes);
+        $imageDTO = new ImageDTO;
+
+        $imageAttr = [
+            'file' => $attributes['file'],
+            'id' => null,
+            'folder' => 'course'
+        ];
+
+        $imageService = new ImageService(app('firebase.storage'));
+
+        $uploadImage = $imageService->uploadImage($imageDTO, $imageAttr);
+
+        $attributes['photo'] = $uploadImage['name'];
+
+        $course = $courseRepository->createCourse($courseDTO, $attributes);
+
+        return $course;
 
     }
 

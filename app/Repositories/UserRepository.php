@@ -20,8 +20,7 @@ class UserRepository
             $user->detail()->create($userDTO['detail']);
 
             $user->roles()->create([
-                'permission_level' => PermissionRoleEnum::CLIENT,
-                'user_id' => $user->user_id
+                'permission_level' => PermissionRoleEnum::CLIENT
             ]);
 
             $user->refresh();
@@ -31,7 +30,7 @@ class UserRepository
 
             Log::error($e->getMessage(), [
                 'LEVEL' => 'Repository',
-                'TRACE' => $e->getTraceAsString()
+                'TRACE' => $e->getTrace()
             ]);
 
            return null;
