@@ -47,7 +47,7 @@ return [
              *
              */
             'credentials' => [
-                'file' => env('FIREBASE_CREDENTIALS', json_encode(env('FIREBASE_CREDENTIALS_JSON'))),
+                'file' => env('FIREBASE_CREDENTIALS', env('GOOGLE_APPLICATION_CREDENTIALS')),
 
                 /*
                  * If you want to prevent the auto discovery of credentials, set the
