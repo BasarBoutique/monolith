@@ -182,7 +182,8 @@ return [
         App\Providers\TelescopeServiceProvider::class,
         App\Providers\GoogleServiceProvider::class,
         Laravel\Passport\PassportServiceProvider::class,
-        LaravelFrontendPresets\ArgonPreset\ArgonPresetServiceProvider::class
+        LaravelFrontendPresets\ArgonPreset\ArgonPresetServiceProvider::class,
+        Kreait\Laravel\Firebase\ServiceProvider::class
 
     ],
 

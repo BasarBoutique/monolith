@@ -8,21 +8,21 @@ use Illuminate\Validation\Rule;
 
 class StoreCategoryRequest extends AuthorizationAdminRequest
 {
-    
+
     public function rules()
     {
         return [
-            'category_title' => ['required', 'string', Rule::unique(Category::class, 'category_title')],
-            'category_ico' => ['required'],
+            'title' => ['required', 'string', Rule::unique(Category::class, 'category_title')],
+            'image' => ['required', 'image'],
         ];
     }
 
     public function messages()
     {
         return [
-            'category_title.required' => 'This category name is required',         
-            'category_title.unique' => 'This category has already been created!',
-            'category_ico.required' => 'This category ico is required',   
+            'title.required' => 'This category name is required',
+            'title.unique' => 'This category has already been created!',
+            'image.required' => 'This category ico is required',
         ];
     }
 

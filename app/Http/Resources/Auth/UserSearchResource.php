@@ -17,6 +17,7 @@ class UserSearchResource extends JsonResource
     {
         return [
             'users' => UserResource::collection($this->getCollection()),
+            'filters' => $request->filters,
             'paginate' => new PaginationResource($this)
         ];
     }

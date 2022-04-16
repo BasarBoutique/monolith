@@ -87,6 +87,10 @@ class CoursesController extends Controller
 
             $service = new CourseService;
 
+            $file = $request->file('image');
+
+            $validatedRequest['file'] = $file;
+
             $course = $service->createCourse($validatedRequest);
 
             $resource = new CourseResource($course);

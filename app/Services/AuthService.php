@@ -29,13 +29,7 @@ class AuthService {
                 'http_code' => 202
             ];
         } catch (Exception $e) {
-            return [
-                'message' => 'Unauthorized',
-                'errors' => [
-                    $e->getMessage()
-                ],
-                'http_code' => 401
-            ];
+            throw $e;
         }
 
 
