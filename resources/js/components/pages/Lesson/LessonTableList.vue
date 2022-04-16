@@ -219,14 +219,13 @@
               tbody-classes="list"
               :data="Lessons"> <!--? 'thead-dark' : 'thead-light' -->             
                 <template slot="columns">
-                  <th>Lessons</th>
-                  <th>Context</th>
                   <th>Curso</th>
+                  <th>Lesson</th>
                   <th>Status</th>
                   <th></th>
                 </template>
                 <template slot-scope="{ row }">
-                    <td scope="row">
+                    <!-- <td scope="row">
                       <div class="media align-items-center">
                         <a href="#" class="avatar rounded-circle mr-3">
                           <img :src="row.detail.photo" />
@@ -235,13 +234,8 @@
                           <span class="name mb-0 text-sm">{{ row.detail.title }}</span>
                         </div>
                       </div>
-                    </td>
-                    <td>
-                      <!-- Descripcion -->
-                      <div class="media-body" style="flex: 1 1; width: 230px; white-space: nowrap; text-overflow: ellipsis; overflow: hidden;">
-                        <span class="name mb-0 text-sm">{{row.detail.description.context}}</span>
-                        </div>
-                    </td>
+                    </td> -->
+                    
 
                     <td>
                         <!--  Categories  -->
@@ -250,9 +244,16 @@
                             <img alt="Image placeholder" :src="'https://personajeshistoricos.com/wp-content/uploads/2018/04/edgar-allan-poe-1.jpg'">
                           </a>
                           <div class="media-body">
-                              <span class="name mb-0 text-sm">{{ row.curso }}</span>
+                              <span class="name mb-0 text-sm">{{ row.lesson }}</span>
                           </div>
                       </div>
+                    </td>
+
+                    <td>
+                      <!-- Descripcion -->
+                      <div class="media-body" style="flex: 1 1; width: 230px; white-space: nowrap; text-overflow: ellipsis; overflow: hidden;">
+                        <span class="name mb-0 text-sm">{{row.curso}}</span>
+                        </div>
                     </td>
 
                     <td class="media align-items-center">
@@ -321,7 +322,7 @@ const config = {
           search: '',
           Lessons: [
             axios.get('/lesson/all?withDisabled=false').then(res=>{
-              this.Lessons = res.data.data.courses;
+              this.Lessons = res.data.data.lessons;
             })
           ],
           filter:{
@@ -357,7 +358,7 @@ const config = {
         },
         LessonCharge(){          
           axios.get('/lesson/all?withDisabled='+this.status.withDisabled).then(res=>{
-            this.Lessons = res.data.data.courses;
+            this.Lessons = res.data.data.lessons;
           })
         },
         LessonCreate(){

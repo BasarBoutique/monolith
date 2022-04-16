@@ -2,6 +2,7 @@
 .display_select{
   display: none;
 }
+
 </style>
 <style src="vue-multiselect/dist/vue-multiselect.min.css"></style>
 <template>
@@ -90,7 +91,7 @@
                       </div>
                       
                       <div class="text-center">
-                        <button type="submit" class="btn btn-success mt-4"><!----><!----><!---->Create account</button>
+                        <button type="submit" class="btn btn-success mt-4">Create account</button>
                       </div>
                       
                     </div>
@@ -135,7 +136,7 @@
                   <th>Users</th>
                   <th>Phone</th>
                   <th>Role</th>
-                  <!-- <th></th> -->
+                  <th></th>
                 </template>
                 <template slot-scope="{ row }">
                     <td>
@@ -161,6 +162,11 @@
                     <td>
                       <!--  Roles   -->
                       <div class="media align-items-right">
+                         <span :id="row.id +'_item'" class="badge badge-sm bg-gradient-success">              
+                            <i class="bg-success"></i>
+                            Rol
+                          </span>
+
                           <!-- <span :id="row.id +'_item'" v-if="row.enabled == true" class="badge badge-sm bg-gradient-success">              
                             <i class="bg-success"></i>
                             Enabled
@@ -169,50 +175,57 @@
                             <i class="bg-danger"></i>
                             Disabled
                           </span> -->
-                        
-                          <!-- <button @click="showSelect(row.id)" :id="row.id +'select_display'" type="button"  data-toggle="tooltip" style="margin-left:4px;" data-placement="top" title="Preciona dos veces para cambiar de rol">
-                            <i class="ni ni-settings" style="color:white"></i>
-                          </button>
-
-                          <va-select  class="display_select" :id="row.id +'_data'"  v-model="row.roles" placeholder="Seleccione un rol" no-uncheck>
+                          <!-- <va-select  class="display_select" :id="row.id +'_data'"  v-model="row.roles" placeholder="Seleccione un rol" no-uncheck>
                             <template v-for="rol in roles">
                               <va-option :key="rol.value" :value="rol.value" :label="rol.label"> 
                                 {{rol.label}}  
                               </va-option>
                             </template>
                           </va-select> -->
-                          
-                          <multiselect v-model="value_roles" :options="roles" :multiple="true" :close-on-select="false" :clear-on-select="false" :preserve-search="true" placeholder="Pick some" label="name" track-by="name" :preselect-first="true">
-                            <template slot="selection" slot-scope="{ values, isOpen }">
-                              <span class="multiselect__single" v-if="values.length &amp;&amp; !isOpen">{{ values.length }} roles selected</span>
-                            </template>
-                          </multiselect>
-                                            
+                          <div class="display_select container" :id="row.id +'_data_assign'" >
+                            <v-form ref="form" @submit.prevent="AsignRols(row.id,row.roles)">
+                              <multiselect no-uncheck  v-model="row.roles"  :options="roles" :multiple="true" :close-on-select="false" :clear-on-select="false" :preserve-search="false" placeholder="Select roll" label="permission_name" track-by="permission_name" >
+                                <template slot="selection" slot-scope="{ values, isOpen }">
+                                  <span class="multiselect__single" v-if="values.length &amp;&amp; !isOpen">{{ values.length }} Roles</span>
+                                </template>
+                              </multiselect>                             
+                              <button type="submit" class="btn btn-primary">Save</button>  
+                            </v-form>                       
+                          </div>
+
+                          <div class="display_select container" :id="row.id +'_data_dettach'" >
+                            <v-form ref="form" @submit.prevent="DettachRols(row.id,row.roles)">
+                              <multiselect no-uncheck  v-model="row.roles"  :options="roles" :multiple="true" :close-on-select="false" :clear-on-select="false" :preserve-search="false" placeholder="Select roll" label="permission_name" track-by="permission_name" >
+                                <template slot="selection" slot-scope="{ values, isOpen }">
+                                  <span class="multiselect__single" v-if="values.length &amp;&amp; !isOpen">{{ values.length }} Roles</span>
+                                </template>
+                              </multiselect>                             
+                              <button type="submit" class="btn btn-primary">Save</button>  
+                            </v-form>        
+                            <a @click.prevent="closeRoles(row.id)" class="btn btn-primary">Cancel</a>               
+                          </div>             
 
                       </div>
                     </td>
 
-                    <!-- <td class="text-right">
+                    <td class="text-right">
                       <base-dropdown class="dropdown" position="right">
                         <a
-                          slot="title"
-                          class="btn btn-sm btn-icon-only text-light"
-                          role="button"
-                          data-toggle="dropdown"
-                          aria-haspopup="true"
-                          aria-expanded="false"
-                        >
-                          <i class="fas fa-ellipsis-v"></i>
+                            slot="title"
+                            class="btn btn-sm btn-icon-only text-light"
+                            role="button"
+                            data-toggle="dropdown"
+                            aria-haspopup="true"
+                            aria-expanded="false"
+                          >
+                            <i class="fas fa-ellipsis-v"></i>
                         </a>
-
                         <template>
-                          <v-form ref="form" @submit.prevent="CategoryDetail(row.id)" >
-                            <button class="dropdown-item" @click="modals.modal0 = true"><i class="ni ni-settings" style="color:purple;"></i>Update</button>
-                          </v-form>
-                          <a class="dropdown-item" href="#"><i class="ni ni-button-power" style="color:red;"></i>Enabled</a>
+                          <button class="dropdown-item" @click.prevent="showSelect_assign(row.id)" ><i class="ni ni-check-bold" style="color:green;"></i>Asign Rols</button>
+                          <button class="dropdown-item" @click.prevent="showSelect_dettach(row.id)" ><i class="ni ni-button-power" style="color:red;"></i>Dettach Rols</button>
                         </template>
                       </base-dropdown>
-                    </td> -->
+                    </td>
 
                 </template>                
               </base-table>
@@ -243,7 +256,6 @@ import footer_auth from '../../Layouts/Footer/nav_auth.vue';
           roles : [
             this.showRoles()
           ],
-          value_roles : [],
           modals: {
             modal0: false
           },
@@ -273,19 +285,25 @@ import footer_auth from '../../Layouts/Footer/nav_auth.vue';
           axios.get('/permissions/roles').then(res=>{
             for (let index = 0; index < res.data.data.length; index++) {
               this.roles[index] = {
-                'language' :  res.data.data[index].permission_level,
-                'name' :  res.data.data[index].permission_name
+                'permission_level' :  res.data.data[index].permission_level,
+                'permission_name' :  res.data.data[index].permission_name
               }
             };
           });
         },
-        showSelect(id){
-            var x = document.getElementById(id+'_data');        
-            $('#'+id+'select_display').click(function(){
-              $('#'+id+'_data').fadeIn();
-              $('#'+id+'_item').fadeOut();
-              $('#'+id+'select_display').fadeOut();
-            })
+
+        showSelect_assign(id){  
+            $('#'+id+'_data_assign').fadeIn();
+            $('#'+id+'_item').fadeOut();
+        },
+        showSelect_dettach(id){  
+            $('#'+id+'_data_dettach').fadeIn();
+            $('#'+id+'_item').fadeOut();
+        },
+        closeRoles(id){
+          $('#'+id+'_data_assign').fadeOut();
+          $('#'+id+'_data_dettach').fadeOut();
+          $('#'+id+'_item').fadeIn();
         },
         UsersCharge(){    
           axios.defaults.headers.common['Authorization']= 'Bearer ' + this.$store.state.token;
@@ -301,7 +319,7 @@ import footer_auth from '../../Layouts/Footer/nav_auth.vue';
               password: this.form.password
             }).then(data=>{
               this.message = data.data.message;            
-              this.CategoryCharge();
+              this.UsersCharge();
               this.ModalClose();
             }).catch((error)=>{
               this.errors = error.response.data.errors;
@@ -311,6 +329,40 @@ import footer_auth from '../../Layouts/Footer/nav_auth.vue';
             this.errors.password =null;
             this.errors.confirm_password = "Contraseña erronea";
           }
+        },
+        AsignRols(id,roles){
+          const roles_array = [];         
+
+          roles.forEach(element => {
+            roles_array.push(element.permission_level);
+          });
+
+          axios.defaults.headers.common['Authorization']= 'Bearer ' + this.$store.state.token;
+          axios.post('/permissions/assign-roles',{user_id : id, permission_level:roles_array}).then(data=>{
+            toastr.success(data.data.message);
+            this.UsersCharge();
+            $('#'+id+'_data_assign').fadeOut();
+            $('#'+id+'_item').fadeIn();
+          }).catch(error=>{
+            toastr.error(error.response.data.errors.permission_level);
+          });
+        },
+        DettachRols(id,roles){
+          const roles_array = [];         
+
+          roles.forEach(element => {
+            roles_array.push(element.permission_level);
+          });
+
+          axios.defaults.headers.common['Authorization']= 'Bearer ' + this.$store.state.token;
+          axios.post('/permissions/dettach-roles',{user_id : id, permission_level:roles_array}).then(data=>{
+            toastr.success(data.data.message);
+            this.UsersCharge();
+            $('#'+id+'_data_dettach').fadeOut();
+            $('#'+id+'_item').fadeIn();
+          }).catch(error=>{
+            toastr.error(error.response.data.errors.permission_level);
+          });
         },
         ModalClose(){
           this.form.name=null;

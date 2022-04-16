@@ -64,7 +64,7 @@
                         <div class="form-row">
                           <div class="form-group col-md-6"> 
                             <template>
-                              <v-select style="color:#825ee4;" class="form-control" :items="categories" item-value="id" item-text="title" label="Author" v-model="form.author" v-validate="'required'">  
+                              <v-select style="color:#825ee4;" class="form-control" :items="authors" item-value="id" item-text="name" label="Author" v-model="form.author" v-validate="'required'">  
                               </v-select>
                             </template>
                           </div>   
@@ -82,20 +82,20 @@
                             <strong>Warning!</strong> {{errors['detail.author'][0]}}
                           </div>
                           
-                          <div class="alert alert-warning" role="alert" v-if="errors.category">
-                            <strong>Warning!</strong> {{errors.category[0]}}
-                          </div>
+                          <!-- <div class="alert alert-warning" role="alert" v-if="errors.detail">
+                            <strong>Warning!</strong> {{errors.detail[0]}}
+                          </div> -->
                         </div>
 
                         <div class="form-group"> 
                           <v-textarea filled style="color:#825ee4;" v-model="form.description" label="Descripción del curso">
                           </v-textarea>
                         </div>
-                        <div class="text-center">
+                        <!-- <div class="text-center">
                           <div class="alert alert-warning" role="alert" v-if="errors.detail">
-                                <strong>Warning!</strong> {{errors['detail'][0]}}
+                                <strong>Warning!</strong> {{errors.detail[0]}}
                           </div>
-                        </div>
+                        </div> -->
 
                         <div class="text-center">
                           <button type="submit" class="btn btn-success mt-4">Save</button>
@@ -139,7 +139,7 @@
                         </div>
 
                         <div class="form-group">               
-                            <v-text-field class="form-control" style="color:#825ee4;" v-model="form.title" name="title" type="text" label="Category Name" id="input_category"/>
+                            <v-text-field class="form-control" style="color:#825ee4; border-color:1px solid #cad1d7;" v-model="form.title" name="title" type="text" label="Course Name" id="input_courses"/>
                         </div>
                         <div class="text-center">
                           <div class="alert alert-warning" role="alert" v-if="errors.title">
@@ -147,27 +147,41 @@
                           </div>
                         </div>
 
-                        <div class="form-group">
-                          <template>
-                            <v-select style="color:#825ee4;" class="form-control" :items="categories" item-value="id" item-text="title" label="Category" v-model="form.categories" v-validate="'required'">  
-                            </v-select>
-                          </template>
+                        <div class="form-row">
+                          <div class="form-group col-md-6"> 
+                            <template>
+                              <v-select style="color:#825ee4;" class="form-control" :items="authors" item-value="id" item-text="name" label="Author" v-model="form.author" v-validate="'required'">  
+                              </v-select>
+                            </template>
+                          </div>   
+
+                          <div class="form-group col-md-6"> 
+                            <template>
+                              <v-select style="color:#825ee4;" class="form-control" :items="categories" item-value="id" item-text="title" label="Category" v-model="form.category" v-validate="'required'">  
+                              </v-select>
+                            </template>
+                          </div>                        
                         </div>
-                        <div class="text-center">
-                          <div class="alert alert-warning" role="alert" v-if="errors.detail">
-                              <strong>Warning!</strong> {{errors.category[0]}}
+
+                        <div class="form-row">
+                          <div class="alert alert-warning" role="alert" v-if="errors['detail.author']">
+                            <strong>Warning!</strong> {{errors['detail.author'][0]}}
                           </div>
+                          
+                          <!-- <div class="alert alert-warning" role="alert" v-if="errors.detail">
+                            <strong>Warning!</strong> {{errors.detail[0]}}
+                          </div> -->
                         </div>
 
                         <div class="form-group"> 
-                          <v-textarea filled style="color:#825ee4;" v-model="form.detail" label="Descripción del curso">
+                          <v-textarea filled style="color:#825ee4;" v-model="form.description" label="Descripción del curso">
                           </v-textarea>
                         </div>
-                        <div class="text-center">
+                        <!-- <div class="text-center">
                           <div class="alert alert-warning" role="alert" v-if="errors.detail">
-                                <strong>Warning!</strong> {{errors['detail'][0]}}
+                                <strong>Warning!</strong> {{errors.detail[0]}}
                           </div>
-                        </div>
+                        </div> -->
 
                         <div class="text-center">
                           <button type="submit" class="btn btn-success mt-4">Save</button>
@@ -333,6 +347,9 @@ const config = {
               this.courses = res.data.data.courses;
             })
           ],
+          authors:[
+            this.AuthorsCharge()
+          ],
           categories : [
             this.category()
           ],
@@ -373,7 +390,13 @@ const config = {
           }
           reader.readAsDataURL(file);
         },
-        CourseCharge(){          
+        AuthorsCharge(){        
+          axios.defaults.headers.common['Authorization']= 'Bearer ' + this.$store.state.token,  
+          axios.get('/auth/users/search').then(res=>{
+            this.authors = res.data.data.users;
+          })
+        },
+        CourseCharge(){       
           axios.get('/courses/all?withDisabled='+this.status.withDisabled).then(res=>{
             this.courses = res.data.data.courses;
           })
@@ -383,12 +406,11 @@ const config = {
           fd.append("title",this.form.title);
           fd.append("photo",this.form.photo.name);
           fd.append("category",this.form.category);
-          fd.append("detail.author",this.form.author);
-          fd.append("detail.description",this.form.description);
+          fd.append("detail", this.form.files);
+          fd.append("detail[author]",this.form.author);
+          fd.append("detail[description]",this.form.description);
 
-          console.log(this.form.description);
-
-          axios.defaults.headers.common['Authorization']= 'Bearer ' + this.$store.state.token
+          axios.defaults.headers.common['Authorization']= 'Bearer ' + this.$store.state.token;
           axios.post('/courses/create-course',fd,config).then(data=>{
             this.message = data.data.message;            
             this.CourseCharge();
@@ -400,24 +422,18 @@ const config = {
         CourseDetail(id){
           axios.get('/courses/detail/'+id).then(res=>{
             this.form = res.data.data;
-            this.miniatura =res.data.data.photo;
+            this.miniatura =res.data.data['photo'];
             this.modals.modal1 = true;
           });
         },
         CourseUpdate(){
           const fd = new FormData();
           fd.append("title",this.form.title);
-          fd.append("photo-url",this.form.photo['name']);
-          fd.append("detail.author",this.form.author);
-          fd.append("detail.description",this.form.description);
-          axios.defaults.headers.common['Authorization']= 'Bearer ' + this.$store.state.token
-          
-          axios({
-            methods:"put",
-            url : "/courses/update-course/"+this.form.id,
-            data : fd,
-            headers : config
-          }).then(data=>{
+          fd.append("photo-url",this.form.photo.name);
+          fd.append("detail[author]",this.form.author);
+          fd.append("detail[description][about]",this.form.description);
+          axios.defaults.headers.common['Authorization']= 'Bearer ' + this.$store.state.token;       
+          axios.put('/courses/update-course/'+this.form.id,fd,config).then(data=>{
             this.message = data.data.message;
             this.CourseCharge();
             this.ModalClose();
@@ -430,8 +446,6 @@ const config = {
             filters : this.filter
             }).then(res=>{
              this.courses = res.data.data.courses;
-             console.log(this.filter.title);
-             console.log(res.data.data.courses);
           }).catch((error)=>{
             this.CourseCharge();
           })
@@ -453,8 +467,8 @@ const config = {
           this.form.description=null;
           this.miniatura=null;
           this.errors={};
-          this.modals.modal0 = false;    
-          this.modals.modal1 = false;           
+          this.modals.modal0 = false;   
+          this.modals.modal1 = false;         
         }
       },
       computed: {
