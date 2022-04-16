@@ -261,7 +261,7 @@ import footer_auth from '../../Layouts/Footer/nav_auth.vue';
           },
           users: [
             axios.defaults.headers.common['Authorization']= 'Bearer ' + this.$store.state.token,
-            axios.get('/auth/users/search',{params:{filters:{withDisabled:false}}}).then(res=>{
+            axios.post('/auth/users/search', {filters:{withDisabled:false}}).then(res=>{
               this.users = res.data.data['users'];
             })
           ],

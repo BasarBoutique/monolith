@@ -392,7 +392,7 @@ const config = {
         },
         AuthorsCharge(){        
           axios.defaults.headers.common['Authorization']= 'Bearer ' + this.$store.state.token,  
-          axios.get('/auth/users/search').then(res=>{
+          axios.post('/auth/users/search',{filters:{withDisabled:false,roles:[3]}}).then(res=>{
             this.authors = res.data.data.users;
           })
         },
@@ -404,9 +404,8 @@ const config = {
         CourseCreate(){
           const fd = new FormData();
           fd.append("title",this.form.title);
-          fd.append("photo",this.form.photo.name);
+          fd.append("image",this.form.photo);
           fd.append("category",this.form.category);
-          fd.append("detail", this.form.files);
           fd.append("detail[author]",this.form.author);
           fd.append("detail[description]",this.form.description);
 
