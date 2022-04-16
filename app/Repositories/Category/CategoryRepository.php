@@ -12,13 +12,13 @@ class CategoryRepository{
 
     public function showAllCategories(int $perPage)
     {
-        return Category::simplePaginate($perPage);
+        return Category::paginate($perPage);
     }
 
     public function showAllWithCategoriesDisabled(int $perPage)
     {
 
-        return Category::withDisabledCategories()->simplePaginate($perPage);
+        return Category::withDisabledCategories()->paginate($perPage);
     }
 
     public function showCategoryById(int $categoryId)
