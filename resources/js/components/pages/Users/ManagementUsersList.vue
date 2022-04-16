@@ -3,7 +3,7 @@
   display: none;
 }
 </style>
-
+<style src="vue-multiselect/dist/vue-multiselect.min.css"></style>
 <template>
     <div>
   <div class="header bg-gradient-primary pb-8 pt-5 pt-md-8">
@@ -14,64 +14,92 @@
             <h6 class="h2 text-white d-inline-block mb-0">User Info</h6>
             <nav aria-label="breadcrumb" class="d-none d-md-inline-block ml-md-4">
               <ol class="breadcrumb breadcrumb-links breadcrumb-dark">
-                <li class="breadcrumb-item"><router-link exact :to="{ name: 'boutique.dashboard.index' }"><i class="fas fa-home"></i></router-link></li>
+                <li class="breadcrumb-item"><router-link exact :to="{ path: '/boutique/dashboard/index' }"><i class="fas fa-home"></i></router-link></li>
                 <li class="breadcrumb-item active" aria-current="page">User Info</li>
                 <li class="breadcrumb-item active" aria-current="page">User Management</li>
               </ol>
             </nav>
           </div>
           <div class="col-lg-6 col-5 text-right">
-            <button type="button" class="btn btn-sm btn-neutral" @click="modals.modal0 = true">
-              New
-            </button>
-            <modal :show.sync="modals.modal0">
-              <template slot="header">
-                  <h5 class="modal-title">User Managemen</h5>
-              </template>
-              <div>
-                <v-form ref="form" @submit.prevent="CategoryCreate">
-                  <div class="modal-body">
-                      <div class="row justify-content-center">
-                        <div class="col-lg-3 order-lg-2">
-                          <div class="card-profile-image">
-                            <img id="imageResult" alt="" class="img-fluid shadow-sm mx-auto d-block rounded-circle img-responsive">
-                          </div>
+              <base-button class="btn btn-sm btn-neutral"  @click="modals.modal0 = true">
+                New
+              </base-button>
+              <modal class="modal fade"  :show.sync="modals.modal0">
+                <template slot="header">
+                    <h5 class="modal-title"><i class="ni ni-folder-17">Register a new User</i></h5> 
+                    <a class="btn" @click.prevent="ModalClose">x</a>                     
+                </template>
+                <div>
+                  <v-form ref="form" @submit.prevent="UsersCreate">
+                    <div class="modal-body">
+
+                      <div class="form-group input-group input-group-alternative"><!---->
+                        <div class="input-group-prepend">
+                          <span class="input-group-text">
+                            <i class="ni ni-hat-3"></i>
+                          </span>
+                        </div>
+                        <v-text-field class="form-control" style="color:#825ee4;" v-model="form.name" type="text" label="User name" id="input_user"/>
+                      </div>                      
+                      <div class="text-center">
+                        <div class="alert alert-warning" role="alert" v-if="errors.name">
+                            <strong>Warning!</strong> {{errors.name[0]}}
                         </div>
                       </div>
-                      <br>
-                      <br>
-                      <br>
-                      <br>
-                      <br>
-                      <br>
+
+                      <div class="form-group input-group input-group-alternative"><!---->
+                        <div class="input-group-prepend">
+                          <span class="input-group-text">
+                            <i class="ni ni-email-83"></i>
+                          </span>
+                        </div>
+                        <v-text-field class="form-control" style="color:#825ee4;" v-model="form.email" type="text" label="User email" id="input_email"/>
+                      </div>
                       <div class="text-center">
-                        <label for="upload" class="btn btn-light m-0 rounded-pill px-4"> 
-                          <i class="fa fa-cloud-upload mr-2 text-muted"></i>
-                          <small class="text-uppercase font-weight-bold text-muted">Choose file</small>
-                        </label>
-                        <input id="upload" type="file" name="photo" onchange="readURL(this);" class="form-control border-0"  @change="onFileSelected">
-                        <div class="alert alert-warning" role="alert" v-if="errors.category_ico">
-                            <strong>Warning!</strong> 
+                        <div class="alert alert-warning" role="alert" v-if="errors.email">
+                            <strong>Warning!</strong> {{errors.email[0]}}
                         </div>
                       </div>
-                      <div class="input-group">               
-                          <v-text-field class="form-control" style="color:#825ee4; border-color:1px solid #cad1d7;" v-model="form.category" name="category_title" type="text" label="User Name" id="example-search-input"/>
-                      </div><br>
+
+                      <div class="form-group input-group input-group-alternative"><!---->
+                        <div class="input-group-prepend">
+                          <span class="input-group-text">
+                            <i class="ni ni-lock-circle-open"></i>
+                          </span>
+                        </div>
+                        <v-text-field class="form-control" style="color:#825ee4;" v-model="form.password" type="password" label="Password" id="input_password"/>
+                      </div>
                       <div class="text-center">
-                        <div class="alert alert-warning" role="alert" v-if="errors.category_title">
-                            <strong>Warning!</strong> 
+                        <div class="alert alert-warning" role="alert" v-if="errors.password">
+                            <strong>Warning!</strong> {{errors.password[0]}}
                         </div>
                       </div>
-                      <div class="text-center">
-                        <button type="submit" class="btn btn-success mt-4">Save</button>
+
+                      <div class="form-group input-group input-group-alternative"><!---->
+                        <div class="input-group-prepend">
+                          <span class="input-group-text">
+                            <i class="ni ni-lock-circle-open"></i>
+                          </span>
+                        </div>
+                        <v-text-field class="form-control" style="color:#825ee4;" v-model="form.confirm_password" type="password" label="Password Confirmation"  id="input_password_confirmation"/>           
                       </div>
+                      <div class="text-center">
+                        <div class="alert alert-warning" role="alert" v-if="errors.confirm_password">
+                            <strong>Warning!</strong> {{errors.confirm_password}}
+                        </div>
+                      </div>
+                      
+                      <div class="text-center">
+                        <button type="submit" class="btn btn-success mt-4"><!----><!----><!---->Create account</button>
+                      </div>
+                      
                     </div>
-                </v-form>
-              </div>
-              <template slot="footer">
-                  <button type="button" class="btn btn-secondary" @click="modals.modal0 = false">Close</button>
-              </template>
-            </modal>
+                  </v-form>
+                </div>
+                <template slot="footer">
+                    <button type="button" class="btn btn-secondary" @click.prevent="ModalClose">Close</button>
+                </template>
+              </modal>
           </div>
         </div>
         <div v-if="message != ''"  class="alert alert-secondary alert-dismissible fade show" role="alert">
@@ -91,7 +119,7 @@
           <div class="card-header bg-transparent border-0">
             <h3 class="text-white mb-0">User Management</h3>
               <div class="swtich-container">
-                <input type="checkbox" style="margin:auto;" @click="CategoryCharge" class="btn btn-sm btn-neutral" id="switch" v-model="status.withDisabled" checked>
+                <input type="checkbox" style="margin:auto;" @click="UsersCharge" class="btn btn-sm btn-neutral" id="switch" v-model="status.withDisabled" checked>
                 <label for="switch" class="lbl"></label>
               </div>
               <v-text-field v-model="search" append-icon="mdi-magnify" style="color:white; text-color:white;" label="Search" single-line hide-details clearable></v-text-field>
@@ -102,7 +130,7 @@
               :class="type === 'dark' ? 'table-dark' : ''"
               :thead-classes="type === 'dark' " 
               tbody-classes="list"
-              :data="categories"> <!--? 'thead-dark' : 'thead-light' -->             
+              :data="users"> <!--? 'thead-dark' : 'thead-light' -->             
                 <template slot="columns">
                   <th>Users</th>
                   <th>Phone</th>
@@ -116,8 +144,8 @@
                               <img alt="Image placeholder" :src="'https://i.pinimg.com/736x/49/c8/e4/49c8e403cd1929e9e7b02126824ff831.jpg'">
                         </a>
                         <div class="d-flex flex-column justify-content-center">
-                          <span class="name mb-0 text-sm">Kuno Anticucho</span>
-                          <p class="text-xs text-secondary mb-0">john@creative-tim.com</p>
+                          <span class="name mb-0 text-sm">{{ row.name }}</span>
+                          <p class="text-xs text-secondary mb-0">{{ row.email }}</p>
                         </div>
                       </div>
                     </td>
@@ -133,27 +161,33 @@
                     <td>
                       <!--  Roles   -->
                       <div class="media align-items-right">
-                          <span :id="row.id +'_item'" v-if="row.enabled == true" class="badge badge-sm bg-gradient-success">              
+                          <!-- <span :id="row.id +'_item'" v-if="row.enabled == true" class="badge badge-sm bg-gradient-success">              
                             <i class="bg-success"></i>
                             Enabled
                           </span>
                           <span :id="row.id +'_item'" v-if="row.enabled == false" class="badge badge-sm bg-gradient-danger">              
                             <i class="bg-danger"></i>
                             Disabled
-                          </span>
+                          </span> -->
                         
-                          <button @click="showSelect(row.id)" :id="row.id +'select_display'" type="button"  data-toggle="tooltip" style="margin-left:4px;" data-placement="top" title="Preciona dos veces para cambiar de rol">
+                          <!-- <button @click="showSelect(row.id)" :id="row.id +'select_display'" type="button"  data-toggle="tooltip" style="margin-left:4px;" data-placement="top" title="Preciona dos veces para cambiar de rol">
                             <i class="ni ni-settings" style="color:white"></i>
                           </button>
 
-                          <va-select class="display_select" :id="row.id +'_data'" v-model="row.category" placeholder="Seleccione un rol" no-uncheck>
-                            <template v-for="cate in categorias">
-                              <va-option :key="cate.id" :value="cate.id" :label="cate.title"> 
-                                {{cate.title}}  
+                          <va-select  class="display_select" :id="row.id +'_data'"  v-model="row.roles" placeholder="Seleccione un rol" no-uncheck>
+                            <template v-for="rol in roles">
+                              <va-option :key="rol.value" :value="rol.value" :label="rol.label"> 
+                                {{rol.label}}  
                               </va-option>
                             </template>
-                          </va-select>
-
+                          </va-select> -->
+                          
+                          <multiselect v-model="value_roles" :options="roles" :multiple="true" :close-on-select="false" :clear-on-select="false" :preserve-search="true" placeholder="Pick some" label="name" track-by="name" :preselect-first="true">
+                            <template slot="selection" slot-scope="{ values, isOpen }">
+                              <span class="multiselect__single" v-if="values.length &amp;&amp; !isOpen">{{ values.length }} roles selected</span>
+                            </template>
+                          </multiselect>
+                                            
 
                       </div>
                     </td>
@@ -197,10 +231,7 @@
 <script>
 import BaseButton from '../../Base/BaseButton.vue';
 import footer_auth from '../../Layouts/Footer/nav_auth.vue';
-const config = {
-  headers: { 'content-type': 'multipart/form-data' }
-};
-    export default {
+    export default { 
       props: {
         type: {
           type: String,
@@ -209,27 +240,25 @@ const config = {
       },
       data() {
         return {
-          categorias : [
-            axios.get('/categories/all?withDisabled=true').then(res=>{
-              this.categorias = res.data.data;
-            })
+          roles : [
+            this.showRoles()
           ],
+          value_roles : [],
           modals: {
             modal0: false
           },
-          search: '',
-          categories: [
-            axios.get('/categories/all?withDisabled=false').then(res=>{
-              this.categories = res.data.data;
+          users: [
+            axios.defaults.headers.common['Authorization']= 'Bearer ' + this.$store.state.token,
+            axios.get('/auth/users/search').then(res=>{
+              this.users = res.data.data['users'];
             })
           ],
           form :{
-            id:'',
-            photo:{
-              name:''
-            },
-            category :'',
-            enabled:'',
+            id:null,
+            name:null,
+            email:null,
+            password:null,
+            confirm_password:null
           },
           status:{
               withDisabled:'true'
@@ -239,6 +268,17 @@ const config = {
         }
       },
       methods: {
+        showRoles(){
+          axios.defaults.headers.common['Authorization']= 'Bearer ' + this.$store.state.token;
+          axios.get('/permissions/roles').then(res=>{
+            for (let index = 0; index < res.data.data.length; index++) {
+              this.roles[index] = {
+                'language' :  res.data.data[index].permission_level,
+                'name' :  res.data.data[index].permission_name
+              }
+            };
+          });
+        },
         showSelect(id){
             var x = document.getElementById(id+'_data');        
             $('#'+id+'select_display').click(function(){
@@ -247,54 +287,51 @@ const config = {
               $('#'+id+'select_display').fadeOut();
             })
         },
-        onFileSelected(event){
-            this.form.photo = event.target.files[0];
-        },
-        CategoryCharge(){          
-          axios.get('/categories/all?withDisabled='+this.status.withDisabled).then(res=>{
-            this.categories = res.data.data;
+        UsersCharge(){    
+          axios.defaults.headers.common['Authorization']= 'Bearer ' + this.$store.state.token;
+          axios.get('/auth/users/search').then(res=>{
+            this.users = res.data.data['users'];
           })
         },
-        CategoryCreate(){
-          const fd = new FormData();
-          fd.append("category_ico",this.form.photo.name);
-          fd.append("category_title",this.form.category);
-
-          axios.post('/categories/create-category',fd,config).then(data=>{
-            this.message = data.data.message;            
-            this.CategoryCharge();
-            this.ModalClose();
-          }).catch((error)=>{
-            this.errors = error.response.data.errors;
-          })
-        },
-        CategoryDetail(id){
-          axios.get('/categories/detail/'+id).then(res=>{
-            this.form = res.data.data[0];
-          });
-        },
-        CategoryUpdate(){
-          const fd = new FormData();
-          fd.append("category_ico",this.form.category_ico.name);
-          fd.append("category_title",this.form.category_title);
-          
-          axios.post('/categories/update-category/'+this.form.id,fd,config).then(data=>{
-            this.message = data.data.message;
-            this.CategoryCharge();
-          }).catch((error)=>{
-            this.errors = error.response.data.errors;
-          })
+        UsersCreate(){       
+          if (this.validaRepetirPassword) {
+            axios.post('/auth/signup',{
+              name: this.form.name,
+              email: this.form.email,
+              password: this.form.password
+            }).then(data=>{
+              this.message = data.data.message;            
+              this.CategoryCharge();
+              this.ModalClose();
+            }).catch((error)=>{
+              this.errors = error.response.data.errors;
+              this.errors.confirm_password = "Enter a password confirmation";
+            })
+          }else{
+            this.errors.password =null;
+            this.errors.confirm_password = "Contraseña erronea";
+          }
         },
         ModalClose(){
-          this.form.photo="";
-          this.form.category =""; 
-          $("#imageResult")[0].setAttribute("src", "");
+          this.form.name=null;
+          this.form.email=null;
+          this.form.password =null;
+          this.form.confirm_password =null;
           this.modals.modal0 = false;                
         }
       },
       components:{
         "footer-auth":footer_auth,
             BaseButton
+      },
+      computed:{
+        validaRepetirPassword(){
+            if(this.form.password==this.form.confirm_password){
+                return true;
+            } else{
+                return false;
+            }
+        },
       }
     }
 </script>

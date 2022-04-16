@@ -7,7 +7,8 @@
 
         <meta name="csrf-token" content="{{ csrf_token() }}">
 
-        <title>{{ config('app.name', 'Argon Dashboard') }}</title>
+        <title>Bazar Boutique</title>
+        {{-- {{ config('app.name', 'Argon Dashboard') }} --}}
         <!-- Favicon -->
         <link href="{{ asset('argon') }}/img/brand/favicon.png" rel="icon" type="image/png">
         <!-- Fonts -->
@@ -50,7 +51,8 @@
         
         <div class="main-content">
             <div id="app">
-                <app></app>
+                <app>
+                </app>
             </div>
         </div>        
         

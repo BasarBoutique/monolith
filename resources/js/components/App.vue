@@ -3,7 +3,7 @@
   <div class="main-content">
     <header_siderbar></header_siderbar>
     <div class="main-content" id="panel">
-        <navbar_auth></navbar_auth>
+        <dashboard-navbar></dashboard-navbar>
         <router-view></router-view> 
     </div>
   </div>
@@ -21,7 +21,7 @@
 
 import footer_guest from './Layouts/Footer/nav_guest.vue'
 import navbar_guest from '../components/Layouts/navbars/navs/guest'
-import navbar_auth from '../components/Layouts/navbars/navs/auth.vue'
+import DashboardNavbar from '../components/Layouts/navbars/navs/DashboardNavbar.vue'
 import header_siderbar from '../components/Layouts/navbars/siderbar.vue'
 export default {
     data(){
@@ -32,7 +32,7 @@ export default {
     components:{
         navbar_guest,
         footer_guest,
-        navbar_auth,
+        DashboardNavbar,
         header_siderbar
     },
     computed:{

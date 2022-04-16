@@ -13,26 +13,27 @@
               <!-- Nav items -->
               <ul class="navbar-nav">
                 <li class="nav-item">
-                    <router-link class="nav-link" exact :to="{ name: 'boutique.dashboard.index' }">
-                        <i class="ni ni-tv-2 text-primary"></i>Dashboard
+                    <router-link class="nav-link" exact :to="{ path: '/boutique/dashboard/index' }">
+                        <i class="ni ni-tv-2 text-primary text-green"></i> 
+                        <span class="nav-link-text text-green">Dashboard</span>
                     </router-link>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link active" href="#navbar-user" data-toggle="collapse" role="button" aria-expanded="false" aria-controls="navbar-examples">
-                        <i class="fab fa-laravel" style="color: #f4645f;"></i>
-                        <span class="nav-link-text" style="color: #f4645f;">User Info</span>
+                        <i class="ni ni-badge text-yellow"></i>
+                        <span class="nav-link-text text-yellow">User Info</span>
                     </a>
 
                     <div class="collapse show" id="navbar-user">
                         <ul class="nav nav-sm flex-column">
                             <li class="nav-item">
-                                <router-link class="nav-link" exact :to="{ name:'boutique.dashboard.UsersProfile'}">
-                                    User profile
+                                <router-link class="nav-link" exact :to="{ path:'/boutique/dashboard/UsersProfile' }">
+                                    <i class="ni ni-single-02 text-yellow"></i>User profile
                                 </router-link>
                             </li>
                             <li class="nav-item">
-                                <router-link class="nav-link" exact :to="{ name:'boutique.dashboard.UsersManagement'}">
-                                    Users Management
+                                <router-link class="nav-link" exact :to="{ path: '/boutique/dashboard/UsersManagement' }">
+                                    <i class="ni ni-paper-diploma text-yellow"></i>Users Management
                                 </router-link>
                             </li>
 
@@ -43,25 +44,25 @@
 
                 <li class="nav-item">
                     <a class="nav-link active" href="#navbar-tables" data-toggle="collapse" role="button" aria-expanded="false" aria-controls="navbar-examples">
-                        <i class="fab fa-laravel" style="color: #f4645f;"></i>
-                        <span class="nav-link-text" style="color: #f4645f;">Tables</span>
+                        <i class="ni ni-folder-17 text-red"></i>
+                        <span class="nav-link-text text-red">Tables</span>
                     </a>
 
                     <div class="collapse show" id="navbar-tables">
                         <ul class="nav nav-sm flex-column">
                             <li class="nav-item">
-                                <router-link class="nav-link" exact :to="{ name: 'boutique.dashboard.categories' }">
-                                    Categories
+                                <router-link class="nav-link" exact :to="{ path: '/boutique/dashboard/categories' }">
+                                   <i class="ni ni-bullet-list-67 text-red"></i>  Categories
                                 </router-link>
                             </li>
                             <li class="nav-item">
-                                <router-link class="nav-link" :to="{ name:'boutique.dashboard.Courses'}">
-                                    Courses
+                                <router-link class="nav-link" :to="{ path: '/boutique/dashboard/Courses'}">
+                                    <i class="ni ni-bullet-list-67 text-red"></i> Courses
                                 </router-link>
                             </li>
                             <li class="nav-item">
-                                <router-link class="nav-link" :to="{ name:'boutique.dashboard.Lessons'}">
-                                    Lessons
+                                <router-link class="nav-link" :to="{ path: '/boutique/dashboard/Lessons' }">
+                                    <i class="ni ni-bullet-list-67 text-red"></i> Lessons
                                 </router-link>
                             </li>
                         </ul>
@@ -69,7 +70,25 @@
                 </li>
 
                 <li class="nav-item">
-                    <router-link class="nav-link" exact :to="{ name: 'boutique.dashboard.icons' }">
+                    <a class="nav-link active" href="#navbar-calification" data-toggle="collapse" role="button" aria-expanded="false" aria-controls="navbar-examples">
+                        <i class="ni ni-ruler-pencil text-pink"></i>
+                        <span class="nav-link-text text-pink">Calificaciones</span>
+                    </a>
+
+                    <div class="collapse show" id="navbar-calification">
+                        <ul class="nav nav-sm flex-column">
+                            <li class="nav-item">
+                                <router-link class="nav-link" exact :to="{ path: '/boutique/dashboard/Comments' }">
+                                    <i class="ni ni-collection text-pink"></i>
+                                    <span class="nav-link-text text-pink">Comments</span>
+                                </router-link>
+                            </li>                            
+                        </ul>
+                    </div>
+                </li>
+
+                <li class="nav-item">
+                    <router-link class="nav-link" exact :to="{ path: '/boutique/dashboard/icons' }">
                         <i class="ni ni-planet text-blue"></i>Icons
                     </router-link>
                 </li>
