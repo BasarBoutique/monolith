@@ -31,7 +31,7 @@ class CategoryRepository{
         } catch (Exception $e) {
             Log::error($e->getMessage(),[
                 'LEVEL' => 'Repository',
-                'TRACE' => $e->getTraceAsString()
+                'TRACE' => $e->getTrace()
             ]);
 
             throw $e;
@@ -49,7 +49,7 @@ class CategoryRepository{
         } catch (Exception $e) {
             Log::error($e->getMessage(),[
                 'LEVEL' => 'Repository',
-                'TRACE' => $e->getTraceAsString()
+                'TRACE' => $e->getTrace()
             ]);
 
             throw $e;
