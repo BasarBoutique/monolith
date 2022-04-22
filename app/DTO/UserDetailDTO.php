@@ -6,7 +6,7 @@ class UserDetailDTO extends CoreDTO {
 
     static function make(array $attributes): array
     {
-        $detail = $attributes['detail'];
+        $detail = array_key_exists('detail', $attributes) ? $attributes['detail'] : $attributes;
 
         return [
             'udetail_fullname' => $detail['fullname'] ?? $attributes['name'],

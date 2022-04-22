@@ -12,11 +12,14 @@ class CourseRepository {
 
     public function showAllCourses($withDisabled)
     {
+        $courses = new Courses;
+        $courses->with(['category']);
+
         if($withDisabled) {
-            return Courses::withDisabledCourses();
+            return $courses::withDisabledCourses();
         }
 
-        return (new Courses);
+        return $courses;
     }
 
     public function paginateAll($courses, $limit = 15)
@@ -26,13 +29,16 @@ class CourseRepository {
 
     public function showCourseById(array $attributes){
         try{
-            $course = Courses::has("detail")->where('course_id','=',$attributes['courseId'])->get();
+            $course = Courses::has("detail")->where('course_id','=',$attributes['courseId'])->first();
+
+            $course->load(["detail", "category"]);
+
             return $course;
         }
         catch(Exception $e){
             Log::error($e->getMessage(),[
                 'LEVEL' => 'Repository',
-                'TRACE' => $e->getTraceAsString()
+                'TRACE' => $e->getTrace()
             ]);
 
             throw $e;
@@ -53,7 +59,7 @@ class CourseRepository {
 
         $course->refresh();
 
-        $course->load('detail');
+        $course->load(['detail', 'category']);
 
         return $course;
     }
@@ -90,7 +96,7 @@ class CourseRepository {
         } catch(Exception $e){
             Log::error($e->getMessage(),[
                 'LEVEL' => 'Repository',
-                'TRACE' => $e->getTraceAsString()
+                'TRACE' => $e->getTrace()
             ]);
 
             throw $e;

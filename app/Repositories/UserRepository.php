@@ -7,6 +7,7 @@ use App\Enums\PermissionRoleEnum;
 use App\Models\PermissionUser;
 use App\Models\User;
 use Exception;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
 class UserRepository
@@ -14,22 +15,23 @@ class UserRepository
     public function create(DTOInterface $dto, array $attributes)
     {
         try {
+
             $userDTO = $dto::make($attributes);
 
-            $user = User::create($userDTO);
+            return DB::transaction(function () use ($userDTO) {
 
-            $user->detail()->create($userDTO['detail']);
+                $user = User::create($userDTO);
 
-            PermissionUser::create([
-                'permission_level' => PermissionRoleEnum::CLIENT,
-                'user_id' => $user->user_id
-            ]);
+                $user->detail()->create($userDTO['detail']);
 
-            $user->with('roles');
+                $user->roles()->create(['permission_level' => PermissionRoleEnum::CLIENT]);
 
-            $user->refresh();
+                $user->load(['roles', 'detail']);
 
-            return $user;
+                return $user;
+            });
+
+
         } catch (Exception $e) {
 
             Log::error($e->getMessage(), [
@@ -63,7 +65,7 @@ class UserRepository
 
             Log::error($e->getMessage(), [
                 'LEVEL' => 'Repository',
-                'TRACE' => $e->getTraceAsString()
+                'TRACE' => $e->getTrace()
             ]);
         }
     }
