@@ -4,6 +4,7 @@
 }  
 </style>
 <template>
+<div data-app>
 <div>
   <div class="header bg-gradient-primary pb-8 pt-5 pt-md-8">
     <div class="container-fluid">
@@ -47,12 +48,12 @@
                       <div class="text-center">
                         <input type="file" class="form-control border-0"  @change="onFileSelected">
                         <div class="alert alert-warning" role="alert" v-if="errors.photo">
-                            <strong>Warning!</strong> {{errors.photo[0]}}
+                            <strong>Warning!</strong> {{errors.url[0]}}
                         </div>
                       </div>
 
                       <div class="form-group">               
-                          <v-text-field class="form-control" style="color:#825ee4; border-color:1px solid #cad1d7;" v-model="form.title" name="title" type="text" label="Category Name" id="input_category"/>
+                          <v-text-field class="form-control" style="color:#825ee4; border-color:1px solid #cad1d7;" v-model="form.title" name="title" type="text" label="Lesson Name" id="input_lesson"/>
                       </div>
                       <div class="text-center">
                         <div class="alert alert-warning" role="alert" v-if="errors.title">
@@ -60,35 +61,29 @@
                         </div>
                       </div>
 
-                      <div class="form-row">
-                        <div class="form-group col-md-6"> 
-                          <v-select style="color:#825ee4;" class="form-control" :items="items" v-model="form.author" label="Author"></v-select>
-                        </div>
-                         <div class="form-group col-md-6"> 
-                          <v-select style="color:#825ee4;" class="form-control" :items="items" v-model="form.category" label="Category"></v-select>
-                        </div>                                
-                      </div>
-
-                      <div class="form-row">
-                        <div class="text-center">
-                          <div class="alert alert-warning" role="alert" v-if="errors.detail">
-                              <strong>Warning!</strong> {{errors['detail.author'][0]}}
-                          </div>
-                        </div>
-                        <div class="text-center">
-                          <div class="alert alert-warning" role="alert" v-if="errors.detail">
-                              <!-- <strong>Warning!</strong> {{errors.category[0]}} -->
-                          </div>
-                        </div>    
-                      </div>
-
                       <div class="form-group"> 
-                        <v-textarea filled style="color:#825ee4;" v-model="form.description" label="Descripción del curso">
+                        <v-textarea filled style="color:#825ee4;" v-model="form.context" label="Descripción del curso">
                         </v-textarea>
                       </div>
                       <div class="text-center">
-                        <div class="alert alert-warning" role="alert" v-if="errors.detail">
-                              <strong>Warning!</strong> {{errors['detail'][0]}}
+                        <div class="alert alert-warning" role="alert" v-if="errors.description">
+                              <strong>Warning!</strong> {{errors.description['context'][0]}}
+                        </div>
+                      </div>
+
+                      <div class="form-group"> 
+                        <v-text-field class="form-control" style="color:#825ee4; border-color:1px solid #cad1d7;" v-model="form.length" name="title" type="text" label="Lesson legth" />
+                      </div>
+                      <div class="form-group"> 
+                        <template>
+                          <v-select style="color:#825ee4;" class="form-control" :items="courses" item-value="id" item-text="title" label="Courses" v-model="form.course" v-validate="'required'">  
+                          </v-select>
+                        </template>
+                      </div>
+
+                      <div class="text-center">
+                        <div class="alert alert-warning" role="alert" v-if="errors.description">
+                              <strong>Warning!</strong> {{errors.description['length'][0]}}
                         </div>
                       </div>
 
@@ -104,7 +99,7 @@
               </template>
             </modal>
           </div>
-          <div class="col-lg-6 col-5 text-right">
+          <!-- <div class="col-lg-6 col-5 text-right">
             <modal class="modal fade"  :show.sync="modals.modal1">
               <template slot="header">
                   <h5 class="modal-title"><i class="ni ni-folder-17">  Lesson</i></h5> 
@@ -159,7 +154,6 @@
                         </div>
                         <div class="text-center">
                           <div class="alert alert-warning" role="alert" v-if="errors.detail">
-                              <!-- <strong>Warning!</strong> {{errors.category[0]}} -->
                           </div>
                         </div>    
                       </div>
@@ -185,7 +179,7 @@
                   <button type="button" class="btn btn-secondary" @click.prevent="ModalClose">Close</button>
               </template>
             </modal>
-          </div>
+          </div> -->
         </div>
         <div v-if="message != ''"  class="alert alert-secondary alert-dismissible fade show" role="alert">
             <span class="alert-icon"><i class="ni ni-like-2"></i></span>
@@ -287,6 +281,7 @@
                     </td>
                 </template>                
               </base-table>
+            <base-pagination :page-count="pagination.total" align="center" size="sm"></base-pagination>
           </div>
           <!-- <div class="card-footer d-flex justify-content-end bg-default shadow" :class="type === 'dark' ? 'bg-transparent' : ''">
             <base-pagination total="30"></base-pagination>
@@ -297,6 +292,7 @@
     <div class="container mt--10 pb-5"></div>
     <footer-auth></footer-auth>
   </div>
+</div>
 </div>
 </template>
 <script>
@@ -323,18 +319,24 @@ const config = {
           Lessons: [
             axios.get('/lesson/all?withDisabled=false').then(res=>{
               this.Lessons = res.data.data.lessons;
+              this.pagination = res.data.data.pagination;
             })
           ],
+          courses : [
+            this.Courses()
+          ],
+          pagination:{},
           filter:{
             title: null
           },
           form :{
             id:null,
             title:null,
-            url:null,
+            photo:null,
             context:null,
+            length:null,
             course:null,
-            enabled:'',
+            enabled:null,
           },
           status:{
               withDisabled:true
@@ -357,14 +359,23 @@ const config = {
           reader.readAsDataURL(file);
         },
         LessonCharge(){          
-          axios.get('/lesson/all?withDisabled='+this.status.withDisabled).then(res=>{
+          axios.get('/lesson/all',{params:{withDisabled:this.status.withDisabled,perPage:this.status.perPage}}).then(res=>{
             this.Lessons = res.data.data.lessons;
+            this.pagination = res.data.data.pagination;
+          })
+        },
+        Courses(){
+          axios.get('/courses/all',{params:{withDisabled:false}}).then(res=>{
+            this.courses = res.data.data.courses;
           })
         },
         LessonCreate(){
           const fd = new FormData();
-          // fd.append("Lesson_ico",this.form.photo.name);
-          // fd.append("Lesson_title",this.form.Lesson);
+          fd.append("title",this.form.title);
+          fd.append("url",this.form.photo.name);
+          fd.append("description[context]",this.form.context);
+          fd.append("description[length]",this.form.length);
+          fd.append("course_id",this.form.course);
           axios.defaults.headers.common['Authorization']= 'Bearer ' + this.$store.state.token
           axios.post('/lesson/create-lesson',fd,config).then(data=>{
             this.message = data.data.message;            
@@ -407,7 +418,7 @@ const config = {
         },
         LessonDisable(id){
           axios.defaults.headers.common['Authorization']= 'Bearer ' + this.$store.state.token
-          axios.put('/lesson/remove-lesson/' + id).then(data=>{
+          axios.put('/lesson/remove-lesson/'+id).then(data=>{
             this.message = data.data.message;
             this.LessonCharge();
           }).catch((error)=>{
@@ -415,11 +426,12 @@ const config = {
           });
         },
         ModalClose(){
-          this.form.title ="";
-          this.form.url="";
-          this.form.context="";
-          this.form.course="";
-          this.miniatura="";
+          this.form.title =null;
+          this.form.url=null;
+          this.form.context=null;
+          this.form.legth=null;
+          this.form.course=null;
+          this.miniatura=null;
           this.errors={};
           this.modals.modal0 = false;    
           this.modals.modal1 = false;           

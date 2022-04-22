@@ -5,7 +5,7 @@ import axios from 'axios';
 
 Vue.use(Vuex)
 
-axios.defaults.baseURL = process.env.APP_URL+'/api/v1';
+axios.defaults.baseURL = 'https://monolith-stage.herokuapp.com/api/v1';
 
 export default new Vuex.Store({
     state:{

@@ -142,46 +142,43 @@
                     <td>
                       <div class="media align-items-center">
                         <a href="#" class="avatar rounded-circle mr-3">
-                              <img alt="Image placeholder" :src="'https://i.pinimg.com/736x/49/c8/e4/49c8e403cd1929e9e7b02126824ff831.jpg'">
+                          <img>
                         </a>
                         <div class="d-flex flex-column justify-content-center">
                           <span class="name mb-0 text-sm">{{ row.name }}</span>
                           <p class="text-xs text-secondary mb-0">{{ row.email }}</p>
                         </div>
                       </div>
-                    </td>
-
-                    
+                    </td>                    
                     <td>
                       <!-- Celular  -->
                       <div class="media align-items-center">
                         <span class="name mb-0 text-sm"><i class="fas fa-mobile-alt"></i> +(51) 995478124</span>
                       </div>
                     </td>
-
                     <td>
                       <!--  Roles   -->
-                      <div class="media align-items-right">
-                         <span :id="row.id +'_item'" class="badge badge-sm bg-gradient-success">              
-                            <i class="bg-success"></i>
-                            Rol
-                          </span>
+                      <div class="media align-items-center"> 
+                          <div :id="row.id +'_item'">
+                            <div v-for="(roles) in row.roles" :key="roles.permission_level">
+                                <span style="margin-left:3px;" v-if="roles.permission_name=='CLIENT'"  class="badge badge-sm bg-gradient-success">  
+                                  <b>{{roles.permission_name}}</b>
+                                </span>   
+                                <span style="margin-left:3px;" v-else-if="roles.permission_name=='EMPLOYEE'"  class="badge badge-sm bg-gradient-info">  
+                                  <b>{{roles.permission_name}}</b>
+                                </span>  
+                                <span style="margin-left:3px;" v-else-if="roles.permission_name=='AUTHOR'"  class="badge badge-sm bg-gradient-warning">  
+                                  <b>{{roles.permission_name}}</b>
+                                </span>                             
+                                <span style="margin-left:3px;" v-else-if="roles.permission_name=='ADMIN'"  class="badge badge-sm bg-gradient-danger">  
+                                  <b>{{roles.permission_name}}</b>
+                                </span>   
+                                <span v-else class="badge badge-sm bg-gradient-secondary">  
+                                  <b>Not assigned</b>
+                                </span>                              
+                            </div>  
+                          </div> 
 
-                          <!-- <span :id="row.id +'_item'" v-if="row.enabled == true" class="badge badge-sm bg-gradient-success">              
-                            <i class="bg-success"></i>
-                            Enabled
-                          </span>
-                          <span :id="row.id +'_item'" v-if="row.enabled == false" class="badge badge-sm bg-gradient-danger">              
-                            <i class="bg-danger"></i>
-                            Disabled
-                          </span> -->
-                          <!-- <va-select  class="display_select" :id="row.id +'_data'"  v-model="row.roles" placeholder="Seleccione un rol" no-uncheck>
-                            <template v-for="rol in roles">
-                              <va-option :key="rol.value" :value="rol.value" :label="rol.label"> 
-                                {{rol.label}}  
-                              </va-option>
-                            </template>
-                          </va-select> -->
                           <div class="display_select container" :id="row.id +'_data_assign'" >
                             <v-form ref="form" @submit.prevent="AsignRols(row.id,row.roles)">
                               <multiselect no-uncheck  v-model="row.roles"  :options="roles" :multiple="true" :close-on-select="false" :clear-on-select="false" :preserve-search="false" placeholder="Select roll" label="permission_name" track-by="permission_name" >
@@ -203,8 +200,7 @@
                               <button type="submit" class="btn btn-primary">Save</button>  
                             </v-form>        
                             <a @click.prevent="closeRoles(row.id)" class="btn btn-primary">Cancel</a>               
-                          </div>             
-
+                          </div>          
                       </div>
                     </td>
 
@@ -228,7 +224,8 @@
                     </td>
 
                 </template>                
-              </base-table>
+              </base-table>            
+            <base-pagination :page-count="pagination.total" align="center" size="sm"></base-pagination>
           </div>
           <!-- <div class="card-footer d-flex justify-content-end bg-default shadow" :class="type === 'dark' ? 'bg-transparent' : ''">
             <base-pagination total="30"></base-pagination>
@@ -260,11 +257,9 @@ import footer_auth from '../../Layouts/Footer/nav_auth.vue';
             modal0: false
           },
           users: [
-            axios.defaults.headers.common['Authorization']= 'Bearer ' + this.$store.state.token,
-            axios.post('/auth/users/search', {filters:{withDisabled:false}}).then(res=>{
-              this.users = res.data.data['users'];
-            })
+            this.UsersCharge()
           ],
+          pagination:{},
           form :{
             id:null,
             name:null,
@@ -306,9 +301,10 @@ import footer_auth from '../../Layouts/Footer/nav_auth.vue';
           $('#'+id+'_item').fadeIn();
         },
         UsersCharge(){    
-          axios.defaults.headers.common['Authorization']= 'Bearer ' + this.$store.state.token;
-          axios.get('/auth/users/search').then(res=>{
-            this.users = res.data.data['users'];
+          axios.defaults.headers.common['Authorization']= 'Bearer ' + this.$store.state.token,
+          axios.post('/auth/users/search', {filters:{withDisabled:false}}).then(res=>{
+            this.users = res.data.data['users']; 
+            this.pagination = res.data.data.paginate;
           })
         },
         UsersCreate(){       

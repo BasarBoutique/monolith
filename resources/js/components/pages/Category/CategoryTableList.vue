@@ -19,7 +19,7 @@
               </ol>
             </nav>
           </div>
-          <div class="col-lg-6 col-5 text-right" >
+          <div class="col-lg-6 col-5 text-right">
             <base-button class="btn btn-sm btn-neutral"  @click="modals.modal0 = true">
               New
             </base-button>
@@ -202,10 +202,8 @@
                     </td>
                 </template>                
               </base-table>
+            <base-pagination :page-count="pagination.total" align="center" size="sm"></base-pagination>
           </div>
-          <!-- <div class="card-footer d-flex justify-content-end bg-default shadow" :class="type === 'dark' ? 'bg-transparent' : ''">
-            <base-pagination total="30"></base-pagination>
-          </div> -->
         </div>
       </div>
     </div>
@@ -240,8 +238,10 @@ const config = {
           categories: [
             axios.get('/categories/all?withDisabled=false').then(res=>{
               this.categories = res.data.data.categories;
+              this.pagination = res.data.data.pagination;
             })
           ],
+          pagination:{},
           filter:{
             title: null
           },
@@ -275,6 +275,7 @@ const config = {
         CategoryCharge(){     
           axios.get('/categories/all',{params:{withDisabled:this.status.withDisabled,perPage:this.status.perPage}}).then(res=>{
             this.categories = res.data.data.categories;
+            this.pagination = res.data.data.pagination;
           })
         },
         CategoryCreate(){

@@ -308,6 +308,7 @@
                       </td>
                   </template>                
                 </base-table>
+            <base-pagination :page-count="pagination.total" align="center" size="sm"></base-pagination>
             </div>
             <!-- <div class="card-footer d-flex justify-content-end bg-default shadow" :class="type === 'dark' ? 'bg-transparent' : ''">
               <base-pagination total="30"></base-pagination>
@@ -345,8 +346,10 @@ const config = {
           courses: [
             axios.get('/courses/all?withDisabled=false').then(res=>{
               this.courses = res.data.data.courses;
+              this.pagination = res.data.data.paginate;
             })
           ],
+          pagination:{},
           authors:[
             this.AuthorsCharge()
           ],
@@ -374,7 +377,7 @@ const config = {
       },
       methods: {
         category(){
-          axios.get('/categories/all?withDisabled=false').then(res=>{
+          axios.get('/categories/all',{params:{withDisabled:false}}).then(res=>{
               this.categories = res.data.data.categories;
           })
         },
@@ -397,8 +400,9 @@ const config = {
           })
         },
         CourseCharge(){       
-          axios.get('/courses/all?withDisabled='+this.status.withDisabled).then(res=>{
+          axios.get('/courses/all',{params:{withDisabled:this.status.withDisabled}}).then(res=>{
             this.courses = res.data.data.courses;
+            this.pagination = res.data.data.paginate;
           })
         },
         CourseCreate(){
