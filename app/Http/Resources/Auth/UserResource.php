@@ -23,6 +23,7 @@ class UserResource extends JsonResource
             'id' => $user->user_id,
             'name' => $user->name,
             'email' => $user->email,
+            'email' => $user->email,
             'detail' => $this->whenLoaded('detail', function () {
 
                 $detail = $this->detail;

@@ -133,7 +133,7 @@
             <h3 class="text-white mb-0">Categories</h3> 
             <div style="margin-top:10px;">             
               <select name="example_length" v-model="status.perPage" style="width:65px;" @click.prevent="CategoryCharge" aria-controls="example" class="custom-select custom-select-sm form-control form-control-sm">
-                <option value="5">5</option>
+                <option value="5" selected="true">5</option>
                 <option value="10">10</option>
                 <option value="25">25</option>
                 <option value="50">50</option>
@@ -203,9 +203,9 @@
                 </template>                
               </base-table>
           </div>
-          <div class="card-footer d-flex justify-content-end bg-default shadow" :class="type === 'dark' ? 'bg-transparent' : ''">
+          <!-- <div class="card-footer d-flex justify-content-end bg-default shadow" :class="type === 'dark' ? 'bg-transparent' : ''">
             <base-pagination total="30"></base-pagination>
-          </div>
+          </div> -->
         </div>
       </div>
     </div>
@@ -219,7 +219,7 @@
 import BaseButton from '../../Base/BaseButton.vue';
 import footer_auth from '../../Layouts/Footer/nav_auth.vue';
 const config = {
-  headers: { 'content-type': 'multipart/form-data' }
+  headers: { 'content-type': 'multipart/form-data; boundary=${form._boundary}' }
 };
 
     export default {
@@ -279,12 +279,10 @@ const config = {
         },
         CategoryCreate(){
           let fd = new FormData();
-          fd.append("category_ico",this.form.photo.name);
-          fd.append("category_title",this.form.category);
-
-          console.log(fd);
-
-          axios.defaults.headers.common['Authorization']= 'Bearer ' + this.$store.state.token
+            fd.append("image",this.form.photo);
+            fd.append("title",this.form.category);          
+        
+          axios.defaults.headers.common['Authorization']= 'Bearer ' + this.$store.state.token;
           axios.post('/categories/create-category',fd,config).then(data=>{
             this.message = data.data.message;   
             this.CategoryCharge();
@@ -301,33 +299,18 @@ const config = {
           });
         },
         CategoryUpdate(){
-          let fd = new FormData();
-          fd.append("_method", "put");
-          fd.append("category_ico",this.form.photo['name']);
-          fd.append("category_title", this.form.category);
+          let formDataUpdate = new FormData();
+          formDataUpdate.append("category_title", this.form.title);
+          formDataUpdate.append("category_ico",this.form.photo.name);
 
-          axios.defaults.headers.common['Authorization']= 'Bearer ' + this.$store.state.token
-          
-          axios({
-            methods: "put",
-            url : "/categories/update-category/"+this.form.id,
-            data : fd,
-            headers : config
-          }).then(data=>{
+          axios.defaults.headers.common['Authorization']= 'Bearer ' + this.$store.state.token;
+          axios.put('/categories/update-category/'+this.form.id,formDataUpdate,config).then(data=>{
             this.message = data.data.message;
             this.CategoryCharge();
             this.ModalClose();
           }).catch((error)=>{
             this.errors = error.response.data.errors;
           });
-          // axios.put('/categories/update-category/'+this.form.id,fd,config).then(data=>{
-          //   console.log(data.message);
-          //   // this.message = data.data.message;
-          //   this.CategoryCharge();
-          //   this.ModalClose();
-          // }).catch((error)=>{
-          //   this.errors = error.response.data.errors;
-          // });
         },
         CategoryDisable(id){
           axios.defaults.headers.common['Authorization']= 'Bearer ' + this.$store.state.token
