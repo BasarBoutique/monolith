@@ -9,6 +9,8 @@ use App\Events\UserRegistered;
 use App\Repositories\UserRepository;
 use App\Repositories\UserSearchRepository;
 use App\Services\Image\ImageService;
+use Exception;
+use Illuminate\Support\Facades\Log;
 
 class UserService {
 
@@ -34,27 +36,42 @@ class UserService {
 
     public function create(array $attributes)
     {
-        $userDTO = new UserDTO;
+        try {
+            $userDTO = new UserDTO;
 
-        $imageDTO = new ImageDTO;
+            $imageDTO = new ImageDTO;
 
-        $imageService = new ImageService(app('firebase.storage'));
+            $imageService = new ImageService(app('firebase.storage'));
 
-        $imageAttr = [
-            'file' => $attributes['file'],
-            'id' => null,
-            'folder' => 'user'
-        ];
+            $imageAttr = [
+                'file' => $attributes['file'],
+                'id' => null,
+                'folder' => 'user'
+            ];
 
-        $uploadImage = $imageService->uploadImage($imageDTO, $imageAttr);
+            $uploadImage = $imageService->uploadImage($imageDTO, $imageAttr);
 
-        $attributes['detail']['photo'] = $uploadImage['name'];
+            $attributes['detail']['photo'] = $uploadImage['name'];
 
-        $user = $this->userRepository->create($userDTO, $attributes);
+            $user = $this->userRepository->create($userDTO, $attributes);
 
-        event(new UserRegistered($user));
+            if(is_null($user)) {
+                throw new Exception("Has been ocurred error when proceed to register user");
+            }
 
-        return $user;
+            event(new UserRegistered($user));
+
+            return $user;
+
+        } catch (Exception $e) {
+
+            Log::error($e->getMessage(), [
+                'LEVEL' => 'Repository',
+                'TRACE' => $e->getTrace()
+            ]);
+
+            throw $e;
+        }
     }
 
     public function updateUser(array $attributes, int $userId)
