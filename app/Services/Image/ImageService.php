@@ -27,6 +27,10 @@ class ImageService
 
         $object = app('firebase.storage')->getBucket()->object($imageName);
 
+        if(!$object->exists()) {
+            return '';
+        }
+
         return $object->signedUrl(new DateTime('2022-09-09T15:03:01.012345Z'));
     }
 
