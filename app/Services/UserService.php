@@ -39,6 +39,20 @@ class UserService {
         try {
             $userDTO = new UserDTO;
 
+            $imageDTO = new ImageDTO;
+
+            $imageService = new ImageService(app('firebase.storage'));
+
+            $imageAttr = [
+                'file' => $attributes['file'],
+                'id' => null,
+                'folder' => 'user'
+            ];
+
+            $uploadImage = $imageService->uploadImage($imageDTO, $imageAttr);
+
+            $attributes['detail']['photo'] = $uploadImage['name'];
+
             $user = $this->userRepository->create($userDTO, $attributes);
 
             if(is_null($user)) {
@@ -46,20 +60,6 @@ class UserService {
             }
 
             event(new UserRegistered($user));
-
-            $imageDTO = new ImageDTO;
-
-            $imageService = new ImageService(app('firebase.storage'));
-
-            $imageAttr = [
-                'file' => $attributes['file'],
-                'id' => optional($user)->user_id,
-                'folder' => 'user'
-            ];
-
-            $uploadImage = $imageService->uploadImage($imageDTO, $imageAttr);
-
-            $attributes['detail']['photo'] = $uploadImage['name'];
 
             return $user;
 
