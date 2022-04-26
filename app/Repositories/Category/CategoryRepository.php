@@ -17,8 +17,20 @@ class CategoryRepository{
 
     public function showAllWithCategoriesDisabled(int $perPage)
     {
+        try {
 
-        return Category::withDisabledCategories()->paginate($perPage);
+            return Category::withDisabledCategories()->paginate($perPage);
+
+        } catch (Exception $e) {
+
+            Log::error($e->getMessage(),[
+                'LEVEL' => 'Repository',
+                'TRACE' => $e->getTrace()
+            ]);
+            throw $e;
+        }
+
+        
     }
 
     public function showCategoryById(int $categoryId)
@@ -88,7 +100,7 @@ class CategoryRepository{
        } catch (Exception $e) {
             Log::error($e->getMessage(),[
                 'LEVEL' => 'Repository',
-                'TRACE' => $e->getTraceAsString()
+                'TRACE' => $e->getTrace()//ponerlo asi a todos
             ]);
 
             throw $e;
