@@ -109,7 +109,7 @@ export default {
       return arr;
     },
     changePage(item) {
-      this.$emit("input", item);
+      this.$emit("input",item);
     },
     nextPage() {
       if (this.value < this.totalPages) {

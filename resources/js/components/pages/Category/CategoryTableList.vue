@@ -202,7 +202,7 @@
                     </td>
                 </template>                
               </base-table>
-            <base-pagination :page-count="pagination.total" align="center" size="sm"></base-pagination>
+            <base-pagination :page-count="pagination.total"  align="center" size="sm"></base-pagination>
           </div>
         </div>
       </div>
@@ -260,6 +260,13 @@ const config = {
         }
       },
       methods: {
+        pagination_item(){
+          console.log(pagination.next_page);
+          // axios.get('/categories/all',{params:{perPage:page}}).then(res=>{
+          //   this.categories = res.data.data.categories;
+          //   this.pagination = res.data.data.pagination;
+          // })
+        },
         onFileSelected(e){
             let file = e.target.files[0];
             this.form.photo = file;
