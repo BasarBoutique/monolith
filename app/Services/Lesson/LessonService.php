@@ -6,7 +6,8 @@ use App\DTO\Lesson\LessonDTO;
 use App\Events\Lesson\LessonRegistered;
 use App\Repositories\Lesson\LessonRepository;
 use App\Repositories\Lesson\LessonSearchRepository;
-
+use Exception;
+use Illuminate\Support\Facades\Log;
 class LessonService{
 
     private $lessonRepository;
@@ -17,61 +18,131 @@ class LessonService{
     }
 
     public function showLesson(bool $withDisabled = false){
-        $lesson = $withDisabled
+        try {
+            $lesson = $withDisabled
             ? $this->lessonRepository->showAllWithLessonDisabled()
             : $this->lessonRepository->showAllLesson();
 
-        return $lesson->paginate(10);
+            return $lesson->paginate(10);
+        } catch (Exception $e) {
+            Log::error($e->getMessage(),[
+                'LEVEL' => 'Service',
+                'TRACE' => $e->getTrace()//ponerlo asi a todos
+            ]);
+
+            throw $e;
+        }
+        
     }
 
     public function showLessonById(array $attributes){
-        $lesson = $this->lessonRepository->showLessonById($attributes);
+        try {
+            $lesson = $this->lessonRepository->showLessonById($attributes);
 
-        return $lesson;
+            return $lesson;
+        } catch (Exception $e) {
+            Log::error($e->getMessage(),[
+                'LEVEL' => 'Service',
+                'TRACE' => $e->getTrace()//ponerlo asi a todos
+            ]);
+
+            throw $e;
+        }
+        
     }
 
     public function searchLessons(array $queryParams)
     {
+        try {
+            $repository = new LessonSearchRepository();
 
-        $repository = new LessonSearchRepository();
+            $repository->makeQuery($queryParams['filters']);
+            $repository->orderBy($queryParams['order']);
 
-        $repository->makeQuery($queryParams['filters']);
-        $repository->orderBy($queryParams['order']);
+            return $repository->paginateSearch($queryParams['paginate']);
+        } catch (Exception $e) {
+            Log::error($e->getMessage(),[
+                'LEVEL' => 'Service',
+                'TRACE' => $e->getTrace()//ponerlo asi a todos
+            ]);
 
-        return $repository->paginateSearch($queryParams['paginate']);
+            throw $e;
+        }
+
+        
 
     }
 
     public function create(array $attributes)
     {
-        $lessonDTO = new LessonDTO;
+        try {
+            $lessonDTO = new LessonDTO;
 
-        $lesson = $this->lessonRepository->createLesson($lessonDTO,$attributes);
+            $lesson = $this->lessonRepository->createLesson($lessonDTO,$attributes);
 
-        event(new LessonRegistered($lesson));
+            event(new LessonRegistered($lesson));
 
-        return $lesson;
+            return $lesson;
+        } catch (Exception $e) {
+            Log::error($e->getMessage(),[
+                'LEVEL' => 'Service',
+                'TRACE' => $e->getTrace()//ponerlo asi a todos
+            ]);
+
+            throw $e;
+        }
+        
     }
 
     public function update(array $attributes)
     {
-        $lessonDTO = new LessonDTO;
+        try {
+            $lessonDTO = new LessonDTO;
 
-        $lesson = $this->lessonRepository->editLesson($lessonDTO,$attributes);
+            $lesson = $this->lessonRepository->editLesson($lessonDTO,$attributes);
 
-        return $lesson;
+            return $lesson;
+        } catch (Exception $e) {
+            Log::error($e->getMessage(),[
+                'LEVEL' => 'Service',
+                'TRACE' => $e->getTrace()//ponerlo asi a todos
+            ]);
+
+            throw $e;
+        }
+        
     }
 
     public function remove(array $attributes)
     {
-        $lesson = $this->lessonRepository->disableLesson($attributes);
+        try {
+            $lesson = $this->lessonRepository->disableLesson($attributes);
 
-        return $lesson;
+            return $lesson;
+        } catch (Exception $e) {
+            Log::error($e->getMessage(),[
+                'LEVEL' => 'Service',
+                'TRACE' => $e->getTrace()//ponerlo asi a todos
+            ]);
+
+            throw $e;
+        }
+        
     }
 
     public function changeLessonCourse(array $attributes){
-        $lesson = $this->lessonRepository->changeLessonCourse($attributes);
+        try {
+            $lesson = $this->lessonRepository->changeLessonCourse($attributes);
 
-        return $lesson;
+            return $lesson;
+        } catch (Exception $e) {
+            Log::error($e->getMessage(),[
+                'LEVEL' => 'Service',
+                'TRACE' => $e->getTrace()//ponerlo asi a todos
+            ]);
+
+            throw $e;
+        }
+        
     }
 }

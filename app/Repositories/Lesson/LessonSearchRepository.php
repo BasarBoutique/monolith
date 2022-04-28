@@ -3,7 +3,8 @@
 namespace App\Repositories\Lesson;
 
 use App\Models\Lesson;
-
+use Exception;
+use Illuminate\Support\Facades\Log;
 class LessonSearchRepository
 {
     private $lessons;
@@ -35,7 +36,17 @@ class LessonSearchRepository
 
     public function paginateSearch(int $limit = 20)
     {
-        return $this->lessons->paginate($limit);
+        try {
+            return $this->lessons->paginate($limit);
+        } catch (Exception $e) {
+            Log::error($e->getMessage(),[
+                'LEVEL' => 'Repository',
+                'TRACE' => $e->getTrace()//ponerlo asi a todos
+            ]);
+
+            throw $e;
+        }
+        
     }
 
     private function withDisabledLessons($withDisabled)

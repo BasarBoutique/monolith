@@ -3,6 +3,8 @@
 namespace App\Repositories\Course;
 
 use App\Models\Courses;
+use Exception;
+use Illuminate\Support\Facades\Log;
 
 class CourseSearchRepository
 {
@@ -16,7 +18,17 @@ class CourseSearchRepository
 
     public function searchById(int $courseId)
     {
-        return Courses::find($courseId);
+        try {
+            return Courses::find($courseId);
+        } catch (Exception $e) {
+            Log::error($e->getMessage(),[
+                'LEVEL' => 'Repository',
+                'TRACE' => $e->getTrace()//ponerlo asi a todos
+            ]);
+
+            throw $e;
+        }
+        
     }
 
     public function makeQuery(array $query)
@@ -44,7 +56,17 @@ class CourseSearchRepository
 
     public function paginateSearch(int $limit = 20)
     {
-        return $this->courses->paginate($limit);
+        try {
+            return $this->courses->paginate($limit);
+        } catch (Exception $e) {
+            Log::error($e->getMessage(),[
+                'LEVEL' => 'Repository',
+                'TRACE' => $e->getTrace()//ponerlo asi a todos
+            ]);
+
+            throw $e;
+        }
+        
     }
 
     private function filterByCategories(array $categories)

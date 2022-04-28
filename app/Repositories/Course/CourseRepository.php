@@ -12,19 +12,39 @@ class CourseRepository {
 
     public function showAllCourses($withDisabled)
     {
-        $courses = new Courses;
-        $courses->with(['category']);
+        try {
+            $courses = new Courses;
+            $courses->with(['category']);
 
-        if($withDisabled) {
-            return $courses::withDisabledCourses();
+            if($withDisabled) {
+                return $courses::withDisabledCourses();
+            }
+
+            return $courses;
+        } catch (Exception $e) {
+            Log::error($e->getMessage(),[
+                'LEVEL' => 'Repository',
+                'TRACE' => $e->getTrace()//ponerlo asi a todos
+            ]);
+
+            throw $e;
         }
-
-        return $courses;
+        
     }
 
     public function paginateAll($courses, $limit = 15)
     {
-        return $courses->paginate($limit);
+        try {
+            return $courses->paginate($limit);
+        } catch (Exception $e) {
+            Log::error($e->getMessage(),[
+                'LEVEL' => 'Repository',
+                'TRACE' => $e->getTrace()//ponerlo asi a todos
+            ]);
+
+            throw $e;
+        }
+        
     }
 
     public function showCourseById(array $attributes){
@@ -47,43 +67,73 @@ class CourseRepository {
 
     public function createCourse(DTOInterface $dto, array $attributes)
     {
-        $courseDTO = $dto::make($attributes);
+        try {
+            $courseDTO = $dto::make($attributes);
 
-        $course = Courses::create($courseDTO);
+            $course = Courses::create($courseDTO);
 
-        $courseDTO = $dto::append($courseDTO, 'category', 'course_id', $course->course_id);
+            $courseDTO = $dto::append($courseDTO, 'category', 'course_id', $course->course_id);
 
-        $course->detail()->create($courseDTO['detail']);
+            $course->detail()->create($courseDTO['detail']);
 
-        $course->category()->create($courseDTO['category']);
+            $course->category()->create($courseDTO['category']);
 
-        $course->refresh();
+            $course->refresh();
 
-        $course->load(['detail', 'category']);
+            $course->load(['detail', 'category']);
 
-        return $course;
+            return $course;
+        } catch (Exception $e) {
+            Log::error($e->getMessage(),[
+                'LEVEL' => 'Repository',
+                'TRACE' => $e->getTrace()//ponerlo asi a todos
+            ]);
+
+            throw $e;
+        }
+        
     }
 
     public function updateCourse(int $courseId, DTOInterface $dto, array $attributes)
     {
-        $courseDTO = $dto::make($attributes);
+        try {
+            $courseDTO = $dto::make($attributes);
 
-        $course = Courses::findOrFail($courseId);
+            $course = Courses::findOrFail($courseId);
 
-        $course->update($courseDTO);
-        $course->detail()->update($courseDTO['detail']);
+            $course->update($courseDTO);
+            $course->detail()->update($courseDTO['detail']);
 
-        return $course;
+            return $course;
+        } catch (Exception $e) {
+            Log::error($e->getMessage(),[
+                'LEVEL' => 'Repository',
+                'TRACE' => $e->getTrace()//ponerlo asi a todos
+            ]);
+
+            throw $e;
+        }
+        
     }
 
     public function changeCourseTeacher(int $courseId, int $teacherId)
     {
-        $courseDetail = CourseDetail::findOrFail($courseId);
+        try {
+            $courseDetail = CourseDetail::findOrFail($courseId);
 
-        $courseDetail->teacher()->associate($teacherId);
-        $courseDetail->save();
+            $courseDetail->teacher()->associate($teacherId);
+            $courseDetail->save();
 
-        return $courseDetail;
+            return $courseDetail;
+        } catch (Exception $e) {
+            Log::error($e->getMessage(),[
+                'LEVEL' => 'Repository',
+                'TRACE' => $e->getTrace()//ponerlo asi a todos
+            ]);
+
+            throw $e;
+        }
+        
     }
 
     public function disableCourse(array $attributes){
