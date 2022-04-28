@@ -3,7 +3,8 @@
 namespace App\Traits;
 
 use Illuminate\Support\Str;
-
+use Exception;
+use Illuminate\Support\Facades\Log;
 
 trait HasUuid
 {
@@ -34,7 +35,17 @@ trait HasUuid
      */
     public function getIncrementing() : bool
     {
-        return false;
+        try {
+            return false;
+        } catch (Exception $e) {
+            Log::error($e->getMessage(),[
+                'LEVEL' => 'Traits',
+                'TRACE' => $e->getTrace()//ponerlo asi a todos
+            ]);
+
+            throw $e;
+        }
+        
     }
 
 
@@ -45,6 +56,16 @@ trait HasUuid
      */
     public function getKeyType() : string
     {
-        return 'string';
+        try {
+            return 'string';
+        } catch (Exception $e) {
+            Log::error($e->getMessage(),[
+                'LEVEL' => 'Traits',
+                'TRACE' => $e->getTrace()//ponerlo asi a todos
+            ]);
+
+            throw $e;
+        }
+        
     }
 }

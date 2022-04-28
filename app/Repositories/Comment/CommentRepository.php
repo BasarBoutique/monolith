@@ -12,7 +12,17 @@ class CommentRepository{
 
     public function showCommentsOfCourse(int $courseId)
     {
-       return Comment::ofCourse($courseId)->get();
+        try {
+            return Comment::ofCourse($courseId)->get();
+        } catch (Exception $e) {
+            Log::error($e->getMessage(),[
+                'LEVEL' => 'Repository',
+                'TRACE' => $e->getTrace()//ponerlo asi a todos
+            ]);
+
+            throw $e;
+        }
+       
     }
 
     public function createComment(DTOInterface $dto, array $attributes)

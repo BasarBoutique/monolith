@@ -10,6 +10,7 @@ use Google\Cloud\Storage\StorageObject;
 use Kreait\Firebase\Contract\Storage;
 use Illuminate\Database\Eloquent\Model;
 
+use Illuminate\Support\Facades\Log;
 class ImageService
 {
     private Storage $storage;
@@ -21,17 +22,27 @@ class ImageService
 
     public static function getUrlPath($imageName) : ?string
     {
-        if(empty($imageName) && !$imageName) {
+        try {
+            if(empty($imageName) && !$imageName) {
             return '';
+            }
+
+            $object = app('firebase.storage')->getBucket()->object($imageName);
+
+            if(!$object->exists()) {
+                return '';
+            }
+
+            return $object->signedUrl(new DateTime('2022-09-09T15:03:01.012345Z'));
+        } catch (Exception $e) {
+            Log::error($e->getMessage(),[
+                'LEVEL' => 'Service',
+                'TRACE' => $e->getTrace()//ponerlo asi a todos
+            ]);
+
+            throw $e;
         }
-
-        $object = app('firebase.storage')->getBucket()->object($imageName);
-
-        if(!$object->exists()) {
-            return '';
-        }
-
-        return $object->signedUrl(new DateTime('2022-09-09T15:03:01.012345Z'));
+        
     }
 
     public function uploadImage(DTOInterface $dto, array $attributes)
@@ -63,7 +74,11 @@ class ImageService
 
             return null;
 
-        } catch (Exception $e) {
+        }  catch (Exception $e) {
+            Log::error($e->getMessage(),[
+                'LEVEL' => 'Service',
+                'TRACE' => $e->getTrace()//ponerlo asi a todos
+            ]);
 
             throw $e;
         }
