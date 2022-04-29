@@ -46,7 +46,7 @@ class LessonSearchRepository
 
             throw $e;
         }
-        
+
     }
 
     private function withDisabledLessons($withDisabled)
@@ -54,14 +54,14 @@ class LessonSearchRepository
         $withDisabled = filter_var($withDisabled, FILTER_VALIDATE_BOOLEAN);
 
         if($withDisabled) {
-            $this->lessons->withDisabledLesson();
+            $this->lessons = $this->lessons->withDisabledLesson();
         }
     }
 
     private function filterByCourses(array $courses)
     {
         if(isset($courses) && !empty($courses)) {
-            $this->lessons->whereHas('course', function($q) use ($courses) {
+            $this->lessons = $this->lessons->whereHas('course', function($q) use ($courses) {
                 $q->select('courses.course_id')->whereIn('courses.course_id', $courses);
             });
         }
@@ -71,7 +71,7 @@ class LessonSearchRepository
     {
         if(!!$title && isset($title) && strlen($title) > 3)
         {
-            $this->lessons->searchByTitle($title);
+            $this->lessons = $this->lessons->searchByTitle($title);
         }
     }
 }
