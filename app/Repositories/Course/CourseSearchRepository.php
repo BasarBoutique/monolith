@@ -28,7 +28,7 @@ class CourseSearchRepository
 
             throw $e;
         }
-        
+
     }
 
     public function makeQuery(array $query)
@@ -66,7 +66,7 @@ class CourseSearchRepository
 
             throw $e;
         }
-        
+
     }
 
     private function filterByCategories(array $categories)
@@ -80,7 +80,7 @@ class CourseSearchRepository
 
     private function filterByTitle(string $title)
     {
-        if(!!$title && isset($title) && strlen($title) > 3) {
+        if(!!$title && isset($title)) {
             $this->courses->where('course_title', 'LIKE', '%' . $title . '%');
         }
     }
