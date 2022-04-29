@@ -225,7 +225,7 @@
 
                 </template>                
               </base-table>            
-            <base-pagination :page-count="pagination.total" align="center" size="sm"></base-pagination>
+            <base-pagination :page-count="pagination.total" @changestr="changePage" align="center" size="sm"></base-pagination>
           </div>
           <!-- <div class="card-footer d-flex justify-content-end bg-default shadow" :class="type === 'dark' ? 'bg-transparent' : ''">
             <base-pagination total="30"></base-pagination>
@@ -275,6 +275,15 @@ import footer_auth from '../../Layouts/Footer/nav_auth.vue';
         }
       },
       methods: {
+        changePage(v1){
+          this.status.perPage = v1;
+          axios.defaults.headers.common['Authorization']= 'Bearer ' + this.$store.state.token,
+          axios.post('/auth/users/search',{params:{page:v1}}).then(res=>{
+            this.users = res.data.data['users']; 
+            this.pagination = res.data.data.paginate;
+          })
+        },
+        
         showRoles(){
           axios.defaults.headers.common['Authorization']= 'Bearer ' + this.$store.state.token;
           axios.get('/permissions/roles',{params:{filters:{withDisabled: false }}}).then(res=>{

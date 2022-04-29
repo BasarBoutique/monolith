@@ -17,6 +17,7 @@ Route::middleware(['auth:api'])->group(function () {
     Route::get('logout', 'Auth\AuthController@logout');
 
     Route::middleware(['can:isAdmin'])->group(function () {
-        Route::post('users/search', [UserController::class, 'searchUsers']);
     });
 });
+
+Route::post('users/search', [UserController::class, 'searchUsers']);

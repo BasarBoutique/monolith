@@ -281,7 +281,7 @@
                     </td>
                 </template>                
               </base-table>
-            <base-pagination :page-count="pagination.total" align="center" size="sm"></base-pagination>
+            <base-pagination :page-count="pagination.total" @changestr="changePage" align="center" size="sm"></base-pagination>
           </div>
           <!-- <div class="card-footer d-flex justify-content-end bg-default shadow" :class="type === 'dark' ? 'bg-transparent' : ''">
             <base-pagination total="30"></base-pagination>
@@ -346,6 +346,13 @@ const config = {
         }
       },
       methods: {
+        changePage(v1){
+          this.status.perPage = v1;
+          axios.get('/lesson/all',{params:{page:v1}}).then(res=>{
+            this.Lessons = res.data.data.lessons;
+            this.pagination = res.data.data.pagination;
+          })
+        },
         onFileSelected(e){
             let file = e.target.files[0];
             this.form.photo = file;

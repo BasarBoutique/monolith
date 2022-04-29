@@ -202,7 +202,7 @@
                     </td>
                 </template>                
               </base-table>
-            <base-pagination :page-count="pagination.total" align="center" size="sm"></base-pagination>
+            <base-pagination :page-count="pagination.total" @changestr="changePage"  align="center" size="sm"></base-pagination>
           </div>
         </div>
       </div>
@@ -260,6 +260,13 @@ const config = {
         }
       },
       methods: {
+        changePage(v1){
+          this.status.perPage = v1;
+          axios.get('/categories/all',{params:{page:v1}}).then(res=>{
+            this.categories = res.data.data.categories;
+            this.pagination = res.data.data.pagination;
+          })
+        },
         onFileSelected(e){
             let file = e.target.files[0];
             this.form.photo = file;
@@ -279,6 +286,7 @@ const config = {
           })
         },
         CategoryCreate(){
+          
           let fd = new FormData();
             fd.append("image",this.form.photo);
             fd.append("title",this.form.category);          
