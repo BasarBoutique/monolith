@@ -11,15 +11,10 @@ jobs:
     docker:
       # Specify the version you desire here
       - image: circleci/php:8.1-node-browsers
+        auth:
+          username: sastiam
+          password: $DOCKERHUB_PASSWORD
 
-      # Specify service dependencies here if necessary
-      # CircleCI maintains a library of pre-built images
-      # documented at https://circleci.com/docs/2.0/circleci-images/
-      # Using the RAM variation mitigates I/O contention
-      # for database intensive operations.
-      # - image: circleci/mysql:5.7-ram
-      #
-      # - image: redis:2.8.19
 
     # Add steps to the job
     # See: https://circleci.com/docs/2.0/configuration-reference/#steps
