@@ -13,7 +13,7 @@ class CategorySearchRepository
 
     public function __construct()
     {
-        $this->categories = (new Category);
+        $this->categories = new Category;
     }
 
     public function makeQuery(array $query)
@@ -34,7 +34,6 @@ class CategorySearchRepository
 
     public function paginateSearch(int $limit = 20)
     {
-
         try {
 
             return $this->categories->paginate($limit);
@@ -50,7 +49,7 @@ class CategorySearchRepository
         }
 
 
-        
+
     }
 
     private function withDisabledCategories($withDisabled)
@@ -58,14 +57,14 @@ class CategorySearchRepository
         $withDisabled = filter_var($withDisabled, FILTER_VALIDATE_BOOLEAN);
 
         if($withDisabled) {
-            $this->categories->withDisabledCategories();
+            $this->categories = $this->categories->withDisabledCategories();
         }
     }
 
     private function filterByTitle(string $title)
     {
         if(!!$title && isset($title) && strlen($title) > 3) {
-            $this->categories->where('category_title', $title);
+            $this->categories = $this->categories->where('category_title', $title);
         }
     }
 

@@ -25,7 +25,7 @@ class CourseService{
 
             $searchRepository->makeQuery($queryParams['filters']);
             $searchRepository->orderBy($queryParams['order']);
-
+            
             return $searchRepository->paginateSearch($queryParams['paginate']);
         } catch (Exception $e) {
             Log::error($e->getMessage(),[
@@ -35,7 +35,7 @@ class CourseService{
 
             throw $e;
         }
-        
+
     }
 
     public function showAllCourses(array $queryParams)
@@ -52,7 +52,7 @@ class CourseService{
 
             throw $e;
         }
-        
+
     }
 
     public function showCourseById(array $attributes){
@@ -68,7 +68,7 @@ class CourseService{
 
             throw $e;
         }
-        
+
     }
 
     public function createCourse(array $attributes)
@@ -102,7 +102,7 @@ class CourseService{
 
             throw $e;
         }
-        
+
 
     }
 
@@ -122,7 +122,7 @@ class CourseService{
 
             throw $e;
         }
-        
+
     }
 
     public function changeCourseTeacher(array $attributes)
@@ -139,7 +139,7 @@ class CourseService{
 
             throw $e;
         }
-        
+
     }
 
     public function disableCourse(array $attributes){
@@ -155,6 +155,6 @@ class CourseService{
 
             throw $e;
         }
-        
+
     }
 }

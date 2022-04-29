@@ -50,7 +50,7 @@ class UserSearchRepository
 
             throw $e;
         }
-        
+
     }
 
     private function withDisabledUsers($withDisabled)
@@ -58,14 +58,14 @@ class UserSearchRepository
         $withDisabled = filter_var($withDisabled, FILTER_VALIDATE_BOOLEAN);
 
         if($withDisabled) {
-            $this->users->withDisabledUsers();
+            $this->users = $this->users->withDisabledUsers();
         }
     }
 
     private function filterByRoles(array $roles)
     {
         if(isset($roles) && !empty($roles)) {
-            $this->users->whereHas('roles', function ($q) use ($roles) {
+            $this->users = $this->users->whereHas('roles', function ($q) use ($roles) {
                 $q->select('permission_users.permission_level')->whereIn('permission_users.permission_level', $roles);
             });
         }
@@ -75,7 +75,7 @@ class UserSearchRepository
     {
         if(!!$name && isset($name) && strlen($name) > 3) {
 
-            $this->users->searchByName($name);
+            $this->users = $this->users->searchByName($name);
         }
 
     }
