@@ -4,7 +4,7 @@ namespace App\Services;
 
 use Carbon\Carbon;
 use Exception;
-
+use Illuminate\Support\Facades\Log;
 class AuthService {
 
     public function createToken($user, array $attributes) : array
@@ -29,6 +29,11 @@ class AuthService {
                 'http_code' => 202
             ];
         } catch (Exception $e) {
+            Log::error($e->getMessage(),[
+                'LEVEL' => 'Services',
+                'TRACE' => $e->getTrace()//ponerlo asi a todos
+            ]);
+
             throw $e;
         }
 

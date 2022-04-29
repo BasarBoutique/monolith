@@ -23,13 +23,23 @@ class UserService {
 
     public function searchUsers(array $queryParams)
     {
+        try {
+            $repository = new UserSearchRepository;
 
-        $repository = new UserSearchRepository;
+            $repository->makeQuery($queryParams['filters']);
+            $repository->orderBy($queryParams['order']);
 
-        $repository->makeQuery($queryParams['filters']);
-        $repository->orderBy($queryParams['order']);
+            return $repository->paginateSearch($queryParams['paginate']);
+        } catch (Exception $e) {
+            Log::error($e->getMessage(),[
+                'LEVEL' => 'Service',
+                'TRACE' => $e->getTrace()//ponerlo asi a todos
+            ]);
 
-        return $repository->paginateSearch($queryParams['paginate']);
+            throw $e;
+        }
+
+        
 
     }
 
@@ -76,11 +86,21 @@ class UserService {
 
     public function updateUser(array $attributes, int $userId)
     {
-        $userDTO = new UserDTO;
+        try {
+            $userDTO = new UserDTO;
 
-        $user = $this->userRepository->updateUser($userDTO, $attributes, $userId);
+            $user = $this->userRepository->updateUser($userDTO, $attributes, $userId);
 
-        return $user;
+            return $user;
+        } catch (Exception $e) {
+            Log::error($e->getMessage(),[
+                'LEVEL' => 'Repository',
+                'TRACE' => $e->getTrace()//ponerlo asi a todos
+            ]);
+
+            throw $e;
+        }
+        
     }
 
 }

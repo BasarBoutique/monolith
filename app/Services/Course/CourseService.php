@@ -7,6 +7,8 @@ use App\DTO\ImageDTO;
 use App\Repositories\Course\CourseRepository;
 use App\Repositories\Course\CourseSearchRepository;
 use App\Services\Image\ImageService;
+use Exception;
+use Illuminate\Support\Facades\Log;
 
 class CourseService{
     private $courseRepository;
@@ -18,71 +20,141 @@ class CourseService{
 
     public function searchCourses(array $queryParams)
     {
-        $searchRepository = new CourseSearchRepository;
+        try {
+            $searchRepository = new CourseSearchRepository;
 
-        $searchRepository->makeQuery($queryParams['filters']);
-        $searchRepository->orderBy($queryParams['order']);
+            $searchRepository->makeQuery($queryParams['filters']);
+            $searchRepository->orderBy($queryParams['order']);
 
-        return $searchRepository->paginateSearch($queryParams['paginate']);
+            return $searchRepository->paginateSearch($queryParams['paginate']);
+        } catch (Exception $e) {
+            Log::error($e->getMessage(),[
+                'LEVEL' => 'Service',
+                'TRACE' => $e->getTrace()//ponerlo asi a todos
+            ]);
+
+            throw $e;
+        }
+        
     }
 
     public function showAllCourses(array $queryParams)
     {
-        $courses =  $this->courseRepository->showAllCourses($queryParams['withDisabled']);
+        try {
+            $courses =  $this->courseRepository->showAllCourses($queryParams['withDisabled']);
 
-        return $this->courseRepository->paginateAll($courses, $queryParams['limit']);
+            return $this->courseRepository->paginateAll($courses, $queryParams['limit']);
+        } catch (Exception $e) {
+            Log::error($e->getMessage(),[
+                'LEVEL' => 'Service',
+                'TRACE' => $e->getTrace()//ponerlo asi a todos
+            ]);
+
+            throw $e;
+        }
+        
     }
 
     public function showCourseById(array $attributes){
-        $course = $this->courseRepository->showCourseById($attributes);
+        try {
+            $course = $this->courseRepository->showCourseById($attributes);
 
-        return $course;
+            return $course;
+        } catch (Exception $e) {
+            Log::error($e->getMessage(),[
+                'LEVEL' => 'Service',
+                'TRACE' => $e->getTrace()//ponerlo asi a todos
+            ]);
+
+            throw $e;
+        }
+        
     }
 
     public function createCourse(array $attributes)
     {
-        $courseDTO = new CourseDTO;
-        $courseRepository = new CourseRepository;
+        try {
+            $courseDTO = new CourseDTO;
+            $courseRepository = new CourseRepository;
 
-        $imageDTO = new ImageDTO;
+            $imageDTO = new ImageDTO;
 
-        $imageAttr = [
-            'file' => $attributes['file'],
-            'id' => null,
-            'folder' => 'course'
-        ];
+            $imageAttr = [
+                'file' => $attributes['file'],
+                'id' => null,
+                'folder' => 'course'
+            ];
 
-        $imageService = new ImageService(app('firebase.storage'));
+            $imageService = new ImageService(app('firebase.storage'));
 
-        $uploadImage = $imageService->uploadImage($imageDTO, $imageAttr);
+            $uploadImage = $imageService->uploadImage($imageDTO, $imageAttr);
 
-        $attributes['photo'] = $uploadImage['name'];
+            $attributes['photo'] = $uploadImage['name'];
 
-        $course = $courseRepository->createCourse($courseDTO, $attributes);
+            $course = $courseRepository->createCourse($courseDTO, $attributes);
 
-        return $course;
+            return $course;
+        } catch (Exception $e) {
+            Log::error($e->getMessage(),[
+                'LEVEL' => 'Service',
+                'TRACE' => $e->getTrace()//ponerlo asi a todos
+            ]);
+
+            throw $e;
+        }
+        
 
     }
 
     public function updateCourse(array $attributes)
     {
-        $courseDTO = new CourseDTO;
+        try {
+            $courseDTO = new CourseDTO;
 
-        $courseRepository = new CourseRepository;
+            $courseRepository = new CourseRepository;
 
-        return $courseRepository->updateCourse($attributes['courseId'], $courseDTO, $attributes);
+            return $courseRepository->updateCourse($attributes['courseId'], $courseDTO, $attributes);
+        } catch (Exception $e) {
+            Log::error($e->getMessage(),[
+                'LEVEL' => 'Service',
+                'TRACE' => $e->getTrace()//ponerlo asi a todos
+            ]);
+
+            throw $e;
+        }
+        
     }
 
     public function changeCourseTeacher(array $attributes)
     {
-        $courseRepository = new CourseRepository;
+        try {
+            $courseRepository = new CourseRepository;
 
-        return $courseRepository->changeCourseTeacher($attributes['courseId'], $attributes['teacher_id']);
+            return $courseRepository->changeCourseTeacher($attributes['courseId'], $attributes['teacher_id']);
+        } catch (Exception $e) {
+            Log::error($e->getMessage(),[
+                'LEVEL' => 'Service',
+                'TRACE' => $e->getTrace()//ponerlo asi a todos
+            ]);
+
+            throw $e;
+        }
+        
     }
 
     public function disableCourse(array $attributes){
-        $course = $this->courseRepository->disableCourse($attributes);
+        try {
+            $course = $this->courseRepository->disableCourse($attributes);
 
-        return $course;
+            return $course;
+        } catch (Exception $e) {
+            Log::error($e->getMessage(),[
+                'LEVEL' => 'Service',
+                'TRACE' => $e->getTrace()//ponerlo asi a todos
+            ]);
+
+            throw $e;
+        }
+        
     }
 }

@@ -12,12 +12,32 @@ class LessonRepository{
 
     public function showAllWithLessonDisabled()
     {
-        return Lesson::withDisabledLesson();
+        try {
+            return Lesson::withDisabledLesson();
+        } catch (Exception $e) {
+            Log::error($e->getMessage(),[
+                'LEVEL' => 'Repository',
+                'TRACE' => $e->getTrace()//ponerlo asi a todos
+            ]);
+
+            throw $e;
+        }
+        
     }
 
     public function showAllLesson()
     {
-        return Lesson::has("detail");
+        try {
+            return Lesson::has("detail");
+        } catch (Exception $e) {
+            Log::error($e->getMessage(),[
+                'LEVEL' => 'Repository',
+                'TRACE' => $e->getTrace()//ponerlo asi a todos
+            ]);
+
+            throw $e;
+        }
+        
     }
 
     public function showLessonById(array $attributes)
@@ -29,7 +49,7 @@ class LessonRepository{
         catch(Exception $e){
             Log::error($e->getMessage(),[
                 'LEVEL' => 'Repository',
-                'TRACE' => $e->getTraceAsString()
+                'TRACE' => $e->getTrace()
             ]);
 
             throw $e;
@@ -39,13 +59,23 @@ class LessonRepository{
 
     public function createLesson(DTOInterface $dto,array $attributes)
     {
-        $lessonDTO = $dto::make($attributes);
+        try {
+            $lessonDTO = $dto::make($attributes);
 
-        $lesson = LessonDetail::create($lessonDTO);
+            $lesson = LessonDetail::create($lessonDTO);
 
-        $lesson->detail()->create($lessonDTO['course_id']);
+            $lesson->detail()->create($lessonDTO['course_id']);
 
-        return $lesson;
+            return $lesson;
+        } catch (Exception $e) {
+            Log::error($e->getMessage(),[
+                'LEVEL' => 'Repository',
+                'TRACE' => $e->getTrace()//ponerlo asi a todos
+            ]);
+
+            throw $e;
+        }
+        
     }
 
     public function editLesson(DTOInterface $dto,array $attributes)
@@ -61,7 +91,7 @@ class LessonRepository{
         } catch (Exception $e) {
             Log::error($e->getMessage(),[
                 'LEVEL' => 'Repository',
-                'TRACE' => $e->getTraceAsString()
+                'TRACE' => $e->getTrace()
             ]);
 
             throw $e;
@@ -78,7 +108,7 @@ class LessonRepository{
         } catch (Exception $e) {
             Log::error($e->getMessage(),[
                 'LEVEL' => 'Repository',
-                'TRACE' => $e->getTraceAsString()
+                'TRACE' => $e->getTrace()
             ]);
 
             throw $e;
@@ -101,7 +131,7 @@ class LessonRepository{
 
             Log::error($e->getMessage(),[
                 'LEVEL' => 'Repository',
-                'TRACE' =>$e->getTraceAsString()
+                'TRACE' =>$e->getTrace()
             ]);
             throw $e;
 
