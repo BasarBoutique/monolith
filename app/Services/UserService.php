@@ -6,6 +6,7 @@ use App\DTO\ImageDTO;
 use App\DTO\UserDTO;
 use App\Enums\ImageFolderEnum;
 use App\Events\UserRegistered;
+use App\Models\User;
 use App\Repositories\UserRepository;
 use App\Repositories\UserSearchRepository;
 use App\Services\Image\ImageService;
@@ -24,10 +25,8 @@ class UserService {
     public function slideAuthors()
     {
         try {
-            $authors = $this->userRepository->showAllCategories(Category::SLIDE_PER_PAGE);
-
-
-            return $repository->paginateSearch($queryParams['paginate']);
+            $authors = $this->userRepository->showAllUsers(User::SLIDE_PER_PAGE);
+            return $authors;
         } catch (Exception $e) {
             Log::error($e->getMessage(),[
                 'LEVEL' => 'Service',

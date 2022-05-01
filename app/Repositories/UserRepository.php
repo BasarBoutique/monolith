@@ -12,6 +12,16 @@ use Illuminate\Support\Facades\Log;
 
 class UserRepository
 {
+
+
+    public function showAllUsers(int $perPage)
+    {
+        $authors = User::whereHas('roles', function ($q){$q->select('permission_users.permission_level')->whereIn('permission_users.permission_level',[3]);})->with(['roles', 'detail'])->inRandomOrder()->paginate($perPage);
+        return $authors;
+
+    }
+    
+
     public function create(DTOInterface $dto, array $attributes)
     {
         try {

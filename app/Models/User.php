@@ -19,6 +19,7 @@ class User extends Authenticatable implements MustVerifyEmail
     protected $table='users';
     protected $primaryKey='user_id';
 
+    const SLIDE_PER_PAGE = 5;
     /**
      * The attributes that are mass assignable.
      *
