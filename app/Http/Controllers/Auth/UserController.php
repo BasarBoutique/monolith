@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\SearchUsersRequest;
+use App\Http\Resources\Auth\AuthorsSlideResource;
 use App\Http\Resources\Auth\UserSearchResource;
 use App\Http\Response\APIResponse;
 use App\Services\UserService;
@@ -26,6 +27,24 @@ class UserController extends Controller
         }
     }
 
+    public function slideAuthors()
+    {
+
+        try {
+
+            $service = new UserService;
+
+            $users = $service->slideAuthors();
+
+            $resource = AuthorsSlideResource::collection($users);
+
+            return APIResponse::success($resource, 'Retrieve succesfully users');
+
+        } catch (Exception $e) {
+            return APIResponse::fail($e->getMessage(), 500);
+        }
+
+    }
 
     public function searchUsers(SearchUsersRequest $request)
     {
@@ -48,4 +67,5 @@ class UserController extends Controller
         }
 
     }
+
 }

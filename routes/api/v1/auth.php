@@ -20,4 +20,5 @@ Route::middleware(['auth:api'])->group(function () {
     });
 });
 
+Route::get('author', [UserController::class,'slideAuthors']);
 Route::post('users/search', [UserController::class, 'searchUsers']);

@@ -132,7 +132,7 @@
           <div class="card-header bg-transparent border-0">
             <h3 class="text-white mb-0">Categories</h3> 
             <div style="margin-top:10px;">             
-              <select name="example_length" v-model="status.perPage" style="width:65px;" @click.prevent="CategoryCharge" aria-controls="example" class="custom-select custom-select-sm form-control form-control-sm">
+              <select name="example_length" v-model="status.perPage" style="width:65px;" @click.prevent="CategoryCharge" aria-controls="example" class="custom-select custom-select-sm form-control">
                 <option value="5" selected="true">5</option>
                 <option value="10">10</option>
                 <option value="25">25</option>

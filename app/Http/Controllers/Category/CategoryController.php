@@ -117,6 +117,10 @@ class CategoryController extends Controller
 
             $service = new CategoryService;
 
+
+            $file = $request->file('image');
+            $validatedRequest['file'] = $file;
+
             $category = $service->update($validatedRequest);
 
             $resource = new CategoryResource($category);
