@@ -134,7 +134,21 @@ class CategoryService{
     public function update(array $attributes)
     {
         try {
+            $imageDTO = new ImageDTO;
+
+            $imageAttr = [
+                'file' => $attributes['file'],
+                'id' => $attributes['categoryId'],
+                'folder' => 'category'
+            ];
+
+            $imageService = new ImageService(app('firebase.storage'));
+
+            $uploadImage = $imageService->uploadImage($imageDTO, $imageAttr);
+
             $categoryDTO = new CategoryDTO;
+            
+            $attributes['image'] = $uploadImage['name'];
 
             $category = $this->categoryRepository->editCategory($categoryDTO,$attributes);
 

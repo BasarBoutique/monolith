@@ -21,6 +21,26 @@ class UserService {
         $this->userRepository = new UserRepository;
     }
 
+    public function slideAuthors()
+    {
+        try {
+            $authors = $this->userRepository->showAllCategories(Category::SLIDE_PER_PAGE);
+
+
+            return $repository->paginateSearch($queryParams['paginate']);
+        } catch (Exception $e) {
+            Log::error($e->getMessage(),[
+                'LEVEL' => 'Service',
+                'TRACE' => $e->getTrace()//ponerlo asi a todos
+            ]);
+
+            throw $e;
+        }
+
+        
+
+    }
+
     public function searchUsers(array $queryParams)
     {
         try {

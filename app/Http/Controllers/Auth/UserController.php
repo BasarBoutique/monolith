@@ -26,6 +26,24 @@ class UserController extends Controller
         }
     }
 
+    public function searchAuthors()
+    {
+
+        try {
+
+            $service = new UserService;
+
+            $users = $service->slideAuthors();
+
+            $resource = new UserSlideResource($users);
+
+            return APIResponse::success($resource, 'Retrieve succesfully users');
+
+        } catch (Exception $e) {
+            return APIResponse::fail($e->getMessage(), 500);
+        }
+
+    }
 
     public function searchUsers(SearchUsersRequest $request)
     {
@@ -48,4 +66,5 @@ class UserController extends Controller
         }
 
     }
+
 }
