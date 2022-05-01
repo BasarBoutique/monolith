@@ -13,7 +13,7 @@ class CourseSearchRepository
 
     public function __construct()
     {
-        $this->courses = (new Courses);
+        $this->courses = new Courses();
     }
 
     public function searchById(int $courseId)
@@ -28,7 +28,7 @@ class CourseSearchRepository
 
             throw $e;
         }
-        
+
     }
 
     public function makeQuery(array $query)
@@ -36,7 +36,7 @@ class CourseSearchRepository
         $this->filterByCategories($query['categories'] ?? []);
         $this->filterByTitle($query['title'] ?? '');
         $this->filterByAuthors($query['authors'] ?? []);
-        $this->courses->load('detail');
+        $this->courses->with('detail');
     }
 
     public function orderBy(array $order)
@@ -66,13 +66,13 @@ class CourseSearchRepository
 
             throw $e;
         }
-        
+
     }
 
     private function filterByCategories(array $categories)
     {
         if(isset($categories) && !empty($categories)) {
-            $this->courses->whereHas('category', function ($q) use ($categories) {
+            $this->courses = $this->courses->whereHas('category', function ($q) use ($categories) {
                 $q->select('course_category.category_id')->whereIn('course_category.category_id', $categories);
             });
         }
@@ -80,15 +80,15 @@ class CourseSearchRepository
 
     private function filterByTitle(string $title)
     {
-        if(!!$title && isset($title) && strlen($title) > 3) {
-            $this->courses->where('course_title', 'LIKE', '%' . $title . '%');
+        if(!!$title && isset($title)) {
+            $this->courses = $this->courses->where('course_title', 'LIKE', '%' . $title . '%');
         }
     }
 
     private function filterByAuthors(array $authors)
     {
         if(isset($authors) && !empty($authors)) {
-            $this->courses->whereHas('detail', function ($detail) use ($authors) {
+            $this->courses = $this->courses->whereHas('detail', function ($detail) use ($authors) {
                 $detail->whereIn('courses_details.cdetail_author', $authors);
             });
         }
