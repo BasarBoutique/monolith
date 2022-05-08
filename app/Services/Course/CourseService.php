@@ -25,7 +25,7 @@ class CourseService{
 
             $searchRepository->makeQuery($queryParams['filters']);
             $searchRepository->orderBy($queryParams['order']);
-            
+
             return $searchRepository->paginateSearch($queryParams['paginate']);
         } catch (Exception $e) {
             Log::error($e->getMessage(),[
@@ -156,5 +156,25 @@ class CourseService{
             throw $e;
         }
 
+    }
+
+    public function attachUserCourse(array $attributes)
+    {
+        try {
+
+            $course = $this->courseRepository->attachUser($attributes);
+
+            return $course;
+
+
+
+        } catch (Exception $e) {
+            Log::error($e->getMessage(),[
+                'LEVEL' => 'Service',
+                'TRACE' => $e->getTrace()//ponerlo asi a todos
+            ]);
+
+            throw $e;
+        }
     }
 }

@@ -35,7 +35,7 @@ class CategoryService{
             throw $e;
         }
 
-        
+
     }
 
     public function showCategoryById(int $categoryId)
@@ -53,7 +53,7 @@ class CategoryService{
             throw $e;
         }
 
-        
+
     }
 
     public function searchCategories(array $queryParams)
@@ -74,7 +74,7 @@ class CategoryService{
             throw $e;
         }
 
-        
+
 
     }
 
@@ -94,7 +94,7 @@ class CategoryService{
 
             throw $e;
         }
-        
+
     }
 
     public function create(array $attributes)
@@ -127,7 +127,7 @@ class CategoryService{
 
             throw $e;
         }
-        
+
 
     }
 
@@ -161,7 +161,7 @@ class CategoryService{
 
             throw $e;
         }
-        
+
     }
 
     public function disableCategory(array $attributes)
@@ -178,7 +178,7 @@ class CategoryService{
 
             throw $e;
         }
-        
+
     }
 
 

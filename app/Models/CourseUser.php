@@ -9,9 +9,17 @@ class CourseUser extends Model
 {
     use HasFactory;
 
+    const CREATED_AT = 'registered_at';
+    const UPDATED_AT = null;
+
     protected $table = "courses_users";
 
     protected $primaryKey = "cu_id";
+
+    protected $fillable = [
+        'user_id',
+        'course_id'
+    ];
 
     public function course()
     {
@@ -32,4 +40,6 @@ class CourseUser extends Model
             'comment_id'
         );
     }
+
+    protected $dates = ['registered_at'];
 }

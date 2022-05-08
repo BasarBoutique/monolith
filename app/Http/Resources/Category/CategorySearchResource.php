@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources\Category;
 
+use App\Http\Resources\Core\PaginationResource;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class CategorySearchResource extends JsonResource
@@ -14,6 +15,10 @@ class CategorySearchResource extends JsonResource
      */
     public function toArray($request)
     {
-        return parent::toArray($request);
+        return [
+            'categories' => CategoryResource::collection($this->getCollection()),
+            'filters' => $request->filters,
+            'pagination' => new PaginationResource($this)
+        ];
     }
 }

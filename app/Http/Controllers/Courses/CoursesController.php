@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Courses;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Course\AttachUserCourseRequest;
 use App\Http\Requests\Course\ChangeTeacherRequest;
 use App\Http\Requests\Course\DisableCourseRequest;
 use App\Http\Requests\Course\FilterCourseByIdRequest;
@@ -73,7 +74,7 @@ class CoursesController extends Controller
 
             $course = $service->showCourseById($validatedRequest);
 
-            $resource = CourseResource::collection($course);
+            $resource = new CourseResource($course);
 
             return APIResponse::success($resource,'Retrieve successfully course');
         } catch (Exception $e) {
@@ -155,6 +156,24 @@ class CoursesController extends Controller
         } catch (Exception $e) {
 
             return APIResponse::fail($e->getMessage(),500);
+        }
+    }
+
+    public function attachUserToCourse(AttachUserCourseRequest $request)
+    {
+        try {
+
+            $validatedRequest = $request->validated();
+
+            $service = new CourseService;
+
+            $course = $service->attachUserCourse($validatedRequest);
+
+            return APIResponse::success($course, 'Successfully attached course');
+
+        } catch (Exception $e) {
+
+            return APIResponse::fail($e->getMessage(), 500);
         }
     }
 }

@@ -27,7 +27,7 @@ class LessonDetail extends Model
 
     protected $dates = ['updated_at'];
 
-    public function detail()
+    public function lesson()
     {
         return $this->hasOne(Lesson::class,'ld_id');
     }

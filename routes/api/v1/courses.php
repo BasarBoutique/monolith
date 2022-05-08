@@ -6,6 +6,9 @@ use Illuminate\Support\Facades\Route;
 Route::get('all', [CoursesController::class, 'showCourse']);
 Route::post('search', [CoursesController::class, 'searchCourses']);
 Route::get('detail/{courseId}', [CoursesController::class, 'showCourseById']);
+
+Route::post('attachUser', [CoursesController::class, 'attachUserToCourse']);
+
 Route::middleware(['auth:api', 'can:isAdmin'])->group(function () {
     Route::post('create-course', [CoursesController::class, 'createCourse']);
     Route::put('update-course/{courseId}', [CoursesController::class, 'updateCourse']);
