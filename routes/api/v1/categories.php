@@ -4,7 +4,7 @@ use App\Http\Controllers\Category\CategoryController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('all', [CategoryController::class, 'showCategories']);
-Route::get('search', [CategoryController::class, 'searchCategories']);
+Route::post('search', [CategoryController::class, 'searchCategories']);
 Route::get('detail/{categoryId}', [CategoryController::class,'showCategoryById']);
 Route::get('category', [CategoryController::class,'slideCategories']);
 Route::middleware(['auth:api', 'can:isAdmin'])->group(function () {
