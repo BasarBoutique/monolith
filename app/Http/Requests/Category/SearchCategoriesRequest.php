@@ -18,7 +18,7 @@ class SearchCategoriesRequest extends JsonRequest
                 'order_by' => $this->order['order_by'] ?? 'created',
                 'sort_by' => $this->order['sort_by'] ?? 'desc'
             ],
-            'paginate' => 10
+            'paginate' => $this->paginate ?? 10
         ]);
     }
 
@@ -37,7 +37,7 @@ class SearchCategoriesRequest extends JsonRequest
             'order' => 'required|array',
             'order.sort_by' => 'sometimes|string',
             'order.order_by' => 'sometimes|string',
-            'paginate' => 'numeric'
+            'paginate' => 'sometimes|numeric'
         ];
     }
 }

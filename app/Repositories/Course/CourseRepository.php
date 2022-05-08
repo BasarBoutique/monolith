@@ -51,9 +51,7 @@ class CourseRepository {
 
     public function showCourseById(array $attributes){
         try{
-            $course = Courses::has("detail")->where('course_id','=',$attributes['courseId'])->first();
-
-            $course->load(["detail", "category"]);
+            $course = Courses::with(['detail', 'category'])->findOrFail($attributes['courseId']);
 
             return $course;
         }

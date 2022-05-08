@@ -74,7 +74,7 @@ class CoursesController extends Controller
 
             $course = $service->showCourseById($validatedRequest);
 
-            $resource = CourseResource::collection($course);
+            $resource = new CourseResource($course);
 
             return APIResponse::success($resource,'Retrieve successfully course');
         } catch (Exception $e) {

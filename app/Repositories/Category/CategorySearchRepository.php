@@ -32,7 +32,7 @@ class CategorySearchRepository
         }
     }
 
-    public function paginateSearch(int $limit = 20)
+    public function paginateSearch(int $limit = 10)
     {
         try {
 

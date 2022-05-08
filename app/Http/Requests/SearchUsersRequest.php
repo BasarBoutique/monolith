@@ -15,7 +15,7 @@ class SearchUsersRequest extends JsonRequest
                 'order_by' => $this->order['order_by'] ?? 'created',
                 'sort_by' => $this->order['sort_by'] ?? 'desc'
             ],
-            'paginate' => 10
+            'paginate' => $this->paginate ?? 10
         ]);
     }
 
