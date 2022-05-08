@@ -59,6 +59,11 @@ class Courses extends Model
         );
     }
 
+    public function lessons()
+    {
+        return $this->hasMany(Lesson::class, 'course_id', 'course_id');
+    }
+
     protected static function booted()
     {
         static::addGlobalScope(new IsEnabledScope);
@@ -67,6 +72,11 @@ class Courses extends Model
     public function scopeWithDisabledCourses($query)
     {
         return $query->withoutGlobalScope(IsEnabledScope::class);
+    }
+
+    public function countLessons()
+    {
+        return $this->lessons->count();
     }
 
 }

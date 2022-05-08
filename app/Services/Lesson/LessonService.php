@@ -32,7 +32,7 @@ class LessonService{
 
             throw $e;
         }
-        
+
     }
 
     public function showLessonById(array $attributes){
@@ -48,7 +48,26 @@ class LessonService{
 
             throw $e;
         }
-        
+
+    }
+
+    public function showLessonsCourse(array $attributes)
+    {
+        try {
+
+            $lessons = $this->lessonRepository->showLessonsByCourse($attributes);
+
+            return $lessons;
+
+        } catch (Exception $e) {
+
+            Log::error($e->getMessage(),[
+                'LEVEL' => 'Service',
+                'TRACE' => $e->getTrace()//ponerlo asi a todos
+            ]);
+
+            throw $e;
+        }
     }
 
     public function searchLessons(array $queryParams)
@@ -69,7 +88,7 @@ class LessonService{
             throw $e;
         }
 
-        
+
 
     }
 
@@ -91,7 +110,7 @@ class LessonService{
 
             throw $e;
         }
-        
+
     }
 
     public function update(array $attributes)
@@ -110,7 +129,7 @@ class LessonService{
 
             throw $e;
         }
-        
+
     }
 
     public function remove(array $attributes)
@@ -127,7 +146,7 @@ class LessonService{
 
             throw $e;
         }
-        
+
     }
 
     public function changeLessonCourse(array $attributes){
@@ -143,6 +162,6 @@ class LessonService{
 
             throw $e;
         }
-        
+
     }
 }

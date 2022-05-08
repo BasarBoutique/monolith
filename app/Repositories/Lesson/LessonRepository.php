@@ -6,6 +6,7 @@ use App\DTO\Interfaces\DTOInterface;
 use App\Models\Lesson;
 use App\Models\LessonDetail;
 use Exception;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
 class LessonRepository{
@@ -22,7 +23,7 @@ class LessonRepository{
 
             throw $e;
         }
-        
+
     }
 
     public function showAllLesson()
@@ -37,7 +38,31 @@ class LessonRepository{
 
             throw $e;
         }
-        
+
+    }
+
+    public function showLessonsByCourse(array $attributes)
+    {
+        try {
+
+            $lessons = Lesson::whereHas('course', function ($q) use ($attributes) {
+
+                $q->where('course_id', $attributes['course']);
+
+            })->get()->load('detail');
+
+            return $lessons;
+
+        } catch (Exception $e) {
+
+            Log::error($e->getMessage(), [
+                'LEVEL' => 'Repository',
+                'TRACE' => $e->getTrace()
+            ]);
+
+            throw $e;
+
+        }
     }
 
     public function showLessonById(array $attributes)
@@ -60,13 +85,19 @@ class LessonRepository{
     public function createLesson(DTOInterface $dto,array $attributes)
     {
         try {
-            $lessonDTO = $dto::make($attributes);
+            return DB::transaction(function () use ($attributes, $dto) {
 
-            $lesson = LessonDetail::create($lessonDTO);
+                $lessonDTO = $dto::make($attributes);
 
-            $lesson->detail()->create($lessonDTO['course_id']);
+                $lessonDetail = LessonDetail::create($lessonDTO['detail']);
 
-            return $lesson;
+                $lesson = Lesson::create([
+                    'course_id' => $lessonDTO['course_id'],
+                    'ld_id' => $lessonDetail->ld_id
+                ]);
+
+                return $lesson;
+            });
         } catch (Exception $e) {
             Log::error($e->getMessage(),[
                 'LEVEL' => 'Repository',
@@ -75,7 +106,7 @@ class LessonRepository{
 
             throw $e;
         }
-        
+
     }
 
     public function editLesson(DTOInterface $dto,array $attributes)

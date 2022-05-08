@@ -2,10 +2,8 @@
 
 namespace App\Http\Requests\Course;
 
-use App\Http\Requests\Core\AuthorizationAdminRequest;
 use App\Http\Requests\Core\JsonRequest;
 use App\Models\Category;
-use App\Models\CourseCategory;
 use App\Models\Courses;
 use App\Rules\Course\IsTeacher;
 use Illuminate\Validation\Rule;
@@ -25,14 +23,9 @@ class StoreCourseRequest extends JsonRequest
             'category' => ['required', 'numeric', Rule::exists(Category::class, 'category_id')],
             'detail' => ['required', 'array'],
             'detail.author' => ['required', 'numeric', new IsTeacher],
-            'detail.description' => ['sometimes']
-        ];
-    }
-
-    public function messages()
-    {
-        return [
-            'detail.author.required' => 'This author is required',
+            'detail.metadata' => ['sometimes', 'array'],
+            'detail.metadata.about' => ['sometimes', 'string'],
+            'detail.metadata.price' => ['sometimes', 'numeric']
         ];
     }
 }

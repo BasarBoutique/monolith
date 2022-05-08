@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Lesson;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Lesson\ChangeCourseRequest;
+use App\Http\Requests\Lesson\CourseLessonsRequest;
 use App\Http\Requests\Lesson\DisableLeassonRequest;
 use App\Http\Requests\Lesson\FilterLessonByIdRequest;
 use App\Http\Requests\Lesson\SearchLessonRequest;
@@ -77,6 +78,27 @@ class LessonController extends Controller
         }
     }
 
+    public function showLessonsCourse(CourseLessonsRequest $request)
+    {
+        try {
+
+            $attributes = $request->validated();
+
+            $service = new LessonService;
+
+            $lessons = $service->showLessonsCourse($attributes);
+
+            $resource = LessonResource::collection($lessons);
+
+            return APIResponse::success($resource, 'Retrieve successfully lessons');
+
+
+        } catch (Exception $e) {
+
+            return APIResponse::fail($e->getMessage(),500);
+        }
+    }
+
     public function createLesson(StoreLessonRequest $request){
         try {
             $validatedRequest = $request->validated();
@@ -85,7 +107,7 @@ class LessonController extends Controller
 
             $lesson = $service->create($validatedRequest);
 
-            return APIResponse::success($lesson->toArray(),'Succesfullly created Lesson!');
+            return APIResponse::success($lesson,'Succesfullly created Lesson!');
         } catch (Exception $e) {
             return APIResponse::fail($e->getMessage(),500);
         }

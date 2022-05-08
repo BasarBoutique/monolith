@@ -5,7 +5,9 @@ namespace App\Repositories\Course;
 use App\DTO\Interfaces\DTOInterface;
 use App\Models\CourseDetail;
 use App\Models\Courses;
+use App\Models\CourseUser;
 use Exception;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
 class CourseRepository {
@@ -29,7 +31,7 @@ class CourseRepository {
 
             throw $e;
         }
-        
+
     }
 
     public function paginateAll($courses, $limit = 15)
@@ -44,7 +46,7 @@ class CourseRepository {
 
             throw $e;
         }
-        
+
     }
 
     public function showCourseById(array $attributes){
@@ -91,7 +93,7 @@ class CourseRepository {
 
             throw $e;
         }
-        
+
     }
 
     public function updateCourse(int $courseId, DTOInterface $dto, array $attributes)
@@ -113,7 +115,7 @@ class CourseRepository {
 
             throw $e;
         }
-        
+
     }
 
     public function changeCourseTeacher(int $courseId, int $teacherId)
@@ -133,7 +135,7 @@ class CourseRepository {
 
             throw $e;
         }
-        
+
     }
 
     public function disableCourse(array $attributes){
@@ -144,6 +146,30 @@ class CourseRepository {
 
             return $course;
         } catch(Exception $e){
+            Log::error($e->getMessage(),[
+                'LEVEL' => 'Repository',
+                'TRACE' => $e->getTrace()
+            ]);
+
+            throw $e;
+        }
+    }
+
+    public function attachUser(array $attributes)
+    {
+        try {
+
+            return DB::transaction(function () use ($attributes) {
+
+                return CourseUser::create([
+                    'course_id' => $attributes['course_id'],
+                    'user_id' => $attributes['user_id']
+                ]);
+
+            });
+
+
+        } catch (Exception $e) {
             Log::error($e->getMessage(),[
                 'LEVEL' => 'Repository',
                 'TRACE' => $e->getTrace()

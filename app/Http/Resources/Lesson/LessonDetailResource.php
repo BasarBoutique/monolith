@@ -17,7 +17,7 @@ class LessonDetailResource extends JsonResource
         return [
             'title' => $this->ld_title,
             'url' => $this->ld_url,
-            'description' => $this->ld_description
+            'description' => json_decode($this->ld_description)
         ];
     }
 }

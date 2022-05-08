@@ -2,7 +2,6 @@
 
 namespace App\Http\Resources\Course;
 
-use App\Http\Resources\Category\CategoryResource;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class CourseResource extends JsonResource
@@ -24,9 +23,11 @@ class CourseResource extends JsonResource
             'photo' => $course->course_photo,
             'detail' => new CourseDetailResource($this->whenLoaded('detail')),
             'category' => $this->whenLoaded('category', function () {
-                return new CategoryResource($this->category);
+                return $this->category->category_id;
             }),
-            'enabled' => $this->is_enabled
+            'nro_lessons' => $this->countLessons(),
+            'enabled' => $this->is_enabled,
+            'updatedAt' => $this->updated_at
         ];
     }
 }

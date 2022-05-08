@@ -18,9 +18,7 @@ class LessonResource extends JsonResource
         $lesson = $this;
 
         return [
-            'id' => $lesson->lesson_id,
-            'curso' => $lesson->course_id,
-            'lesson' => $lesson->ld_id,
+            'id' => $lesson->ld_id,
             'detail' => $this->whenLoaded('detail', function () use ($lesson) {
                 return new LessonDetailResource($lesson->detail);
             }),

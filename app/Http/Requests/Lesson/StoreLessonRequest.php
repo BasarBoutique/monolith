@@ -20,22 +20,11 @@ class StoreLessonRequest extends AuthorizationAdminRequest
         return [
             'title' => ['required','string',Rule::unique(LessonDetail::class, 'ld_title')] ,
             'url' => ['required','string'],
-            'description' => ['required','array'],
-            'description.context' => ['required','string'],
-            'description.length' => ['required','string'],
-            'course_id' => ['required','numeric',Rule::exists(Courses::class,'course_id')]
-        ];
-    }
-
-    public function messages()
-    {
-        return [
-            'title.required' => 'This lesson name is required',
-            'url.required' => 'This lesson is required',
-            'description.required' => 'How lesson description is the video?',
-            'description.context.required' => 'This lesson description is required',
-            'description.length.required' => 'This lesson length is required',
-            'course_id.required' => 'This course is required'
+            'course' => ['required','numeric',Rule::exists(Courses::class,'course_id')],
+            'metadata' => ['required','array'],
+            'metadata.about' => ['required','string'],
+            'metadata.videoDuration' => ['required','string'],
+            'metadata.imageUrl' => ['required','string']
         ];
     }
 }
