@@ -24,12 +24,12 @@ class CourseCategory extends Pivot
 
     public function course()
     {
-        return $this->belongsTo(Courses::class);
+        return $this->belongsTo(Courses::class, 'course_id', 'course_id');
     }
 
     public function detail()
     {
-        return $this->belongsTo(Category::class);
+        return $this->belongsTo(Category::class, 'category_id', 'category_id');
     }
 
 
