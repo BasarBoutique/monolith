@@ -9,6 +9,10 @@ Route::get('detail/{courseId}', [CoursesController::class, 'showCourseById']);
 
 Route::post('attachUser', [CoursesController::class, 'attachUserToCourse']);
 
+Route::middleware(['auth:api'])->group(function () {
+    Route::get('user', [CoursesController::class, 'showCoursesUser']);
+});
+
 Route::middleware(['auth:api', 'can:isAdmin'])->group(function () {
     Route::post('create-course', [CoursesController::class, 'createCourse']);
     Route::put('update-course/{courseId}', [CoursesController::class, 'updateCourse']);

@@ -23,12 +23,12 @@ class CourseUser extends Model
 
     public function course()
     {
-        return $this->belongsTo(Courses::class);
+        return $this->belongsTo(Courses::class, 'course_id', 'course_id');
     }
 
     public function student()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class, 'user_id', 'user_id');
     }
 
     public function courseComments()

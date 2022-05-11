@@ -26,6 +26,7 @@ class CourseResource extends JsonResource
                 return $this->category->category_id;
             }),
             'nro_lessons' => $this->countLessons(),
+            'nro_students' => $this->countStudents(),
             'enabled' => $this->is_enabled,
             'updatedAt' => $this->updated_at
         ];
