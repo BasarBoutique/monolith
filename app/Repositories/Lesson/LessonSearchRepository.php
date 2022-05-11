@@ -11,7 +11,7 @@ class LessonSearchRepository
 
     public function __construct()
     {
-        $this->lessons = new Lesson;
+        $this->lessons = Lesson::with('detail');
     }
 
     public function makeQuery(array $query)
@@ -19,7 +19,7 @@ class LessonSearchRepository
         $this->withDisabledLessons($query['withDisabled'] ?? false);
         $this->filterByCourses($query['courses'] ?? []);
         $this->filterByTitle($query['title'] ?? '');
-        $this->lessons->load('detail');
+
     }
 
     public function orderBy(array $order)

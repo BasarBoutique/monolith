@@ -52,7 +52,7 @@ class CourseRepository {
 
     public function showCourseById(array $attributes){
         try{
-            $course = Courses::with(['detail', 'category'])->findOrFail($attributes['courseId']);
+            $course = Courses::with(['detail', 'category.detail'])->findOrFail($attributes['courseId']);
 
             return $course;
         }
