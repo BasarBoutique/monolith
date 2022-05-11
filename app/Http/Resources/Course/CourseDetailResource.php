@@ -17,8 +17,8 @@ class CourseDetailResource extends JsonResource
         return [
             'about' => json_decode($this->cdetail_description),
             'author' => [
-                'name' => $this->teacher->user_id,
-                'photo_url' => $this->teacher->detail->udetailPhoto
+                'name' => $this->teacher->name,
+                'photo_url' => $this->teacher->detail->udetail_photo
             ]
         ];
     }
