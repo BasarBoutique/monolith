@@ -177,4 +177,22 @@ class CourseService{
             throw $e;
         }
     }
+
+    public function showCoursesUser($user)
+    {
+        try {
+            
+            $courses = $this->courseRepository->showCoursesUser($user);
+
+            return $courses;
+
+        }  catch (Exception $e) {
+            Log::error($e->getMessage(),[
+                'LEVEL' => 'Service',
+                'TRACE' => $e->getTrace()//ponerlo asi a todos
+            ]);
+
+            throw $e;
+        }
+    }
 }

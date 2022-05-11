@@ -36,11 +36,7 @@ class UserResource extends JsonResource
                     'uuid' => $detail->udetail_uuid
                 ];
             }),
-            'roles' => $this->whenLoaded('roles', function () {
-                $roles = $this->roles->load('rol')->pluck('rol');
-                return PermissionResource::collection($roles);
-
-            }),
+            'roles' => PermissionResource::collection($this->whenLoaded('rolesHierarchy')),
         ];
     }
 }

@@ -19,7 +19,7 @@ class CourseDetailDTO extends CoreDTO implements DescriptionInterface {
     {
         return [
             'description' => $description['about'] ?? 'lorem ipsum',
-            'price' => floatval($description['price']) ?? 10.4
+            'price' => floatval($description['price'] ?? "10.2")
         ];
     }
 
