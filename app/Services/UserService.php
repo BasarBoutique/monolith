@@ -39,7 +39,7 @@ class UserService {
             throw $e;
         }
 
-        
+
 
     }
 
@@ -59,7 +59,8 @@ class UserService {
                 'folder' => 'user'
             ];
 
-            $uploadImage = $imageService->uploadImage($imageDTO, $imageAttr);
+
+            $uploadImage = $attributes['file'] ? $imageService->uploadImage($imageDTO, $imageAttr) : ['name' => 'user-photos/user.png'];
 
             $attributes['detail']['photo'] = $uploadImage['name'];
 
@@ -100,7 +101,7 @@ class UserService {
 
             throw $e;
         }
-        
+
     }
 
 }

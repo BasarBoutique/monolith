@@ -12,7 +12,6 @@ use App\Services\AuthService;
 use App\Services\UserService;
 use Exception;
 use Google_AccessToken_Verify;
-
 use Illuminate\Http\Request;
 
 class AuthController extends Controller
