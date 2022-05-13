@@ -61,7 +61,7 @@ class User extends Authenticatable implements MustVerifyEmail
     public function scopeSearchByName($query, string $name)
     {
         return $query->whereHas('detail', function ($q) use ($name) {
-            $q->where('udetail_fullname', '%' . $name . '%');
+            $q->where('udetail_fullname', 'like', '%' . $name . '%');
         });
     }
 
@@ -85,14 +85,25 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->hasMany(PermissionUser::class, 'user_id', 'user_id');
     }
 
+    public function rolesHierarchy()
+    {
+
+        return $this->belongsToMany(
+            PermissionHierarchy::class,
+            'permission_users',
+            'user_id',
+            'permission_level'
+        )->withPivot('permission_level');
+    }
+
     public function purcharsedCourses()
     {
-        return $this->belongsTo(CourseUser::class,'user_id');
+        return $this->hasMany(CourseUser::class,'user_id', 'user_id');
     }
 
     public function teachableCourses()
     {
-        return $this->hasMany(CourseDetail::class, 'cdetail_author', 'user_id');
+        return $this->belongsTo(CourseDetail::class, 'cdetail_author', 'user_id');
     }
 
     public function sendEmailVerificationNotification()

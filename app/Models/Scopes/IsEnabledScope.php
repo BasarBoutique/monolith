@@ -17,7 +17,7 @@ class IsEnabledScope implements Scope
      */
     public function apply(Builder $builder, Model $model)
     {
-        $builder->where('is_enabled', true);
+        $builder->where($model->getTable().'.is_enabled', true);
     }
 
 }

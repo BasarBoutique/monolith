@@ -13,7 +13,10 @@ class UserSearchRepository
 
     public function __construct()
     {
-        $this->users = User::with(['roles', 'detail']);
+        $this->users = User::with([
+            'rolesHierarchy' => function ($q) {
+                $q->select(['ph_label', 'permission_users.permission_level']);
+        }, 'detail']);
     }
 
 

@@ -17,7 +17,8 @@ class StoreUserRequest extends JsonRequest
             'name'=>'required|string',
             'email'=>'required|string|email|unique:users',
             'password'=>'required|string',
-            'detail' => 'sometimes|array'
+            'detail' => 'sometimes|array',
+            'image' => 'sometimes|image'
         ];
     }
 

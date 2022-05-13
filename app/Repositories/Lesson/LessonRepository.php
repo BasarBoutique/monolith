@@ -68,7 +68,7 @@ class LessonRepository{
     public function showLessonById(array $attributes)
     {
         try{
-            $lesson = Lesson::has("detail")->where('lesson.ld_id', '=', $attributes['lessonId'])->get();
+            $lesson = Lesson::with("detail")->find($attributes['lessonId']);
             return $lesson;
         }
         catch(Exception $e){

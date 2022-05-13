@@ -6,6 +6,7 @@ use App\DTO\Interfaces\DTOInterface;
 use App\Models\CourseDetail;
 use App\Models\Courses;
 use App\Models\CourseUser;
+use App\Models\User;
 use Exception;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
@@ -51,7 +52,7 @@ class CourseRepository {
 
     public function showCourseById(array $attributes){
         try{
-            $course = Courses::with(['detail', 'category'])->findOrFail($attributes['courseId']);
+            $course = Courses::with(['detail', 'category.detail'])->findOrFail($attributes['courseId']);
 
             return $course;
         }
@@ -166,6 +167,26 @@ class CourseRepository {
 
             });
 
+
+        } catch (Exception $e) {
+            Log::error($e->getMessage(),[
+                'LEVEL' => 'Repository',
+                'TRACE' => $e->getTrace()
+            ]);
+
+            throw $e;
+        }
+    }
+
+    public function showCoursesUser($user)
+    {
+        try {
+
+            $user_id = $user->user_id;
+
+            $user = User::find($user_id);
+
+            return $user->purcharsedCourses;
 
         } catch (Exception $e) {
             Log::error($e->getMessage(),[

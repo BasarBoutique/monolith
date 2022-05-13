@@ -13,6 +13,7 @@ use App\Http\Requests\Course\UpdateCourseRequest;
 use App\Http\Resources\Course\CoursePaginate;
 use App\Http\Resources\Course\CourseResource;
 use App\Http\Resources\Course\CourseSearchResource;
+use App\Http\Resources\Course\CoursesUserResource;
 use App\Http\Response\APIResponse;
 use App\Services\Course\CourseService;
 use Exception;
@@ -174,6 +175,25 @@ class CoursesController extends Controller
         } catch (Exception $e) {
 
             return APIResponse::fail($e->getMessage(), 500);
+        }
+    }
+
+    public function showCoursesUser(Request $request)
+    {
+        try {
+
+           $service = new CourseService;
+
+           $courses = $service->showCoursesUser($request->user());
+
+           $resource = CoursesUserResource::collection($courses);
+
+           return APIResponse::success($resource);
+
+        } catch (Exception $e) {
+
+            return APIResponse::fail($e->getMessage(), 500);
+
         }
     }
 }
