@@ -210,7 +210,7 @@ export default {
         return {
             activeNotifications:false,
             showMenu: false,
-            avatar: await this.about()
+            avatar: this.about()
         };
     },
     methods:{

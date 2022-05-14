@@ -197,13 +197,32 @@
         <div class="card bg-default shadow">
           <div class="card-header bg-transparent border-0">
             <h3 class="text-white mb-0">Lessons</h3>
-              <div class="swtich-container">
-                <input type="checkbox" style="margin:auto;" @click="LessonCharge" class="btn btn-sm btn-neutral" id="switch" v-model="status.withDisabled" checked>
-                <label for="switch" class="lbl"></label>
+
+              <div class="form-row"> 
+                <div class="col">           
+                  <select v-model="paginate" style="width:20%;" @click.prevent="LessonsSearch" aria-controls="example" label="Cantidad" class="custom-select custom-select-sm form-control">
+                    <option value="5" selected="true">5</option>
+                    <option value="10">10</option>
+                    <option value="25">25</option>
+                    <option value="50">50</option>
+                    <option value="100">100</option>
+                  </select>
+                </div>
+
+                <div class="col"> 
+                  <template>
+                    <v-select multiple class="custom-select form-control" @change="LessonsSearch" :items="courses" item-value="id" item-text="title" label="Courses" v-model="filter.courses"  v-validate="'required'">  
+                    </v-select>
+                  </template>
+                </div>
+
+                <div class="col"> 
+                  <input type="checkbox" style="margin:auto;" @change="LessonsSearch" class="btn btn-sm btn-neutral" id="switch" v-model="filter.withDisabled" checked>
+                  <label for="switch" class="lbl"></label>
+                </div>
               </div>
-              <v-form ref="form" @submit.prevent="LessonsSearch">
-                <v-text-field class="text-white" v-model="filter.title" append-icon="mdi-magnify" style="color:white; text-color:white;" label="Search" single-line hide-details clearable></v-text-field>
-              </v-form>
+              
+              <v-text-field class="text-white" @change="LessonsSearch" v-model="filter.title" append-icon="mdi-magnify" style="color:white; text-color:white;" label="Search" single-line hide-details clearable></v-text-field>
           </div>
           <div class="table-responsive">
               <base-table 
@@ -213,32 +232,21 @@
               tbody-classes="list"
               :data="Lessons"> <!--? 'thead-dark' : 'thead-light' -->             
                 <template slot="columns">
-                  <th>Curso</th>
                   <th>Lesson</th>
+                  <th>Description</th>
                   <th>Status</th>
                   <th></th>
                 </template>
                 <template slot-scope="{ row }">
-                    <!-- <td scope="row">
-                      <div class="media align-items-center">
-                        <a href="#" class="avatar rounded-circle mr-3">
-                          <img :src="row.detail.photo" />
-                        </a>
-                        <div class="media-body">
-                          <span class="name mb-0 text-sm">{{ row.detail.title }}</span>
-                        </div>
-                      </div>
-                    </td> -->
-                    
-
-                    <td>
                         <!--  Categories  -->
+                    <td>
                       <div class="media align-items-center">
-                          <a href="#" class="avatar rounded-circle mr-3">
-                            <img alt="Image placeholder" :src="'https://personajeshistoricos.com/wp-content/uploads/2018/04/edgar-allan-poe-1.jpg'">
+                          <a :href="row.detail.url" target="_blank" class="avatar rounded-circle mr-3">
+                            <img :src="row.detail.description.imageUrl">
                           </a>
                           <div class="media-body">
-                              <span class="name mb-0 text-sm">{{ row.lesson }}</span>
+                              <span class="name mb-0 text-sm">{{ row.detail.title }}</span><br>
+                              <span class="name mb-0 text-sm">{{ row.detail.description.videoDuration }}</span>
                           </div>
                       </div>
                     </td>
@@ -246,7 +254,7 @@
                     <td>
                       <!-- Descripcion -->
                       <div class="media-body" style="flex: 1 1; width: 230px; white-space: nowrap; text-overflow: ellipsis; overflow: hidden;">
-                        <span class="name mb-0 text-sm">{{row.curso}}</span>
+                        <span class="name mb-0 text-sm">{{row.detail.description.about}}</span>
                         </div>
                     </td>
 
@@ -260,6 +268,7 @@
                         Disabled
                       </span>
                     </td>
+
                     <td class="text-right">
                       <base-dropdown class="dropdown" position="right">
                         <a
@@ -316,19 +325,22 @@ const config = {
             modal1:false
           },
           search: '',
+          courses : [
+            this.Courses()
+          ],
           Lessons: [
             axios.get('/lesson/all?withDisabled=false').then(res=>{
               this.Lessons = res.data.data.lessons;
               this.pagination = res.data.data.pagination;
             })
-          ],
-          courses : [
-            this.Courses()
-          ],
+          ],          
           pagination:{},
           filter:{
-            title: null
+            courses:[],
+            title: null,
+            withDisabled: null
           },
+          paginate:null,
           form :{
             id:null,
             title:null,
@@ -380,9 +392,10 @@ const config = {
           const fd = new FormData();
           fd.append("title",this.form.title);
           fd.append("url",this.form.photo.name);
-          fd.append("description[context]",this.form.context);
-          fd.append("description[length]",this.form.length);
-          fd.append("course_id",this.form.course);
+          fd.append("metadata[about]",this.form.context);
+          fd.append("metadata[videoDuration]",this.form.length);
+          fd.append("course",this.form.course);
+          fd.append("metadata[imageUrl]",this.form.photo.name);
           axios.defaults.headers.common['Authorization']= 'Bearer ' + this.$store.state.token
           axios.post('/lesson/create-lesson',fd,config).then(data=>{
             this.message = data.data.message;            
@@ -413,12 +426,10 @@ const config = {
           })
         },
         LessonsSearch(){
-          axios.post('/lesson/search',{
-            filters : this.filter
-            }).then(res=>{
-             this.Lessons = res.data.data.Lessons;
-             console.log(this.filter.title);
-             console.log(res.data.data.Lessons);
+          axios.get('/lesson/search',{params:{filters : this.filter}}).then(res=>{
+            this.Lessons = res.data.data.lessons;
+            this.pagination = res.data.data.pagination;
+            //  console.log(this.filter.title);
           }).catch((error)=>{
             this.LessonCharge();
           })
