@@ -4,9 +4,7 @@ namespace App\Http\Requests\Permission;
 
 use App\Enums\PermissionRoleEnum;
 use App\Http\Requests\Core\JsonRequest;
-use App\Models\PermissionUser;
 use App\Models\User;
-use Illuminate\Validation\Rule;
 use Illuminate\Validation\Rules\Enum;
 
 class DettachRolRequest extends JsonRequest

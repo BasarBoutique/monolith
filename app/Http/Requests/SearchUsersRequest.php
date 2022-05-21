@@ -3,7 +3,6 @@
 namespace App\Http\Requests;
 
 use App\Http\Requests\Core\JsonRequest;
-use Illuminate\Foundation\Http\FormRequest;
 
 class SearchUsersRequest extends JsonRequest
 {
