@@ -90,7 +90,7 @@ class AuthController extends Controller
 
         try {
 
-            $user = User::find($request->user()->user_id)->load('detail', 'roles');
+            $user = User::with('detail', 'rolesHierarchy')->find($request->user()->user_id);
 
             $resource = new UserResource($user);
 

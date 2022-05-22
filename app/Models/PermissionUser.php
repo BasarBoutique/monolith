@@ -16,7 +16,8 @@ class PermissionUser extends Model
 
     protected $fillable = [
         'permission_level',
-        'user_id'
+        'user_id',
+        'is_enabled'
     ];
 
     protected static function booted()

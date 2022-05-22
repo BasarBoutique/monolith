@@ -4,11 +4,9 @@ namespace App\Http\Controllers\Permission;
 
 use App\Enums\PermissionRoleEnum;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Core\AuthorizationAdminRequest;
 use App\Http\Requests\Permission\StoreRolRequest;
 use App\Http\Resources\Permission\PermissionResource;
 use App\Http\Response\APIResponse;
-use App\Repositories\Permissions\RolRepository;
 use App\Services\Permission\PermissionService;
 use Exception;
 use Illuminate\Http\Request;

@@ -3,7 +3,6 @@
 namespace App\Http\Resources\Auth;
 
 use App\Http\Resources\Permission\PermissionResource;
-use App\Models\PermissionHierarchy;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class UserResource extends JsonResource
