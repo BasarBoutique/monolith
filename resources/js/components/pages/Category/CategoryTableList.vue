@@ -131,6 +131,7 @@
         <div class="card bg-default shadow">
           <div class="card-header bg-transparent border-0">
             <h3 class="text-white mb-0">Categories</h3> 
+
             <div style="margin-top:10px;">             
               <select name="example_length" v-model="status.perPage" style="width:65px;" @click.prevent="CategoryCharge" aria-controls="example" class="custom-select custom-select-sm form-control">
                 <option value="5" selected="true">5</option>
@@ -140,13 +141,14 @@
                 <option value="100">100</option>
               </select>
             </div>
+            
             <div class="swtich-container">
               <input type="checkbox" style="margin:auto;" @click="CategoryCharge" class="btn btn-sm btn-neutral" id="switch" v-model="status.withDisabled">
               <label for="switch" class="lbl"></label>
             </div>
-            <v-form ref="form" @submit.prevent="">
-              <v-text-field class="text-white" v-model="filter.title" append-icon="mdi-magnify" style="color:white; text-color:white;" label="Search" single-line hide-details clearable></v-text-field>
-            </v-form>
+            
+            <v-text-field class="text-white"  @change="CategorySearch" v-model="filter.title" append-icon="mdi-magnify" style="color:white; text-color:white;" label="Search" single-line hide-details clearable></v-text-field>
+
           </div>
           <div class="table-responsive">
               <base-table 
@@ -285,8 +287,17 @@ const config = {
             this.pagination = res.data.data.pagination;
           })
         },
-        CategoryCreate(){
-          
+        CategorySearch(){
+          axios.post('/categories/search',{
+            filters : this.filter
+            }).then(res=>{
+              this.categories = res.data.data.categories;
+              this.pagination = res.data.data.pagination;
+          }).catch((error)=>{
+            this.CategoryCharge();
+          })
+        },
+        CategoryCreate(){          
           let fd = new FormData();
             fd.append("image",this.form.photo);
             fd.append("title",this.form.category);          

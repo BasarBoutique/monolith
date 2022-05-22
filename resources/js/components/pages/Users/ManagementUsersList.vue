@@ -159,7 +159,6 @@
                     <td>
                       <!--  Roles   -->
                       <div class="media align-items-center"> 
-                          <div :id="row.id +'_item'">
                             <div v-for="(roles) in row.roles" :key="roles.permission_level">
                                 <span style="margin-left:3px;" v-if="roles.permission_name=='CLIENT'"  class="badge badge-sm bg-gradient-success">  
                                   <b>{{roles.permission_name}}</b>
@@ -177,7 +176,6 @@
                                   <b>Not assigned</b>
                                 </span>                              
                             </div>  
-                          </div> 
 
                           <div class="display_select container" :id="row.id +'_data_assign'" >
                             <v-form ref="form" @submit.prevent="AsignRols(row.id,row.roles)">

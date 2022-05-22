@@ -210,10 +210,13 @@ export default {
         return {
             activeNotifications:false,
             showMenu: false,
-            avatar: JSON.parse(this.$store.state.user)
+            avatar: this.about()
         };
     },
     methods:{
+        about:async function(){
+          this.avatar = JSON.parse(await this.$store.state.user);
+        },
         toggleSidebar() {
             this.$sidebar.displaySidebar(!this.$sidebar.showSidebar);
         },

@@ -22,7 +22,7 @@ export default new Vuex.Store({
             state.token = token
         },
         setUser(state,user){
-            state.user = user
+            state.user = user;
         },
         removeToken(state){
             state.token = null,
