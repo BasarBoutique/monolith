@@ -28,7 +28,7 @@ class PermissionService
             throw $e;
         }
 
-        
+
     }
 
     public function createPermission(array $params)
@@ -45,7 +45,7 @@ class PermissionService
 
             throw $e;
         }
-        
+
     }
 
     public function createRol(array $params)
@@ -62,7 +62,7 @@ class PermissionService
 
             throw $e;
         }
-        
+
     }
 
     public function editPermission(array $params)
@@ -84,7 +84,7 @@ class PermissionService
 
             throw $e;
         }
-        
+
     }
 
     public function disablePermission(array $params)
@@ -106,7 +106,7 @@ class PermissionService
 
             throw $e;
         }
-        
+
     }
 
     public function attachRolesToUser(array $params)
@@ -114,7 +114,7 @@ class PermissionService
         try {
             $repository = new UserRolRepository;
 
-            return $repository->attachRolesToUser($params['roles'], $params['user']);
+            return $repository->attachRolesToUser($params['permission_level'], $params['user_id']);
         } catch (Exception $e) {
             Log::error($e->getMessage(),[
                 'LEVEL' => 'Service',
@@ -123,7 +123,7 @@ class PermissionService
 
             throw $e;
         }
-        
+
     }
 
     public function dettachRolesToUser(array $params)
@@ -141,7 +141,7 @@ class PermissionService
             throw $e;
         }
 
-        
+
     }
 
 
