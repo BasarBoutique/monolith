@@ -19,8 +19,8 @@ class UserRolRepository
             DB::transaction(function () use ($roles, $user_id) {
 
                 collect($roles)->each(fn ($permission_level) => PermissionUser::withDisabledRoles()->updateOrCreate(
-                    ['user_id' => $user_id, 'permission_level' => $permission_level, 'is_enabled' => false],
-                    ['is_enabled' => true]
+                    ['user_id' => $user_id, 'permission_level' => $permission_level],
+                    ['is_enabled' => 1]
                 ));
             });
 
