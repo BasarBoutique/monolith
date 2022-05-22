@@ -64,7 +64,7 @@ class CategorySearchRepository
     private function filterByTitle(string $title)
     {
         if(!!$title && isset($title) && strlen($title) > 3) {
-            $this->categories = $this->categories->where('category_title', $title);
+            $this->categories = $this->categories->where('category_title', 'like', '%' . $title . '%');
         }
     }
 
