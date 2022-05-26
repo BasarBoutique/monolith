@@ -328,12 +328,7 @@ const config = {
           courses : [
             this.Courses()
           ],
-          Lessons: [
-            axios.get('/lesson/all?withDisabled=false').then(res=>{
-              this.Lessons = res.data.data.lessons;
-              this.pagination = res.data.data.pagination;
-            })
-          ],          
+          Lessons: this.LessonsSearch(),      
           pagination:{},
           filter:{
             courses:[],
