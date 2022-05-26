@@ -27,19 +27,7 @@ class RolUserController extends Controller
         try {
             $validatedRequest = $request->validated();
 
-            $permission_level = $validatedRequest['permission_level'];
-
-            $roles = array_unique($permission_level);
-
-            $params = [
-                'roles' => array_map(function($value) {
-                                return PermissionRoleEnum::tryFrom($value);
-                            }, $roles),
-                'user' => $validatedRequest['user']
-            ];
-
-
-            $attachRolToUser = $this->service->attachRolesToUser($params);
+            $attachRolToUser = $this->service->attachRolesToUser($validatedRequest);
 
             $resource = new UserRolResource($attachRolToUser);
 
