@@ -398,7 +398,7 @@ const config = {
       methods: {
         changePage(v1){
           this.status.perPage = v1;
-          axios.post('/courses/search',{filters : this.filter,paginate : this.paginate, page:v1}).then(res=>{
+          axios.post('/courses/search',{filters : this.filter ,paginate : this.paginate, page:v1}).then(res=>{
             this.courses = res.data.data.courses;
             this.pagination = res.data.data.pagination;
           })
@@ -426,7 +426,7 @@ const config = {
             this.authors = res.data.data.users;
           })
         },
-        CourseCharge(){       
+        CourseCharge(){   
           axios.post('/courses/search',{filters : this.filter,paginate : this.paginate}).then(res=>{
               this.courses = res.data.data.courses;
               this.pagination = res.data.data.pagination;

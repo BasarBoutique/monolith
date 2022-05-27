@@ -5,6 +5,8 @@ use Illuminate\Support\Facades\Route;
 Route::get('all',[LessonController::class, 'showLesson']);
 Route::get('detail/{lessonId}',[LessonController::class,'showLessonById']);
 Route::get('search', [LessonController::class, 'searchLessons']);
+Route::post('search-dashboard', [LessonController::class, 'searchLessons']);
+
 
 
 Route::middleware(['auth:api'])->group(function () {
