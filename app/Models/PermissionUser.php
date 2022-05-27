@@ -20,11 +20,7 @@ class PermissionUser extends Model
         'is_enabled'
     ];
 
-    protected static function booted()
-    {
-        static::addGlobalScope(new IsEnabledScope);
-    }
-
+    
     public function rol()
     {
         return $this->hasOne(PermissionHierarchy::class, 'permission_level', 'permission_level');
@@ -39,9 +35,15 @@ class PermissionUser extends Model
     {
         return $query->withoutGlobalScope(IsEnabledScope::class);
     }
-
+    
+    
     public function scopeOnlyDisabledRoles($query)
     {
         return $query->withoutGlobalScope(IsEnabledScope::class)->where('is_enabled', false);
+    }
+
+    protected static function booted()
+    {
+        static::addGlobalScope(new IsEnabledScope);
     }
 }

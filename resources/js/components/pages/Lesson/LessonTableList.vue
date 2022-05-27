@@ -222,7 +222,7 @@
                 </div>
               </div>
               
-              <v-text-field class="text-white" @change="LessonsSearch" v-model="filter.title" append-icon="mdi-magnify" style="color:white; text-color:white;" label="Search" single-line hide-details clearable></v-text-field>
+              <v-text-field class="text-white" @change="LessonsSearchTitle" v-model="filter.title" append-icon="mdi-magnify" style="color:white; text-color:white;" label="Search" single-line hide-details clearable></v-text-field>
           </div>
           <div class="table-responsive">
               <base-table 
@@ -325,17 +325,15 @@ const config = {
             modal1:false
           },
           search: '',
-          courses : [
-            this.Courses()
-          ],
-          Lessons: this.LessonsSearch(),      
+          courses : this.Courses(),
           pagination:{},
           filter:{
-            courses:[],
-            title: null,
-            withDisabled: null
+            courses: [],
+            title: "",
+            withDisabled: false
           },
-          paginate:null,
+          Lessons: this.LessonCharge(),      
+          paginate:5,
           form :{
             id:null,
             title:null,
@@ -345,9 +343,6 @@ const config = {
             course:null,
             enabled:null,
           },
-          status:{
-              withDisabled:true
-          },
           errors:{},
           message:[],
         }
@@ -355,7 +350,7 @@ const config = {
       methods: {
         changePage(v1){
           this.status.perPage = v1;
-          axios.get('/lesson/all',{params:{page:v1}}).then(res=>{
+          axios.post('/lesson/search-dashboard',{filters : this.filter,paginate : this.paginate, page:v1}).then(res=>{
             this.Lessons = res.data.data.lessons;
             this.pagination = res.data.data.pagination;
           })
@@ -373,7 +368,7 @@ const config = {
           reader.readAsDataURL(file);
         },
         LessonCharge(){          
-          axios.get('/lesson/all',{params:{withDisabled:this.status.withDisabled,perPage:this.status.perPage}}).then(res=>{
+          axios.post('/lesson/search-dashboard',{filters:{withDisabled: false},paginate:this.paginate}).then(res=>{
             this.Lessons = res.data.data.lessons;
             this.pagination = res.data.data.pagination;
           })
@@ -381,6 +376,7 @@ const config = {
         Courses(){
           axios.get('/courses/all',{params:{withDisabled:false}}).then(res=>{
             this.courses = res.data.data.courses;
+            console.log(this.courses['id']);
           })
         },
         LessonCreate(){
@@ -421,10 +417,17 @@ const config = {
           })
         },
         LessonsSearch(){
-          axios.get('/lesson/search',{params:{filters : this.filter}}).then(res=>{
+          axios.post('/lesson/search-dashboard',{filters:{courses:this.filter.courses,withDisabled:this.filter.withDisabled},paginate:this.paginate}).then(res=>{
             this.Lessons = res.data.data.lessons;
             this.pagination = res.data.data.pagination;
-            //  console.log(this.filter.title);
+          }).catch((error)=>{
+            this.LessonCharge();
+          })
+        },
+        LessonsSearchTitle(){
+          axios.post('/lesson/search-dashboard',{filters:{title:this.filter.title,withDisabled:this.filter.withDisabled},paginate:this.paginate}).then(res=>{
+            this.Lessons = res.data.data.lessons;
+            this.pagination = res.data.data.pagination;
           }).catch((error)=>{
             this.LessonCharge();
           })
