@@ -49,7 +49,7 @@ class LessonSearchRepository
 
     }
 
-    private function withDisabledLessons($withDisabled)
+    private function withDisabledLessons($withDisabled = false)
     {
         $withDisabled = filter_var($withDisabled, FILTER_VALIDATE_BOOLEAN);
 
