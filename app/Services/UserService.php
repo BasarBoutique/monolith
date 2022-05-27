@@ -4,17 +4,17 @@ namespace App\Services;
 
 use App\DTO\ImageDTO;
 use App\DTO\UserDTO;
-use App\Enums\ImageFolderEnum;
 use App\Events\UserRegistered;
 use App\Models\User;
 use App\Repositories\UserRepository;
 use App\Repositories\UserSearchRepository;
 use App\Services\Image\ImageService;
+use App\Services\Interfaces\UserServiceInterface;
 use Exception;
 use Illuminate\Support\Facades\Log;
 
-class UserService {
-
+class UserService implements UserServiceInterface
+{
     private UserRepository $userRepository;
 
     public function __construct()
@@ -60,6 +60,43 @@ class UserService {
 
 
 
+    }
+    
+
+    public function findUserById(int $id)
+    {
+        try {
+            
+            $repository = new UserRepository;
+
+            return $repository->findUserById($id);
+
+        } catch (Exception $e) {
+            Log::error($e->getMessage(),[
+                'LEVEL' => 'Service',
+                'TRACE' => $e->getTrace()//ponerlo asi a todos
+            ]);
+
+            throw $e;
+        }
+    }
+
+    public function findUserByEmail(string $email)
+    {
+        try {
+            
+            $repository = new UserRepository;
+
+            return $repository->retrieveUserByEmail($email);
+
+        } catch (Exception $e) {
+            Log::error($e->getMessage(),[
+                'LEVEL' => 'Service',
+                'TRACE' => $e->getTrace()//ponerlo asi a todos
+            ]);
+
+            throw $e;
+        }
     }
 
 
