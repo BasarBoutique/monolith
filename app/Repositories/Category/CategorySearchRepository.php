@@ -52,7 +52,7 @@ class CategorySearchRepository
 
     }
 
-    private function withDisabledCategories($withDisabled)
+    private function withDisabledCategories($withDisabled = false)
     {
         $withDisabled = filter_var($withDisabled, FILTER_VALIDATE_BOOLEAN);
 

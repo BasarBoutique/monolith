@@ -20,6 +20,21 @@ class UserRepository
         return $authors;
 
     }
+
+    public function findUserById(int $id)
+    {
+        return User::find($id);
+    }
+
+    public function retrieveUserByEmail(string $email)
+    {
+        return User::where('email', $email)->first();
+    }
+
+    public function isEmailUserExists(string $email)
+    {
+        return User::where('email', $email)->exists();
+    }
     
 
     public function create(DTOInterface $dto, array $attributes)

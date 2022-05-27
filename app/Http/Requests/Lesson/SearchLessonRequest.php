@@ -12,14 +12,11 @@ class SearchLessonRequest extends JsonRequest
     protected function prepareForValidation()
     {
         $this->merge([
-            'filters' => [
-                'withDisabled' => false
-            ],
             'order' => [
                 'order_by' => $this->order['order_by'] ?? 'created',
                 'sort_by' => $this->order['sort_by'] ?? 'desc'
             ],
-            'paginate' => 10
+            'paginate' => $this->paginate ?? 10
         ]);
     }
 
