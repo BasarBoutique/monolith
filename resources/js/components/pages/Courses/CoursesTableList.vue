@@ -364,19 +364,14 @@ const config = {
             modal1:false
           },
           search: '',
-          courses: [
-            axios.get('/courses/all?withDisabled=false').then(res=>{
-              this.courses = res.data.data.courses;
-              this.pagination = res.data.data.paginate;
-            })
-          ],
+          courses: this.CourseCharge(),
           pagination:{},
           filter:{
             categories:[],
             authors: [],
             title: null,
           },
-          paginate:null,
+          paginate:5,
           form :{
             id:null,
             title:null,
@@ -432,9 +427,14 @@ const config = {
           })
         },
         CourseCharge(){       
-          axios.get('/courses/all',{params:{withDisabled:this.status.withDisabled,perPage:this.status.perPage}}).then(res=>{
-            this.courses = res.data.data.courses;
-            this.pagination = res.data.data.paginate;
+          axios.post('/courses/search',{
+            filters : this.filter,paginate : this.paginate
+            }).then(res=>{
+             console.log(res.data.data.courses);
+              this.courses = res.data.data.courses;
+              this.pagination = res.data.data.pagination;
+          }).catch((error)=>{
+            this.CourseCharge();
           })
         },
         CourseCreate(){
