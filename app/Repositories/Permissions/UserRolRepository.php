@@ -45,9 +45,7 @@ class UserRolRepository
             return DB::transaction(function () use ($uniqueIds) {
 
                 if ($uniqueIds->exists()) {
-                    return $uniqueIds->update([
-                        'is_enabled' => false
-                    ]);
+                    return $uniqueIds->delete();
                 }
 
                 return false;

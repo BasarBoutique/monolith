@@ -20,10 +20,7 @@ class PermissionHierarchy extends Model
 
     public $incrementing = false;
 
-    protected static function booted()
-    {
-        static::addGlobalScope(new IsEnabledScope);
-    }
+
 
     public function permissions()
     {
@@ -32,6 +29,11 @@ class PermissionHierarchy extends Model
             Permission::class,
         'permission_level',
         'pd_id');
+    }
+
+    protected static function booted()
+    {
+        static::addGlobalScope(new IsEnabledScope);
     }
 
 }

@@ -325,17 +325,15 @@ const config = {
             modal1:false
           },
           search: '',
-          courses : [
-            this.Courses()
-          ],
-          Lessons: this.LessonsSearch(),      
+          courses : this.Courses(),
+          Lessons: this.LessonCharge(),      
           pagination:{},
           filter:{
             courses:[],
             title: null,
             withDisabled: null
           },
-          paginate:null,
+          paginate:5,
           form :{
             id:null,
             title:null,
@@ -345,9 +343,6 @@ const config = {
             course:null,
             enabled:null,
           },
-          status:{
-              withDisabled:true
-          },
           errors:{},
           message:[],
         }
@@ -355,7 +350,9 @@ const config = {
       methods: {
         changePage(v1){
           this.status.perPage = v1;
-          axios.get('/lesson/all',{params:{page:v1}}).then(res=>{
+          axios.get('/lesson/search',{
+            filters : this.filter,paginate : this.paginate, page:v1
+            }).then(res=>{
             this.Lessons = res.data.data.lessons;
             this.pagination = res.data.data.pagination;
           })
@@ -373,7 +370,8 @@ const config = {
           reader.readAsDataURL(file);
         },
         LessonCharge(){          
-          axios.get('/lesson/all',{params:{withDisabled:this.status.withDisabled,perPage:this.status.perPage}}).then(res=>{
+          axios.get('/lesson/search',{params:{filters:this.filter,paginate : this.paginate}}).then(res=>{   
+            console.log(res.data.lessons);         
             this.Lessons = res.data.data.lessons;
             this.pagination = res.data.data.pagination;
           })
@@ -421,10 +419,11 @@ const config = {
           })
         },
         LessonsSearch(){
-          axios.get('/lesson/search',{params:{filters : this.filter}}).then(res=>{
+          console.log(this.filter);
+          axios.get('/lesson/search',{params:{filters:this.filter,paginate : this.paginate}}).then(res=>{
+            console.log(res.data.data.lessons);
             this.Lessons = res.data.data.lessons;
             this.pagination = res.data.data.pagination;
-            //  console.log(this.filter.title);
           }).catch((error)=>{
             this.LessonCharge();
           })

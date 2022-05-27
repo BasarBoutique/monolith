@@ -110,7 +110,6 @@ export default {
     },
     changePage(item) {
       this.$emit("changestr",item);
-      console.log(item);
     },
     nextPage() {
       if (this.value < this.totalPages) {

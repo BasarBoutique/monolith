@@ -160,7 +160,7 @@
                       <!--  Roles   -->
                       <div class="media align-items-center"> 
                             <div v-for="(roles) in row.roles" :key="roles.permission_level">
-                                <span style="margin-left:3px;" v-if="roles.permission_name=='CLIENT'"  class="badge badge-sm bg-gradient-success">  
+                                <span style="margin-left:3px;" v-if="roles.permission_name=='CLIENT'"  class="badge badge-sm bg-gradient-success">
                                   <b>{{roles.permission_name}}</b>
                                 </span>   
                                 <span style="margin-left:3px;" v-else-if="roles.permission_name=='EMPLOYEE'"  class="badge badge-sm bg-gradient-info">  
@@ -171,10 +171,10 @@
                                 </span>                             
                                 <span style="margin-left:3px;" v-else-if="roles.permission_name=='ADMIN'"  class="badge badge-sm bg-gradient-danger">  
                                   <b>{{roles.permission_name}}</b>
-                                </span>   
+                                </span>  
                                 <span v-else class="badge badge-sm bg-gradient-secondary">  
                                   <b>Not assigned</b>
-                                </span>                              
+                                </span>                         
                             </div>  
 
                           <div class="display_select container" :id="row.id +'_data_assign'" >
@@ -280,6 +280,10 @@ import footer_auth from '../../Layouts/Footer/nav_auth.vue';
             this.users = res.data.data['users']; 
             this.pagination = res.data.data.paginate;
           })
+        },
+
+        roles_active(estado_rol_asig){
+          console.log(estado_rol_asig);
         },
         
         showRoles(){

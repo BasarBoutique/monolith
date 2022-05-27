@@ -383,7 +383,7 @@ const config = {
             enabled:null,
           },
           status:{
-            withDisabled:true
+            withDisabled:true,
           },
           authors:[
             this.AuthorsCharge()
@@ -398,7 +398,7 @@ const config = {
       methods: {
         changePage(v1){
           this.status.perPage = v1;
-          axios.get('/courses/all',{params:{page:v1}}).then(res=>{
+          axios.post('/courses/search',{filters : this.filter,paginate : this.paginate, page:v1}).then(res=>{
             this.courses = res.data.data.courses;
             this.pagination = res.data.data.pagination;
           })
@@ -427,10 +427,7 @@ const config = {
           })
         },
         CourseCharge(){       
-          axios.post('/courses/search',{
-            filters : this.filter,paginate : this.paginate
-            }).then(res=>{
-             console.log(res.data.data.courses);
+          axios.post('/courses/search',{filters : this.filter,paginate : this.paginate}).then(res=>{
               this.courses = res.data.data.courses;
               this.pagination = res.data.data.pagination;
           }).catch((error)=>{
@@ -481,7 +478,6 @@ const config = {
           axios.post('/courses/search',{
             filters : this.filter,paginate : this.paginate
             }).then(res=>{
-             console.log(res.data.data.courses);
               this.courses = res.data.data.courses;
               this.pagination = res.data.data.pagination;
           }).catch((error)=>{
