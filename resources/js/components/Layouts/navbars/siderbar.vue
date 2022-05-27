@@ -4,7 +4,7 @@
           <!-- Brand -->
           <div class="sidenav-header  align-items-center">
             <a class="navbar-brand" href="javascript:void(0)">
-              <img v-bind:src="'../../assets/img/icons/LogoVectorial.png'" class="navbar-brand-img" alt="...">
+              <img v-bind:src="'../../assets/img/icons/unknown.png'" class="navbar-brand-img" alt="...">
             </a>
           </div>
           <div class="navbar-inner">
