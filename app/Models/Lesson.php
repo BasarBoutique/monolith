@@ -57,7 +57,9 @@ class Lesson extends Model
 
     public function scopeSearchByTitle($query, string $title)
     {
-        return $query->detail()->where('ld_title', 'LIKE', '%' . $title . '%');
+        return $query->whereHas('detail', function ($q) use ($title) {
+            $q->where('ld_title', 'LIKE', '%' . $title . '%');
+        } );
     }
 
 }
