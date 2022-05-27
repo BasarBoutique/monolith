@@ -44,3 +44,4 @@ Homestead.json
 google-services.json
 .rnd
 .gitignore
+composer.lock
