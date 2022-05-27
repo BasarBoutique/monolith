@@ -45,3 +45,4 @@ google-services.json
 .rnd
 .gitignore
 composer.lock
+*.lock
