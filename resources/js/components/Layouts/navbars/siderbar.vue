@@ -69,7 +69,7 @@
                     </div>
                 </li>
 
-                <li class="nav-item">
+                <!-- <li class="nav-item">
                     <a class="nav-link active" href="#navbar-calification" data-toggle="collapse" role="button" aria-expanded="false" aria-controls="navbar-examples">
                         <i class="ni ni-ruler-pencil text-pink"></i>
                         <span class="nav-link-text text-pink">Calificaciones</span>
@@ -85,13 +85,13 @@
                             </li>                            
                         </ul>
                     </div>
-                </li>
+                </li> -->
 
-                <li class="nav-item">
+                <!-- <li class="nav-item">
                     <router-link class="nav-link" exact :to="{ path: '/boutique/dashboard/icons' }">
                         <i class="ni ni-planet text-blue"></i>Icons
                     </router-link>
-                </li>
+                </li> -->
 
                 <!--<li class="nav-item mb-5 mr-4 ml-4 pl-1 bg-danger" style="position: absolute; bottom: 0;">
                     <a class="nav-link text-white" href="/">
